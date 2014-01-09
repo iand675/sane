@@ -1,0 +1,5 @@
+---
+- name: set listening port
+  lineinfile: dest=/etc/redis/redis.conf regexp="^port" line="port $redis_port"
+  notify:
+    - restart redis

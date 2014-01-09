@@ -1,0 +1,31 @@
+---
+# - hosts: load_balancers
+#   roles:
+#     - haproxy
+
+- hosts: static_file_hosts
+  roles:
+    - static_file_host
+
+# - hosts: web_servers
+#   roles:
+#     - common
+# - hosts: development
+#   roles:
+#     - common
+#     - development
+# - hosts: message_brokers
+#   roles:
+#     - rabbit
+# - hosts: databases
+#   roles:
+#     - postgres
+# - hosts: search_nodes
+#   roles:
+#     - elasticsearch
+# - hosts: caches
+#   tasks:
+#     - include: roles/redis/tasks/add_repository.yml
+#     - include: roles/redis/tasks/install_redis.yml
+#   roles:
+#     - redis

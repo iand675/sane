@@ -1,0 +1,21 @@
+---
+- name: create personal user
+  sudo: true
+  user: name=ian groups=staff,sudo,users password=$1$EnSaLteL$oyVvx8C9zdQsaipP8rk1x0
+
+- name: create ssh dir
+  sudo: true
+  file: path=/home/ian/.ssh state=directory
+
+- name: add local pubkey
+  sudo: true
+  copy: src=~/.ssh/id_rsa.pub dest=/home/ian/.ssh/authorized_keys owner=ian mode=0644
+
+- name: disable root ssh
+  sudo: true
+  lineinfile: dest=/etc/ssh/sshd_config regexp="^PermitRootLogin yes" line="PermitRootLogin no"
+  notify: restart sshd
+
+- name: install fail2ban
+  sudo: true
+  apt: pkg=fail2ban state=latest

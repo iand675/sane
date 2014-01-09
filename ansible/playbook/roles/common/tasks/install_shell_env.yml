@@ -1,0 +1,7 @@
+---
+
+- name: install vim
+  apt: pkg=vim-nox state=latest
+
+- name: install zsh
+  apt: pkg=zsh state=latest

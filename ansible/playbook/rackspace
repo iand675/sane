@@ -1,0 +1,11 @@
+[load_balancers]
+test.sanetracker.com
+
+[static_file_hosts]
+test.sanetracker.com
+
+[task_servers]
+[message_brokers]
+[search_nodes]
+[databases]
+[caches]

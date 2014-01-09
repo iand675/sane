@@ -1,0 +1,4 @@
+---
+- name: ensure redis is up to date
+  sudo: true
+  apt: pkg=redis-server state=latest

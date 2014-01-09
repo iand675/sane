@@ -1,0 +1,11 @@
+server {
+	listen 7999 default_server;
+	listen [::]:7999 default_server ipv6only=on;
+	server_name test.sanetracker.com;
+	root /var/www/tasks_static;
+
+	location / {
+		access_log off;
+		expires max;
+	}
+}

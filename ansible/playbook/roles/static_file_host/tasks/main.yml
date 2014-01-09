@@ -1,0 +1,16 @@
+---
+- name: ensure /var/www/tasks_static/ exists
+  sudo: true
+  file: path=/var/www/tasks_static state=directory
+
+- name: ensure that static hosting is enabled
+  sudo: true
+  copy: src=tasks_static dest=/etc/nginx/sites-enabled/tasks_static
+
+- name: ensure that nginx is started
+  sudo: true
+  service: name=nginx state=started
+
+- name: reload nginx
+  sudo: true
+  command: nginx -s reload

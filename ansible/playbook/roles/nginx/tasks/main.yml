@@ -1,0 +1,13 @@
+- name: ensure nginx is installed
+  sudo: true
+  apt: pkg=nginx state=latest
+
+- name: ensure /var/www/ exists
+  sudo: true
+  file: path=/var/www state=directory
+
+- name: disable nginx default site
+  sudo: true
+  file: path=/etc/nginx/sites-enabled/default state=absent
+  notify:
+    - restart nginx

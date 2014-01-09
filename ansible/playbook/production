@@ -1,0 +1,27 @@
+[web_servers]
+tasks01.iankduncan.com
+
+[task_servers]
+tasks01.iankduncan.com
+
+[message_brokers]
+tasks01.iankduncan.com rabbit_port=5673
+
+[message_brokers:vars]
+rabbit_port=5672
+
+[load_balancers]
+tasks01.iankduncan.com
+
+[caches]
+tasks01.iankduncan.com redis_port=6380
+
+[caches:vars]
+redis_port=6379
+
+[databases]
+tasks01.iankduncan.com
+
+[search_nodes]
+tasks01.iankduncan.com
+

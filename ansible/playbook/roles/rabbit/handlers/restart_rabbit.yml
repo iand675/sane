@@ -1,0 +1,3 @@
+---
+- name: restart rabbit
+  service: name=rabbitmq-server state=restarted

@@ -1,0 +1,24 @@
+- name: create queueing errors database
+  sudo: true
+  sudo_user: postgres
+  postgresql_db: name=queueing port=5433
+
+- name: create accounts database
+  sudo: true
+  sudo_user: postgres
+  postgresql_db: name=accounts port=5433
+
+- name: create tasks database
+  sudo: true
+  sudo_user: postgres
+  postgresql_db: name=tasks port=5433
+
+- name: create accounts user
+  sudo: true
+  sudo_user: postgres
+  postgresql_user: user=accounts_api db=accounts password=test port=5433
+
+- name: create tasks user
+  sudo: true
+  sudo_user: postgres
+  postgresql_user: user=tasks_api db=tasks password=test port=5433

@@ -1,0 +1,11 @@
+---
+- name: update apt
+  sudo: true
+  apt: update_cache=yes cache_valid_time=3600
+
+- name: install add-apt-repository
+  apt: pkg=python-software-properties state=latest
+
+#- name: disable root ssh
+#- name: install unattended-upgrades
+#- name: install logwatch

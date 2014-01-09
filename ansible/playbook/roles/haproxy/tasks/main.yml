@@ -1,0 +1,19 @@
+---
+- name: ensure haproxy is up to date
+  sudo: true
+  apt: pkg=haproxy state=latest
+  notify:
+    - restart haproxy
+- name: enable init script
+  sudo: true
+  lineinfile: dest=/etc/default/haproxy regexp="^ENABLED" line="ENABLED=1"
+  notify:
+    - restart haproxy
+- name: write haproxy configuration
+  sudo: true
+  template: src=haproxy.cfg.j2 dest=/etc/haproxy/haproxy.cfg mode=0644 owner=root group=haproxy
+  notify:
+    - restart haproxy
+- name: start haproxy
+  sudo: true
+  service: name=haproxy state=started

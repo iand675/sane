@@ -1,0 +1,47 @@
+---
+- hosts: all
+  sudo: true
+  tasks:
+# - hosts: web_servers
+- hosts: development
+  sudo: true
+  tasks:
+    # - name: ensure grunt is installed
+    #   npm: name=grunt-cli global=yes state=latest
+    # # - name: ensure less is installed
+    # - name: ensure jade is installed
+    #   npm: name=jade global=yes state=latest
+    # # - name: ensure bower is installed
+    # - name: ensure karma is installed
+    #   npm: name=karma global=yes state=latest
+- hosts: development
+  tasks:
+    # - name: install ghcjs
+- hosts: message_brokers
+  sudo: true
+- hosts: caches
+  sudo: true
+- hosts: search_nodes:log_servers
+  sudo: true
+  tasks:
+- hosts: log_viewers
+  sudo: true
+  tasks:
+  handlers:
+- hosts: databases
+  sudo: true
+  tasks:
+  handlers:
+- hosts: databases
+  tasks:
+
+- hosts: load_balancers
+  sudo: true
+  tasks:
+  handlers:
+# - hosts: search_nodes
+- hosts: all
+  sudo: true
+  tasks:
+    # - name: create logstash agent upstart script
+      # assemble: src=/home/logstash/configurations dest=/etc/agent.conf

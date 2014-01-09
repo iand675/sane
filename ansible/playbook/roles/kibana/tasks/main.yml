@@ -1,0 +1,10 @@
+- name: ensure kibana user exists
+  user: name=kibana
+- name: get latest version of kibana
+  get_url: force=yes url=https://github.com/elasticsearch/kibana/archive/master.tar.gz dest=/home/kibana/kibana.tar.gz
+- name: write static fileserving configuration
+  template: src=templates/kibana dest=/etc/nginx/sites-enabled/kibana mode=0644 owner=root
+  notify:
+    - restart nginx
+- name: deploy kibana to fileserving directory
+  command: tar xzf /home/kibana/kibana.tar.gz chdir=/usr/share/nginx/www

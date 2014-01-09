@@ -1,0 +1,27 @@
+---
+- name: add official rabbitmq apt-repo key
+  apt_key: url=http://www.rabbitmq.com/rabbitmq-signing-key-public.asc
+  sudo: true
+
+- name: add official rabbitmq apt-repo
+  apt_repository: repo='deb http://www.rabbitmq.com/debian/ testing main' state=present
+
+- name: create rabbit config directory
+  file: dest=/etc/rabbitmq state=directory
+
+- name: ensure rabbitmq group exists
+  group: name=rabbitmq
+
+- name: write rabbit configuration
+  template: src=rabbitmq.config.j2 dest=/etc/rabbitmq/rabbitmq.config mode=0644 owner=root group=rabbitmq
+  notify:
+    - restart rabbit
+
+- name: ensure rabbit is up to date
+  apt: pkg=rabbitmq-server state=latest
+  notify:
+    - restart rabbit
+
+- name: enable rabbitmq management interface
+  file: src=enabled_plugins dest=/etc/rabbitmq/enabled_plugins group=rabbitmq owner=rabbitmq
+  notify: restart rabbit

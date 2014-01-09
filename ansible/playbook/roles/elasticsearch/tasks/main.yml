@@ -1,0 +1,6 @@
+- name: ensure elasticsearch user exists
+  user: name=elasticsearch
+- name: download elasticsearch deb
+  get_url: url=https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-0.90.3.deb dest=/home/elasticsearch/elasticsearch-0.90.3.deb
+- name: install elasticsearch
+  command: dpkg -i /home/elasticsearch/elasticsearch-0.90.3.deb creates=/usr/share/elasticsearch
