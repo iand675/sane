@@ -1,3 +1,18 @@
 [submodule "dockerfiles"]
 	path = dockerfiles
 	url = git://github.com/SaneTracker/dockerfiles.git
+[submodule "server/lib/metrics"]
+	path = server/lib/metrics
+	url = git://github.com/SaneTracker/metrics.git
+[submodule "server/lib/librato"]
+	path = server/lib/librato
+	url = git://github.com/SaneTracker/librato.git
+[submodule "server/lib/feature-flags"]
+	path = server/lib/feature-flags
+	url = git://github.com/SaneTracker/feature-flags.git
+[submodule "server/lib/easy-api"]
+	path = server/lib/easy-api
+	url = git://github.com/SaneTracker/easy-api.git
+[submodule "server/lib/uri-templater"]
+	path = server/lib/uri-templater
+	url = git://github.com/SaneTracker/uri-templater.git
