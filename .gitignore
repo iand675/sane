@@ -6,8 +6,4 @@ cabal-dev
 *.chs.h
 .virthualenv
 
-app/merges/**/*
-app/platforms/**/*
-app/plugins/**/*
-
 .cordova
