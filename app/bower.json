@@ -1,0 +1,19 @@
+{
+  "name": "Sane",
+  "version": "1.0.0",
+  "authors": [
+    "Ryan Miller",
+    "Ian Duncan"
+  ],
+  "description": "A simple, beautiful way to manage what's important in your life.",
+  "license": "MIT",
+  "homepage": "www.saneapp.com",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
