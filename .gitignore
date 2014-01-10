@@ -10,3 +10,6 @@ cabal.sandbox.config
 .DS_Store
 
 .cordova
+
+/.vagrant/
+/vagrant_ansible_inventory_default
