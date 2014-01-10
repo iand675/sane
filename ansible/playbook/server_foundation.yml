@@ -3,7 +3,7 @@
   tasks:
   - name: ensure libgmp is installed
     apt: pkg=$item state=latest
-    with_items: [libgmp-dev, build-essential]
+    with_items: [libgmp-dev, build-essential, libpq-dev]
     sudo: true
   - name: symlink libgmp .so file to libgmp.so
     command: ln -s /usr/lib/x86_64-linux-gnu/libgmp.so.10 /usr/lib/libgmp.so creates=/usr/lib/libgmp.so
