@@ -11,10 +11,10 @@ import Router
 main :: IO ()
 main = do
   Warp.run 3000 $ \request -> do
-    case parseRoute $ pathInfo request of
+    case parseRoute saneRoutes (requestMethod request) $ pathInfo request of
       Left err -> return $ responseLBS notFound404 [] "unrecognized resource"
       Right action -> handleAction action
 
 handleAction action = case action of
-  SignIn ->
-  SignOut ->
+  SignIn -> undefined
+  SignOut -> undefined
