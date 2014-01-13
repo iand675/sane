@@ -21,7 +21,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
 	config.vm.provider :virtualbox do |v, override|
-    override.vm.box_url = "http://files.vagrantup.com/precise64_vmware.box"
+    override.vm.box_url = "http://files.vagrantup.com/precise64.box"
 		v.memory = 2048
 	end
 
