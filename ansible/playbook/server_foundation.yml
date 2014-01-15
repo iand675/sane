@@ -12,7 +12,9 @@
     command: ln -s /usr/lib/x86_64-linux-gnu/libgmp.so.10 /usr/lib/libgmp.so.3 creates=/usr/lib/libgmp.so.3
     sudo: true
   - name: get ghc 7.6.3
-    get_url: url=http://www.haskell.org/ghc/dist/7.6.3/ghc-7.6.3-x86_64-unknown-linux.tar.bz2 dest=ghc-7.6.3.tar.bz2
+    get_url: |
+      url=http://www.haskell.org/ghc/dist/7.6.3/ghc-7.6.3-x86_64-unknown-linux.tar.bz2
+      dest=~/ghc-7.6.3.tar.bz2
   - name: untar ghc
     command: tar xvjf ghc-7.6.3.tar.bz2 creates=ghc-7.6.3
   - name: configure ghc 7.6.3
@@ -21,10 +23,12 @@
     command: make install chdir=ghc-7.6.3 creates=/usr/local/bin/ghc
     sudo: true
   - name: get cabal 1.18.0.2
-    get_url: url=http://hackage.haskell.org/package/cabal-install-1.18.0.2/cabal-install-1.18.0.2.tar.gz dest=cabal-install.tar.gz
+    get_url: |
+      url=http://hackage.haskell.org/package/cabal-install-1.18.0.2/cabal-install-1.18.0.2.tar.gz
+      dest=~/cabal-install.tar.gz
   - name: untar cabal
-    command: tar xzvf cabal-install.tar.gz creates=cabal-install-1.18.0.2
+    command: tar xzvf cabal-install.tar.gz creates=~/cabal-install-1.18.0.2
   - name: install cabal
-    command: ./bootstrap.sh chdir=cabal-install-1.18.0.2 creates=.cabal/bin/cabal
+    command: ./bootstrap.sh chdir=cabal-install-1.18.0.2 creates=~/.cabal/bin/cabal
   - name: add cabal to path
     lineinfile: dest=.bashrc state=present line='export PATH=$HOME/.cabal/bin:$PATH' regexp='cabal\/bin'
