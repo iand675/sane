@@ -16,7 +16,6 @@ import           Text.Boomerang.Pos
 import           Text.Boomerang.Texts
 import           Text.Boomerang.TH
 
-
 newtype Id a = Id { fromId :: Text }
   deriving (Show, Eq)
 
@@ -29,21 +28,21 @@ data SaneAction
   | SignOut
   | CreateUser
   | ListUsers
-  | GetUser Username
+  | GetUser { username :: Username }
   -- list actions
   | CreateList
   | ListLists
-  | UpdateList ListId
-  | DeleteList ListId
+  | UpdateList { listId :: ListId }
+  | DeleteList { listId :: ListId }
   -- membership
-  | CreateMembership ListId Username
-  | UpdateMembership ListId Username
-  | DeleteMembership ListId Username
+  | CreateMembership { listId :: ListId, username :: Username }
+  | UpdateMembership { listId :: ListId, username :: Username }
+  | DeleteMembership { listId :: ListId, username :: Username }
   -- tasks
-  | ListTasks  ListId
-  | CreateTask ListId
-  | UpdateTask ListId TaskId
-  | DeleteTask ListId TaskId
+  | ListTasks  { listId :: ListId }
+  | CreateTask { listId :: ListId }
+  | UpdateTask { listId :: ListId, taskId :: TaskId }
+  | DeleteTask { listId :: ListId, taskId :: TaskId }
   deriving (Eq, Show)
 
 makeBoomerangs ''SaneAction
@@ -91,7 +90,7 @@ route method (Boomerang (Parser p) sr) = tell $ Boomerang (Parser $ wrapParser p
         convertResults m' r = case r of
           Left p -> Left $ fmap (\e -> (m', e)) p
           Right ((a, ts), p) -> if m /= m'
-            then Left $ ParserError (Just (m', p)) []
+            then Left $ ParserError (Just (m', p)) [Message ("Incorrect method: " ++ show m')]
             else Right ((a, (m', ts)), (m', p))
     wrapUnparser f = map (\(tf, a) -> ((\t -> (m, t)) . tf . snd, a)) . f
 
