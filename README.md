@@ -7,10 +7,10 @@ Oft-repeated procedures are noted here for quick reference.
 
 Ensure Bower, Grunt, and Phonegap packages are installed globally. Suitable only for Mac environments with XCode.
 
-1. cd into the "mobile" directory.
-2. npm install
-3. grunt init
-4. grunt emulate
+0. cd into the "mobile" directory.
+1. `npm install`
+2. `grunt init`
+3. `grunt emulate`
 
 ### Running server
 
@@ -25,10 +25,16 @@ Initializing the server for the first time (from the base project directory):
 4. `cabal sandbox init`
 5. `cabal install --only-dependencies`
 
-Building && running the server:
+Building & running the server:
 
 0. `vagrant ssh`
 1. `cd /vagrant/server/web`
 2. `cabal build`
 3. `./dist/build/sane/sane`
 4. Server will be running at 192.168.33.10:3000/
+
+### Building the Prelaunch Site
+
+0. cd into the "prelaunch" directory.
+1. If building for development, `grunt dev`.
+2. Else, `grunt production` to build and inject Google Analytics.

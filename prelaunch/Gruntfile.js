@@ -12,6 +12,21 @@ module.exports = function(grunt) {
 		},
 		jade: {
 			dev: {
+				options: {
+					data: {
+						injectGaq: false
+					}
+				},
+				files: {
+					'index.html': ['jade/*.jade']
+				}
+			},
+			production: {
+				options: {
+					data: {
+						injectGaq: true
+					}
+				},
 				files: {
 					'index.html': ['jade/*.jade']
 				}
@@ -37,4 +52,5 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	grunt.registerTask('dev', ['stylus:dev', 'jade:dev', 'watch'])
+	grunt.registerTask('production', ['stylus:dev', 'jade:production'])
 }
