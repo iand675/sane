@@ -28,16 +28,16 @@ data SaneAction
   | SignOut
   | CreateUser
   | ListUsers
-  | GetUser { username :: Username }
+  | GetUser { routeUsername :: Username }
   -- list actions
   | CreateList
   | ListLists
   | UpdateList { listId :: ListId }
   | DeleteList { listId :: ListId }
   -- membership
-  | CreateMembership { listId :: ListId, username :: Username }
-  | UpdateMembership { listId :: ListId, username :: Username }
-  | DeleteMembership { listId :: ListId, username :: Username }
+  | CreateMembership { listId :: ListId, memberUsername :: Username }
+  | UpdateMembership { listId :: ListId, memberUsername :: Username }
+  | DeleteMembership { listId :: ListId, memberUsername :: Username }
   -- tasks
   | ListTasks  { listId :: ListId }
   | CreateTask { listId :: ListId }

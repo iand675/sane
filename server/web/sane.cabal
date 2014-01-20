@@ -19,8 +19,9 @@ executable sane
   main-is:             Main.hs
   other-modules:       Router,
                        Webmachine
-  -- other-extensions:    
+  default-extensions:  NoImplicitPrelude
   build-depends:       base >=4.6 && <4.7,
+                       conduit,
                        postgresql-simple,
                        aeson,
                        text,
@@ -39,6 +40,13 @@ executable sane
                        transformers,
                        unordered-containers,
                        time,
-                       http-types
+                       http-types,
+                       void,
+                       cookie,
+                       network,
+                       hashable,
+                       pwstore-fast,
+                       stripe,
+                       resource-pool
   hs-source-dirs:      src
   default-language:    Haskell2010
