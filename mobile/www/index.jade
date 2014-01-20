@@ -1,0 +1,19 @@
+doctype
+html(ng-app="sane")
+	head
+		meta(charset="utf-8")
+		meta(name="format-detection" content="telephone=no")
+		meta(name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi")
+		link(rel="stylesheet" type="text/css" href="styles/fonts/fonts.css")
+		link(rel="stylesheet" type="text/css" href="styles/bootstrap/bootstrap.min.css")
+		link(rel="stylesheet" type="text/css" href="styles/index.css")
+	body(ng-controller="mainController")
+		div.status
+		div(ui-view)
+		script(type='text/javascript', src='cordova.js')
+		script(type='text/javascript', src='js/lib/angular/angular.js')
+		script(type='text/javascript', src='js/lib/angular-ui-router/release/angular-ui-router.min.js')
+		script(type='text/javascript', src='js/app.js')
+		script(type='text/javascript', src='js/services.js')
+		script(type='text/javascript', src='js/controllers.js')
+		script(type='text/javascript', src='js/app.config.js')

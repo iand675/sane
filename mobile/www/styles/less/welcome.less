@@ -1,0 +1,61 @@
+@import 'lib/lesshat-prefixed';
+
+.background {
+	-webkit-background-position: center center;
+	background-position: center center;
+	background-repeat: no-repeat;
+	.lh-background-size(cover);
+}
+
+.welcome {
+	z-index: 30;
+
+	.row {
+		position: absolute;
+		width: 100%;
+		padding: 0 25px;
+
+		&.greeting {
+			top: 150px;
+			text-align: center;
+			font-family: 'robotothin';
+			font-size: 40px;
+			line-height: 35px;
+
+			.sub {
+				font-size: 20px;
+			}
+		}
+
+		&.facebook {
+			bottom: 100px;
+
+			button {
+				background-color: #3B5998; 
+				color: white;
+			}
+		}
+
+		&.email {
+			bottom: 40px;
+
+			button {
+				background-color: rgba(255, 255, 255, 1);
+				color: #393c3d;
+			}
+		}
+
+		&.signup {
+			bottom: 10px;
+			font-family: 'robotolight';
+			font-size: 15px;
+			text-align: center;
+		}
+
+		button {
+			height: 50px;
+			border: 0;
+			font-family: 'robotolight';
+		}
+	}
+}

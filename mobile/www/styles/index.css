@@ -1,0 +1,93 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+}
+.container.max {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+.row {
+  padding: 0 5px;
+}
+.trans {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  margin-left: -15px;
+  background-color: white;
+  -webkit-animation: fadeIn 5s 1 forwards;
+  -moz-animation: fadeIn 5s 1 forwards;
+  -o-animation: fadeIn 5s 1 forwards;
+  animation: fadeIn 5s 1 forwards;
+}
+.status {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 10;
+  height: 20px;
+  width: 100%;
+  background-color: white;
+}
+lesshat-selector {
+  -lh-property: 0; } 
+@-webkit-keyframes fadeIn{ 0%{ opacity: 1; } 100% { opacity: .65; }}
+@-moz-keyframes fadeIn{ 0%{ opacity: 1; } 100% { opacity: .65; }}
+@-o-keyframes fadeIn{ 0%{ opacity: 1; } 100% { opacity: .65; }}
+@keyframes fadeIn{ 0%{ opacity: 1; } 100% { opacity: .65; };
+}
+
+
+.background {
+  -webkit-background-position: center center;
+  background-position: center center;
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+}
+.welcome {
+  z-index: 30;
+}
+.welcome .row {
+  position: absolute;
+  width: 100%;
+  padding: 0 25px;
+}
+.welcome .row.greeting {
+  top: 150px;
+  text-align: center;
+  font-family: 'robotothin';
+  font-size: 40px;
+  line-height: 35px;
+}
+.welcome .row.greeting .sub {
+  font-size: 20px;
+}
+.welcome .row.facebook {
+  bottom: 100px;
+}
+.welcome .row.facebook button {
+  background-color: #3B5998;
+  color: white;
+}
+.welcome .row.email {
+  bottom: 40px;
+}
+.welcome .row.email button {
+  background-color: #ffffff;
+  color: #393c3d;
+}
+.welcome .row.signup {
+  bottom: 10px;
+  font-family: 'robotolight';
+  font-size: 15px;
+  text-align: center;
+}
+.welcome .row button {
+  height: 50px;
+  border: 0;
+  font-family: 'robotolight';
+}

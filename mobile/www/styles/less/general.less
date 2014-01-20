@@ -1,0 +1,37 @@
+@import 'lib/lesshat-prefixed';
+
+body, html {
+	margin: 0;
+	padding: 0;
+}
+
+.container.max {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+
+.row {
+	padding: 0 5px;
+}
+
+.trans {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	margin-left: -15px;
+	background-color: white;
+	.lh-animation(fadeIn 5s 1 forwards);
+}
+
+.status {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 10;
+	height: 20px;
+	width: 100%;
+	background-color: white;
+}
+
+.lh-keyframes(~'fadeIn, 0%{ opacity: 1; } 100% { opacity: .65; }');
