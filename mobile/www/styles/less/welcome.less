@@ -19,7 +19,7 @@
 			top: 150px;
 			text-align: center;
 			font-family: 'robotothin';
-			font-size: 40px;
+			font-size: 45px;
 			line-height: 35px;
 
 			.sub {
@@ -50,12 +50,40 @@
 			font-family: 'robotolight';
 			font-size: 15px;
 			text-align: center;
+
+			a {
+				color: #393c3d;
+				text-decoration: underline;
+			}
 		}
 
 		button {
 			height: 50px;
 			border: 0;
-			font-family: 'robotolight';
+			text-align: left;
+
+			span {
+				font-family: 'robotothin';
+				margin-left: 70px;
+			}
+
+			.icon {
+				position: absolute;
+				top: -7px;
+				left: 37px;
+				font-size: 50px;
+
+				&.fb {
+					color: white;
+					font-family: 'entypo_social';
+				}
+
+				&.email {
+					color: #393c3d;
+					left: 38px;
+					font-family: 'entypo';
+				}
+			};
 		}
 	}
 }

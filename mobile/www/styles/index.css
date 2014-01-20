@@ -33,11 +33,12 @@ html {
 }
 lesshat-selector {
   -lh-property: 0; } 
-@-webkit-keyframes fadeIn{ 0%{ opacity: 1; } 100% { opacity: .65; }}
-@-moz-keyframes fadeIn{ 0%{ opacity: 1; } 100% { opacity: .65; }}
-@-o-keyframes fadeIn{ 0%{ opacity: 1; } 100% { opacity: .65; }}
-@keyframes fadeIn{ 0%{ opacity: 1; } 100% { opacity: .65; };
+@-webkit-keyframes fadeIn{ 0%{ opacity: 1; } 100% { opacity: .7; }}
+@-moz-keyframes fadeIn{ 0%{ opacity: 1; } 100% { opacity: .7; }}
+@-o-keyframes fadeIn{ 0%{ opacity: 1; } 100% { opacity: .7; }}
+@keyframes fadeIn{ 0%{ opacity: 1; } 100% { opacity: .7; };
 }
+
 
 
 .background {
@@ -60,7 +61,7 @@ lesshat-selector {
   top: 150px;
   text-align: center;
   font-family: 'robotothin';
-  font-size: 40px;
+  font-size: 45px;
   line-height: 35px;
 }
 .welcome .row.greeting .sub {
@@ -86,8 +87,31 @@ lesshat-selector {
   font-size: 15px;
   text-align: center;
 }
+.welcome .row.signup a {
+  color: #393c3d;
+  text-decoration: underline;
+}
 .welcome .row button {
   height: 50px;
   border: 0;
-  font-family: 'robotolight';
+  text-align: left;
+}
+.welcome .row button span {
+  font-family: 'robotothin';
+  margin-left: 70px;
+}
+.welcome .row button .icon {
+  position: absolute;
+  top: -7px;
+  left: 37px;
+  font-size: 50px;
+}
+.welcome .row button .icon.fb {
+  color: white;
+  font-family: 'entypo_social';
+}
+.welcome .row button .icon.email {
+  color: #393c3d;
+  left: 38px;
+  font-family: 'entypo';
 }
