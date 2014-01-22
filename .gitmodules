@@ -1,6 +1,3 @@
-[submodule "dockerfiles"]
-	path = dockerfiles
-	url = git://github.com/SaneTracker/dockerfiles.git
 [submodule "server/lib/metrics"]
 	path = server/lib/metrics
 	url = git://github.com/SaneTracker/metrics.git
