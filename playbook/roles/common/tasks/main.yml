@@ -4,6 +4,7 @@
   apt: update_cache=yes cache_valid_time=3600
 
 - name: install add-apt-repository
+  sudo: true
   apt: pkg=python-software-properties state=latest
 
 #- name: disable root ssh

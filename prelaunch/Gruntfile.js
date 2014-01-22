@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 		stylus: {
 			dev: {
 				files: {
-					'index.css': ['stylus/*.styl']
+					'dist/index.css': ['stylus/*.styl']
 				}
 			}
 		},
@@ -18,7 +18,7 @@ module.exports = function(grunt) {
 					}
 				},
 				files: {
-					'index.html': ['jade/*.jade']
+					'dist/index.html': ['jade/*.jade']
 				}
 			},
 			production: {
@@ -28,7 +28,7 @@ module.exports = function(grunt) {
 					}
 				},
 				files: {
-					'index.html': ['jade/*.jade']
+					'dist/index.html': ['jade/*.jade']
 				}
 			}
 		},

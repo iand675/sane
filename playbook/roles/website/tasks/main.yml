@@ -1,0 +1,10 @@
+- name: install npm modules
+  local_action: command npm install chdir=../prelaunch
+- name: build static pages for production
+  local_action: command grunt production chdir=../prelaunch
+- name: copy site to production
+  sudo: true
+  copy: src=../prelaunch/dist dest=/var/www/site owner=www-data mode=644
+- name: enable site in nginx
+  sudo: true
+  copy: src=saneapp.com dest=/etc/nginx/sites-enabled/saneapp.com owner=www-data mode=644

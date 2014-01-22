@@ -1,3 +1,7 @@
+- name: ensure postgres is installed
+  sudo: true
+  apt: pkg=postgresql,postgresql-contrib,python-psycopg2 state=latest
+
 - name: create queueing errors database
   sudo: true
   sudo_user: postgres

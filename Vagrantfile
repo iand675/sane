@@ -25,14 +25,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		v.memory = 2048
 	end
 
-	config.vm.provision 'docker' do |d|
-		d.pull_images 'ubuntu'
-	end
-
 	config.vm.provision 'ansible' do |a|
-		a.playbook = 'ansible/playbook/server_foundation.yml'
+		a.playbook = 'playbook/site.yml'
+		a.inventory_path = 'playbook/development'
 	end
-
   # config.vm.provision :ansible do |ansible|
   #   ansible.playbook = "playbook/site.yml"
   #   ansible.inventory_path = "playbook/development"

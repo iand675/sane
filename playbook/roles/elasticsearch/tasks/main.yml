@@ -1,0 +1,9 @@
+- name: add official elasticsearch apt-repo key
+  sudo: true
+  apt_key: url=http://packages.elasticsearch.org/GPG-KEY-elasticsearch
+- name: add official elasticsearch apt-repo
+  sudo: true
+  apt_repository: repo='deb http://packages.elasticsearch.org/elasticsearch/1.0/debian stable main' state=present
+- name: install elasticsearch
+  sudo: true
+  apt: pkg=elasticsearch state=latest
