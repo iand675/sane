@@ -1,3 +1,4 @@
 var sane = angular.module('sane', [
-	'ui.router'
+	'ui.router',
+	'ngAnimate'
 ]);

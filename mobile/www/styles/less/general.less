@@ -1,37 +1,90 @@
 @import 'lib/lesshat-prefixed';
+@import 'lib/colors';
 
-body, html {
-	margin: 0;
-	padding: 0;
-}
-
-.container.max {
-	position: absolute;
-	height: 100%;
-	width: 100%;
-}
-
-.row {
-	padding: 0 5px;
-}
-
-.trans {
-	position: absolute;
-	height: 100%;
-	width: 100%;
-	margin-left: -15px;
-	background-color: white;
-	.lh-animation(fadeIn 5s 1 forwards);
-}
-
-.status {
-	position: absolute;
-	top: 0px;
-	left: 0px;
+* {
 	z-index: 10;
-	height: 20px;
-	width: 100%;
-	background-color: white;
+	.lh-box-sizing(border-box);
 }
 
-.lh-keyframes(~'fadeIn, 0%{ opacity: 1; } 100% { opacity: .7; }');
+html, body {
+	margin: 0;
+	padding: 0px;
+}
+
+.ui-container {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	z-index: 1;
+	padding: 15px;
+	-webkit-background-position: center center;
+	background-position: center center;
+	background-repeat: no-repeat;
+	.lh-background-size(cover);
+}
+
+.ui-transparency {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	z-index: 5;
+	background-color: white;
+	opacity: 0.75;
+}
+
+.ui-main {
+	position: relative;
+	height: 100%;
+	width: 100%;
+}
+
+.entypo {
+	font-family: 'entypo';
+}
+
+.entypo-social {
+	font-family: 'entypo_social';
+}
+
+.button {
+	.lh-border-radius(5px);
+
+	.text {
+		position: absolute;
+		font-family: 'robotothin';
+	}
+
+	// Button Styles
+
+	&.icon-button {
+		height: 55px;
+		width: 100%;
+
+		.text {
+			top: 18px;
+			left: 85px;
+			font-size: 18px;
+		}
+
+		.icon {
+			margin: -5px 0 0 12px;
+			font-size: 65px;
+		}
+
+	}
+
+	// Button Colors
+
+	&.clear {
+		background-color: @white;
+		opacity: 0.75;
+		color: @text-dark;
+	}
+
+	&.facebook {
+		background-color: @facebook;
+		color: @white;
+	}
+}

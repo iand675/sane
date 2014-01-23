@@ -4,7 +4,8 @@ module.exports = function(grunt) {
 
 	grunt.initConfig({
 		clean: {
-			splashscreen: ['platforms/ios/Sane/Resources/splash/**/*']
+			splashscreen: ['platforms/ios/Sane/Resources/splash/**/*'],
+			icon: ['platforms/ios/Sane/Resources/icons/**/*']
 		},
 		copy: {
 			splashscreen: {
@@ -16,13 +17,24 @@ module.exports = function(grunt) {
 						dest: 'platforms/ios/Sane/Resources/splash'
 					}
 				]
+			},
+			icon: {
+				files: [
+					{
+						expand: true,
+						cwd: 'www/res/icon/ios/',
+						src: ['*'],
+						dest: 'platforms/ios/Sane/Resources/icons'
+					}
+				]
 			}
 		},
 		jade: {
 			dev: {
 				files: {
 					"www/index.html": "www/index.jade",
-					"www/templates/welcome.html": "www/templates/welcome.jade"
+					"www/templates/welcome.html": "www/templates/welcome.jade",
+					"www/templates/.html": "www/templates/login.jade"
 				}
 			}
 		},
@@ -61,7 +73,7 @@ module.exports = function(grunt) {
 				options: {
 				},
 				files: {
-					"www/styles/index.css": ["www/styles/less/general.less", "www/styles/less/**/*.less"]
+					"www/styles/index.css": ["www/styles/less/**/*.less", "www/styles/less/general.less"]
 				}
 			}	
 		},
@@ -91,6 +103,6 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('init', ['shell:init']);
 	grunt.registerTask('dev', ['jade:dev', 'less:dev', 'watch'])
-;	grunt.registerTask('transfer-spashscreens', ['clean:splashscreen', 'copy:splashscreen']);
-	grunt.registerTask('emulate', ['shell:build-ios', 'transfer-spashscreens', 'shell:install-ios']);
+;	grunt.registerTask('transfer-resources', ['clean:splashscreen', 'copy:splashscreen', 'clean:icon', 'copy:icon']);
+	grunt.registerTask('emulate', ['shell:build-ios', 'transfer-resources', 'shell:install-ios']);
 }

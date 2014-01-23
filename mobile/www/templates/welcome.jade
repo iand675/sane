@@ -1,17 +1,12 @@
-.container.max.background(ng-style="{{backgroundImageUrl}}")
-	.trans
-	.welcome
-		.row.greeting Sane
-			.sub Reminders for humans.
-		.row.facebook
-			button.btn.btn-block.btn-lg.btn-info.facebook(type="button") 
-				div.icon.fb &#62221; 
-				span Login with Facebook
-		.row.email
-			button.btn.btn-block.btn-lg.btn-primary.email(type="button") 
-				div.icon.email &#9993;
-				span Login with Email
-		.row.signup
-			| Don't have an account? 
-			a(href="https://www.google.com") Sign up
-			| .
+.ui-container(ng-style="{{backgroundImageUrl}}")
+	.ui-transparency
+	.ui-main
+		.welcome-header Sane
+			.subheader Reminders for humans.
+		.welcome-signup Don't have an account? Signup.
+		.welcome-login-facebook.button.icon-button.facebook
+			.icon.entypo-social &#62221;
+			.text Login with Facebook
+		.welcome-login-email.button.icon-button.clear
+			.icon.entypo &#9993;
+			.text Login with Email

@@ -12,10 +12,10 @@
     <preference name="orientation" value="default" />
     <preference name="target-device" value="universal" />
     <preference name="fullscreen" value="true" />
-    <preference name="webviewbounce" value="true" />
+    <preference name="disallowoverscroll" value="true" />
     <preference name="prerendered-icon" value="true" />
     <preference name="stay-in-webview" value="false" />
-    <preference name="ios-statusbarstyle" value="black-opaque" />
+    <preference name="ios-statusbarstyle" value="white-opaque" />
     <preference name="detect-data-types" value="true" />
     <preference name="exit-on-suspend" value="false" />
     <preference name="show-splash-screen-spinner" value="true" />

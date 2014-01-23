@@ -4,5 +4,9 @@ sane.config(function($stateProvider, $urlRouterProvider) {
 			url: '/',
 			templateUrl: 'templates/welcome.html',
 			controller: 'welcomeController'
+		})
+		.state('login', {
+			url: '/login',
+			templateUrl: 'templates/login.html'
 		});
 });
