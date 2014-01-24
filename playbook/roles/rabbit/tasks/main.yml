@@ -28,5 +28,5 @@
     - restart rabbit
 
 - name: enable rabbitmq management interface
-  file: src=enabled_plugins dest=/etc/rabbitmq/enabled_plugins group=rabbitmq owner=rabbitmq
-  notify: restart rabbit
+  sudo: true
+  rabbitmq_plugin: names=rabbitmq_management state=enabled
