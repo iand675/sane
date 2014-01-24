@@ -43,10 +43,10 @@ createUser' conn p u = handle (nothingIfExists UsernameExists) $ do
             , _userCellphone     = Nothing
             , _userAvatar        = Nothing
             , _userStripeToken   = Just token
-            , _userFacebookToken = Nothing
+            -- , _userFacebookToken = Nothing
             }
       withTransaction conn $ do
-        execute conn "insert into users (username, name, email, password_hash, cellphone, avatar, stripe_token, facebook_token) values (?, ?, ?, ?, ?, ?, ?, ?)" dbUser
+        execute conn "insert into users (username, name, email, password_hash, cellphone, avatar, stripe_token) values (?, ?, ?, ?, ?, ?, ?)" dbUser
         return $ Right (Session "bogus", dbUser ^. fullUser)
 
 createStripeCustomer :: MonadIO m => Text -> m (Either StripeFailure Text)

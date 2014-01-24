@@ -3,7 +3,7 @@ module Main where
 
 import qualified Data.ByteString.Lazy.Char8 as C
 import           Data.Pool
-import           Database.PostgreSQL.Simple (connect, close, defaultConnectInfo)
+import           Database.PostgreSQL.Simple (connect, close, defaultConnectInfo, connectPassword, connectUser, connectDatabase)
 import           Network.HTTP.Types
 import           Network.Wai
 import qualified Network.Wai.Handler.Warp as Warp
@@ -15,7 +15,7 @@ import Router
 import qualified Web.Accounts as A
 import Webmachine
 
-makeAccountServicesPool = createPool (connect defaultConnectInfo) close 8 10 4
+makeAccountServicesPool = createPool (connect defaultConnectInfo { connectPassword = "test", connectUser = "accounts_api", connectDatabase = "accounts" }) close 8 10 4
 
 main :: IO ()
 main = do

@@ -82,7 +82,6 @@ data User = User
   , _userCellphone     :: Maybe Text
   , _userAvatar        :: Maybe Text
   , _userStripeToken   :: Maybe Text
-  , _userFacebookToken :: Maybe Text
   } deriving (Eq, Show)
 
 makeFields ''User
@@ -105,7 +104,7 @@ fullUser = to $ \u -> Domain.FullUser
   , Domain._fuCellphone = u ^. cellphone
   , Domain._fuAvatar = u ^. avatar
   , Domain._fuStripeToken = u ^. stripeToken
-  , Domain._fuFacebookToken = u ^. facebookToken
+  , Domain._fuFacebookToken = Nothing
   }
 
 instance FromRow List where
@@ -126,11 +125,11 @@ instance ToRow User where
     , f cellphone
     , f avatar
     , f stripeToken
-    , f facebookToken
+    -- , f facebookToken
     ]
 
 instance FromRow User where
-  fromRow = User <$> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field
+  fromRow = User <$> field <*> field <*> field <*> field <*> field <*> field <*> field
 
 instance FromRow Membership where
   fromRow = Membership <$> field <*> field <*> field
