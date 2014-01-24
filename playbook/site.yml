@@ -23,7 +23,6 @@
   roles:
     - nginx
     - website
-
 - hosts: message_brokers
   roles:
     - rabbit
@@ -33,6 +32,9 @@
 - hosts: search_nodes
   roles:
     - elasticsearch
+- hosts: development
+  roles:
+    - development
 # - hosts: caches
 #  tasks:
 #    - include: roles/redis/tasks/add_repository.yml
