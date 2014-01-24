@@ -34,7 +34,7 @@ module.exports = function(grunt) {
 				files: {
 					"www/index.html": "www/index.jade",
 					"www/templates/welcome.html": "www/templates/welcome.jade",
-					"www/templates/.html": "www/templates/login.jade"
+					"www/templates/login.html": "www/templates/login.jade"
 				}
 			}
 		},

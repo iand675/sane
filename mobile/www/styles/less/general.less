@@ -16,7 +16,7 @@ html, body {
 	height: 100%;
 	width: 100%;
 	z-index: 1;
-	padding: 15px;
+	padding: 35px 15px 15px 15px;
 	-webkit-background-position: center center;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -38,6 +38,157 @@ html, body {
 	position: relative;
 	height: 100%;
 	width: 100%;
+}
+
+.ui-nav {
+	top: 0;
+	left: 0;
+
+	.button {
+		height: 75px;
+		width: 75px;
+		border-radius: 50%;
+		background-color: @main;
+		font-family: 'entypo';
+
+		&.back:before{
+			content:'\E765';
+			margin-left: 23px;
+			color: white;
+			font-size: 75px;
+		};
+	}
+
+	.text {
+		position: absolute;
+		top: 23px;
+		left: 90px;
+		font-family: 'robotothin';
+		font-size: 30px;
+	}
+}
+
+.ui-category {
+	position: relative;
+	width: 45px;
+	height: 45px;
+	margin: 15px 0 0 15px;
+	border-radius: 50%;
+	background-color: @main;
+	font-family: 'entypo';
+
+	.text {
+		position: absolute;
+		top: 12px;
+		left: 55px;
+		font-family: 'robotothin';
+		font-size: 20px;
+	}
+
+	&:before {
+		content: '';
+		position: absolute;
+		height: 43px;
+		width: 43px;
+		margin: 1px 0 0 1px;
+		background-color: @white;
+		border-radius: 50%;
+	}
+
+	&.today:after {
+		content:'\1F506';
+		position: relative;
+		left: 9px;
+		color: @main;
+		font-size: 45px;
+	};
+}
+
+.ui-bullet {
+	position: relative;
+	width: 25px;
+	height: 25px;
+	z-index: 3;
+	margin: 10px 0 0 25px;
+	background-color: @main; 
+	border-radius: 50%;
+
+	.buffer {
+		position: absolute;
+		height: 23px;
+		width: 23px;
+		margin: 1px 0 0 1px;
+		background-color: @white;
+		border-radius: 50%;
+		overflow: hidden;
+	};
+
+	.text {
+		position: absolute;
+		width: 400px; /* PLACEHOLDER */
+		top: 4px;
+		left: 45px;
+		font-family: 'robotothin';
+		font-size: 15px;
+	}
+
+	.pie {
+		position: absolute;
+		height: 17px;
+		width: 17px;
+		margin-left: 3px;
+		margin-top: 3px;
+		background-repeat: no-repeat;
+		background-size: 17px 17px;
+		background-image: url('../img/DividerCircle.svg');
+
+		&:before {
+			content: '';
+			position: absolute;
+			margin-left: 8.5px;
+			margin-top: -2px;
+			height: 21px;
+			width: 12.5px;
+			z-index: 5;
+			background-color: @white;
+
+		};	
+
+		&:after {
+			content: '';
+			position: absolute;
+			margin-left: -4px;
+			margin-top: -2px;
+			height: 21px;
+			width: 12.5px;
+			z-index: 5;
+			background-color: @white;
+			-webkit-transform: rotate(315deg);
+			transform: rotate(315deg);
+			-webkit-transform-origin: center right;
+			transform-origin: center right;
+		};
+	}
+
+	&:before {
+		content: '';
+		position: absolute;
+		height: 23px;
+		width: 23px;
+		margin: 1px 0 0 1px;
+		background-color: @white;
+		border-radius: 50%;
+	};
+
+	&.full:after {
+		content: '';
+		position: absolute;
+		height: 17px;
+		width: 17px;
+		margin: 4px 0 0 4px;
+		background-color: @main;
+		border-radius: 50%;
+	};
 }
 
 .entypo {
