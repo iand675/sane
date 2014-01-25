@@ -19,3 +19,4 @@ type Reminder = ()
 deriveJSON jsonSettings ''NewUser
 deriveJSON jsonSettings ''CurrentUser
 deriveJSON jsonSettings ''FullUser
+deriveJSON jsonSettings ''SignInCredentials

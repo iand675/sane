@@ -19,7 +19,9 @@ module Common (
   (P.$),
   AppConfig(..),
   accountConnectionPool,
-  stripeAPIKey
+  stripeAPIKey,
+  randomGenerator,
+  RandomGen(..)
 ) where
 import Control.Applicative
 import Control.Category
@@ -36,13 +38,17 @@ import Data.Pool (Pool)
 import Database.PostgreSQL.Simple (Connection)
 import Data.Void
 import qualified System.IO as IO
+import System.Random.MWC (GenIO)
 import Text.Show
 import qualified Prelude as P
 import Web.Stripe.Client (APIKey)
 
+newtype RandomGen = G GenIO
+
 data AppConfig = AppConfig
   { _acAccountConnectionPool :: Pool Connection
   , _acStripeAPIKey :: APIKey
+  , _acRandomGenerator :: RandomGen
   }
 
 makeFields ''AppConfig

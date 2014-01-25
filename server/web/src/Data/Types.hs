@@ -100,7 +100,8 @@ data ListTasks = ListTasks
 fullUser :: Getter User Domain.FullUser
 fullUser = to $ \u -> Domain.FullUser
   { Domain._fuUsername = u ^. username
-  , Domain._fuName = u ^. email
+  , Domain._fuEmail = u ^. email
+  , Domain._fuName = u ^. name
   , Domain._fuCellphone = u ^. cellphone
   , Domain._fuAvatar = u ^. avatar
   , Domain._fuStripeToken = u ^. stripeToken

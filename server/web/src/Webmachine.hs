@@ -4,6 +4,7 @@
 {-# LANGUAGE FunctionalDependencies #-}
 {-# LANGUAGE FlexibleInstances #-}
 module Webmachine where
+import           Blaze.ByteString.Builder (toByteString)
 import           Control.Lens.TH
 import           Control.Monad.RWS
 import           Data.Aeson (ToJSON, FromJSON, encode, decode)
@@ -104,3 +105,6 @@ makeResponse (LazyByteString bs) = do
   code <- use Webmachine.statusCode
   headers <- use Webmachine.responseHeaders
   return $ responseLBS code headers bs
+
+setCookie :: SetCookie -> Webmachine c s ()
+setCookie s = Webmachine.responseHeaders %= (("Set-Cookie", toByteString $ renderSetCookie s) :)

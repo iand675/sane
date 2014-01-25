@@ -6,9 +6,17 @@
 {-# LANGUAGE FlexibleInstances #-}
 module Domain.Types where
 import Control.Lens.TH
+import Data.ByteString (ByteString)
+import qualified Data.ByteString.Base64 as B64 (encode, decodeLenient)
 import Data.Time.Clock (UTCTime)
 import Data.Text (Text)
 import Common
+
+newtype Session = Session { unSession :: ByteString }
+session = Session . B64.encode
+fromSession = B64.decodeLenient . unSession
+
+data CreateUserError = UsernameExists | StripeError
 
 type family Id a
 type family Patch a
@@ -61,6 +69,13 @@ data CurrentUser = CurrentUser
   }
 
 makeFields ''CurrentUser
+
+data SignInCredentials = SignInCredentials
+  { _siUsername :: Username
+  , _siPassword :: Password
+  }
+
+makeFields ''SignInCredentials
 
 data Membership = Membership
   { _membershipKind     :: MembershipKind
