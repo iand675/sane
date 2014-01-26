@@ -3,7 +3,7 @@ sane
 		$state.go('welcome');
 	}])
 	.controller('welcomeController', ['$state', '$scope', function ($state, $scope) {
-		$scope.backgroundImageUrl = "{'background-image': 'url(img/background/" + Math.floor((Math.random() * 5) + 1)  + ".jpg)'}";
+		$scope.backgroundImageUrl = "{'background-image': 'url(img/background/" + Math.floor((Math.random() * 10) + 1)  + ".jpg)'}";
 	}])
 	.controller('signupController', ['$state', '$scope', '$http', function ($state, $scope, $http) {
 		$scope.name = '';
