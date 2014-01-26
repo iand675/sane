@@ -8,14 +8,17 @@
         Sane Team
     </author>
     <feature name="http://api.phonegap.com/1.0/device" />
+    <feature name="org.apache.cordova.facebook.Connect">
+        <param name="ios-package" value="FacebookConnectPlugin" />
+    </feature>
     <preference name="permissions" value="none" />
     <preference name="orientation" value="default" />
     <preference name="target-device" value="universal" />
     <preference name="fullscreen" value="true" />
-    <preference name="disallowoverscroll" value="true" />
+    <preference name="disallowoverscroll" value="false" />
     <preference name="prerendered-icon" value="true" />
     <preference name="stay-in-webview" value="false" />
-    <preference name="ios-statusbarstyle" value="white-opaque" />
+    <preference name="ios-statusbarstyle" value="white" />
     <preference name="detect-data-types" value="true" />
     <preference name="exit-on-suspend" value="false" />
     <preference name="show-splash-screen-spinner" value="true" />
@@ -35,5 +38,5 @@
     <gap:splash gap:platform="ios" height="748" src="res/screen/ios/Default-Landscape~ipad.png" width="1024" />
     <gap:splash gap:platform="ios" height="2008" src="res/screen/ios/Default-Portrait@2x~ipad.png" width="1536" />
     <gap:splash gap:platform="ios" height="1004" src="res/screen/ios/Default-Portrait~ipad.png" width="768" />
-    <access origin="http://127.0.0.1*" />
+    <access origin="*" />
 </widget>

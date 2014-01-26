@@ -1,15 +1,15 @@
+.ui-status-bar
 .ui-container
 	.ui-main
 		.ui-nav
 			.button.back(ui-sref="welcome")
-			.text Home
-		.ui-category.today
-			.text Today
-		.ui-bullet
-			.text Get milk.
-		.ui-bullet.full
-			.text Get CSS completely rendered.
-		.ui-bullet.half
-			.buffer
-				.pie
-			.text Finalize design framework.
+			.text Login
+			.menu
+		.ui-input.username
+			input.input(placeholder="Username or Email Address", type="text")
+		.ui-input.password
+			input.input(placeholder="What's your password?", type="password")
+		.ui-button.medium.full Login
+		.welcome-signup 
+			| Don't have an account? 
+			a(class="ui-fake-link", ui-sref="signup") Signup.

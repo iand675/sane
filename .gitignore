@@ -1,5 +1,6 @@
 dist
 lib
+design
 node_modules
 cabal-dev
 .cabal-sandbox
