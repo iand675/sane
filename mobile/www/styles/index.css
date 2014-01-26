@@ -14,10 +14,10 @@ body {
   height: 100%;
   width: 100%;
   background-color: white;
-  -webkit-animation: ng-enter 0.75s alternate forwards;
-  -moz-animation: ng-enter 0.75s alternate forwards;
-  -o-animation: ng-enter 0.75s alternate forwards;
-  animation: ng-enter 0.75s alternate forwards;
+  -webkit-animation: ng-enter 0.25s alternate forwards;
+  -moz-animation: ng-enter 0.25s alternate forwards;
+  -o-animation: ng-enter 0.25s alternate forwards;
+  animation: ng-enter 0.25s alternate forwards;
   z-index: 100;
 }
 .ui-container {
@@ -323,10 +323,10 @@ body {
   z-index: 50;
 }
 [ui-view].ng-leave {
-  -webkit-animation: ng-leave 1s alternate forwards;
-  -moz-animation: ng-leave 1s alternate forwards;
-  -o-animation: ng-leave 1s alternate forwards;
-  animation: ng-leave 1s alternate forwards;
+  -webkit-animation: ng-leave 0.5s alternate forwards;
+  -moz-animation: ng-leave 0.5s alternate forwards;
+  -o-animation: ng-leave 0.5s alternate forwards;
+  animation: ng-leave 0.5s alternate forwards;
 }
 lesshat-selector {
   -lh-property: 0; } 
