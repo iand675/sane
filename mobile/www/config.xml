@@ -11,6 +11,9 @@
     <feature name="org.apache.cordova.facebook.Connect">
         <param name="ios-package" value="FacebookConnectPlugin" />
     </feature>
+    <feature name="NetworkStatus">
+        <param name="ios-package" value="CDVConnection" />
+    </feature>
     <preference name="permissions" value="none" />
     <preference name="orientation" value="default" />
     <preference name="target-device" value="universal" />

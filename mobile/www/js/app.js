@@ -20,5 +20,9 @@ var sane = angular.module('sane', [
 		.state('home', {
 			url: '/home',
 			templateUrl: 'templates/home.html'
+		})
+		.state('noConnection', {
+			url: '/noconnection',
+			templateUrl: 'templates/noconnection.html'
 		});
 });

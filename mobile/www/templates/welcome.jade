@@ -1,12 +1,12 @@
 .ui-container(ng-style="{{backgroundImageUrl}}")
 	.ui-transparency
 	.ui-main
-		.welcome-header(ui-sref="home") Sane
+		.welcome-header Sane
 			.subheader Reminders for humans.
 		.welcome-signup 
 			| Don't have an account? 
 			a(class="ui-fake-link", href="#/signup") Signup.
-		.welcome-login-facebook.button.icon-button.facebook
+		.welcome-login-facebook.button.icon-button.facebook(ui-sref="signup")
 			.icon.entypo-social &#62221;
 			.text Login with Facebook
 		.welcome-login-email.button.icon-button.clear(ui-sref="login")
