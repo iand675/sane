@@ -19,21 +19,22 @@ import System.Random.MWC
 import Web.Stripe.Customer
 import Web.Stripe.Client hiding (query)
 import Common
+import Database.PostgreSQL.Simple.Utility
 import qualified Domain.Types as D
 import Data.Types
 import Prelude (Integer)
 
 class Monad m => AccountService m where
-  createUser :: D.Password -> D.NewUser -> m (Either D.CreateUserError (D.Session, D.FullUser))
+  createUser :: D.NewUser -> m (Either D.CreateUserError (D.Session, D.FullUser))
   getUser :: D.Username -> m (Maybe D.FullUser)
   signIn :: D.Username -> D.Password -> m (Maybe (D.Session, D.FullUser))
   signOut :: D.Username -> D.Session -> m ()
   getSession :: D.Username -> D.Session -> m (Maybe D.FullUser)
 
-createUser' :: D.Password -> D.NewUser -> AccountServiceM (Either D.CreateUserError (D.Session, D.FullUser))
-createUser' p u = do
+createUser' :: D.NewUser -> AccountServiceM (Either D.CreateUserError (D.Session, D.FullUser))
+createUser' u@(D.StandardNewUser {}) = do
   sessionToken <- makeSessionToken
-  withDb $ \conn -> handle (nothingIfExists D.UsernameExists) $ withTransaction conn $ do
+  withDb $ \conn -> withTransaction conn $ do
     userExists <- query conn "select 1 from users where username = ? limit 1" $ Only $ u ^. D.username
     case firstOf traverse userExists of
       Nothing -> do
@@ -41,12 +42,12 @@ createUser' p u = do
         case eCust of
           Left err -> return $ Left D.StripeError
           Right token -> do
-            hashed <- makePassword (encodeUtf8 p) 14
+            hashed <- makePassword (u ^. D.password . to encodeUtf8) 14
             let dbUser = User
                   { _userUsername           = u ^. D.username
                   , _userName               = u ^. D.name
                   , _userEmail              = u ^. D.email
-                  , _userPasswordHash       = hashed
+                  , _userPasswordHash       = Just hashed
                   , _userCellphone          = Nothing
                   , _userAvatar             = Nothing
                   , _userStripeToken        = Just token
@@ -57,6 +58,12 @@ createUser' p u = do
             execute conn "insert into users (username, name, email, password_hash, cellphone, avatar, stripe_token, facebook_token, facebook_id, facebook_expiration) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" dbUser
             return $ Right (D.session sessionToken, dbUser ^. fullUser)
       Just (Only (1 :: Int)) -> return $ Left D.UsernameExists
+createUser' u@(D.FacebookNewUser {}) = do
+  sessionToken <- makeSessionToken
+  withDb $ \conn -> withTransaction conn $ do
+    -- userExists <- query conn "select * from users where facebook_id = ? limit 1" $ Only $ u ^. D.username
+    return $ Left D.UsernameExists
+
 
 createStripeCustomer :: MonadIO m => Text -> m (Either StripeFailure Text)
 createStripeCustomer email = runStripeT (defaultConfig $ APIKey "sk_test_zjTOEStpOjvuOV0m8sVPIfLh") $ do
@@ -68,11 +75,12 @@ signIn' username password = do
   token <- makeSessionToken
   withDb $ \conn -> do
     liftIO $ putStrLn "Finding user"
-    dbUsers <- query conn "select id, username, name, email, password_hash, cellphone, avatar, stripe_token from users where username = ?" $ Only username
-    case firstOf traverse dbUsers of
+    dbUser <- one $ query conn "select id, username, name, email, password_hash, cellphone, avatar, stripe_token from users where username = ?" $ Only username
+    case dbUser of
       Nothing -> return Nothing
-      Just (Only userId :. dbUser) -> do
-        if verifyPassword (encodeUtf8 password) $ dbUser ^. passwordHash
+      Just (Only userId :. dbUser) -> case dbUser ^. passwordHash of
+        Nothing -> return Nothing
+        Just hash -> if verifyPassword (encodeUtf8 password) hash
           then do
             liftIO $ putStrLn "Creating session"
             now <- liftIO getCurrentTime

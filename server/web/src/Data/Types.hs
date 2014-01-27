@@ -80,7 +80,7 @@ data User = User
   { _userUsername           :: Text
   , _userName               :: Text
   , _userEmail              :: Text
-  , _userPasswordHash       :: ByteString
+  , _userPasswordHash       :: Maybe ByteString
   , _userCellphone          :: Maybe Text
   , _userAvatar             :: Maybe Text
   , _userStripeToken        :: Maybe Text

@@ -2,6 +2,7 @@ module Web.Accounts where
 import Control.Monad.Reader
 import Data.Aeson
 import qualified Data.Accounts as A
+import Data.Text.Encoding (encodeUtf8)
 import Common
 import Domain.Types
 import Router (SaneAction(..))
@@ -11,7 +12,7 @@ import Web.Cookie
 import Web.Types
 
 setSessionCookie :: Username -> Session -> Webmachine c s ()
-setSessionCookie username session = setCookie def
+setSessionCookie username session = setCookie $ def { setCookieName = "SANE", setCookieValue = encodeUtf8 username <> ":" <> session }
 
 api :: (ToJSON responseBody, FromJSON body) => (body -> Webmachine c s responseBody) -> Resource c s a body responseBody
 api = supportJSON . basic
@@ -24,7 +25,7 @@ runAccounts x = do
 
 createUser :: Resource AppConfig s a NewUser CurrentUser
 createUser = api $ \newUser -> do
-  result <- runAccounts $ A.createUser (newUser ^. password) $ newUser
+  result <- runAccounts $ A.createUser newUser
   case result of
     -- Left _ -> freak out
     Right (session, user) -> do
@@ -44,7 +45,7 @@ getCurrentUser = basic $ \_ -> do
   return $ session ^. user
 -}
 
-signIn :: Resource AppConfig s a SignInCredentials (Maybe CurrentUser)
+signIn :: Resource AppConfig s a SignIn (Maybe CurrentUser)
 signIn = api $ \credentials -> do
   mSession <- runAccounts $ A.signIn (credentials ^. username) (credentials ^. password)
   case mSession of
