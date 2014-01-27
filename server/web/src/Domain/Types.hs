@@ -10,6 +10,7 @@ import Data.ByteString (ByteString)
 import qualified Data.ByteString.Base64 as B64 (encode, decodeLenient)
 import Data.Time.Clock (UTCTime)
 import Data.Text (Text)
+import Facebook (UserAccessToken)
 import Common
 
 newtype Session = Session { unSession :: ByteString }
@@ -31,12 +32,18 @@ data Persisted a = Persisted
 data MembershipKind = Owner | Member
   deriving (Eq, Show)
 
-data NewUser = NewUser
-  { _nuUsername  :: Text
-  , _nuEmail     :: Text
-  , _nuName      :: Text
-  , _nuPassword  :: Text
-  }
+data NewUser
+  = StandardNewUser
+    { _nuUsername  :: Text
+    , _nuEmail     :: Text
+    , _nuName      :: Text
+    , _nuPassword  :: Text
+    }
+  | FacebookNewUser
+    { _nuAccessToken :: Text
+    , _nuUserId      :: Text
+    , _nuExpiration  :: UTCTime
+    }
 
 makeFields ''NewUser
 
@@ -47,7 +54,7 @@ data FullUser = FullUser
   , _fuCellphone     :: Maybe Text
   , _fuAvatar        :: Maybe Text
   , _fuStripeToken   :: Maybe Text
-  , _fuFacebookToken :: Maybe Text
+  , _fuFacebookAuth  :: Maybe UserAccessToken
   } deriving (Eq, Show)
 
 makeFields ''FullUser
@@ -70,12 +77,18 @@ data CurrentUser = CurrentUser
 
 makeFields ''CurrentUser
 
-data SignInCredentials = SignInCredentials
-  { _siUsername :: Username
-  , _siPassword :: Password
-  }
+data SignIn
+  = StandardSignIn
+    { _siUsername :: Username
+    , _siPassword :: Password
+    }
+  | FacebookSignIn
+    { _siAccessToken :: Text
+    , _siUserId      :: Text
+    , _siExpiration  :: UTCTime
+    }
 
-makeFields ''SignInCredentials
+makeFields ''SignIn
 
 data Membership = Membership
   { _membershipKind     :: MembershipKind
@@ -107,9 +120,9 @@ data ReminderWindow = TimesOfDay
   } deriving (Eq, Show)
 
 data Channel
-  = Email
+  = EmailChannel
   | SMS
-  | Facebook
+  | FacebookChannel
   deriving (Eq, Show)
 
 data Reminder = Reminder

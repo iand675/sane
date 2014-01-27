@@ -19,6 +19,8 @@ import Database.PostgreSQL.Simple.ToField
 import Database.PostgreSQL.Simple.FromField hiding (name)
 import Database.PostgreSQL.Simple.ToRow
 import Database.PostgreSQL.Simple.FromRow
+import Facebook (AccessToken(..), UserAccessToken)
+import qualified Facebook as F
 import Prelude (Enum(..))
 import Common
 
@@ -75,13 +77,16 @@ instance FromField MembershipKind where
       Just k -> return k
 
 data User = User
-  { _userUsername      :: Text
-  , _userName          :: Text
-  , _userEmail         :: Text
-  , _userPasswordHash  :: ByteString
-  , _userCellphone     :: Maybe Text
-  , _userAvatar        :: Maybe Text
-  , _userStripeToken   :: Maybe Text
+  { _userUsername           :: Text
+  , _userName               :: Text
+  , _userEmail              :: Text
+  , _userPasswordHash       :: ByteString
+  , _userCellphone          :: Maybe Text
+  , _userAvatar             :: Maybe Text
+  , _userStripeToken        :: Maybe Text
+  , _userFacebookId         :: Maybe Text
+  , _userFacebookToken      :: Maybe Text
+  , _userFacebookExpiration :: Maybe UTCTime
   } deriving (Eq, Show)
 
 makeFields ''User
@@ -105,7 +110,7 @@ fullUser = to $ \u -> Domain.FullUser
   , Domain._fuCellphone = u ^. cellphone
   , Domain._fuAvatar = u ^. avatar
   , Domain._fuStripeToken = u ^. stripeToken
-  , Domain._fuFacebookToken = Nothing
+  , Domain._fuFacebookAuth = UserAccessToken <$> (F.Id <$> u ^. facebookId) <*> (u ^. facebookToken) <*> (u ^. facebookExpiration)
   }
 
 instance FromRow List where
@@ -126,11 +131,13 @@ instance ToRow User where
     , f cellphone
     , f avatar
     , f stripeToken
-    -- , f facebookToken
+    , f facebookToken
+    , f facebookId
+    , f facebookExpiration
     ]
 
 instance FromRow User where
-  fromRow = User <$> field <*> field <*> field <*> field <*> field <*> field <*> field
+  fromRow = User <$> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field
 
 instance FromRow Membership where
   fromRow = Membership <$> field <*> field <*> field

@@ -3,6 +3,7 @@ import Data.Aeson.TH
 import Data.Char
 import Data.List
 import Prelude
+import Language.Haskell.TH
 
 makePretty [] = []
 makePretty (x:xs) = toLower x : xs
@@ -14,3 +15,9 @@ jsonSettings = defaultOptions
   , allNullaryToStringTag = True
   , sumEncoding = TaggedObject { tagFieldName = "type", contentsFieldName = "value" }
   }
+
+jsonize n = deriveJSON settings n
+  where
+    settings = jsonSettings
+      { constructorTagModifier = \s -> makePretty $ take (length s - (length $ nameBase n)) s
+      }

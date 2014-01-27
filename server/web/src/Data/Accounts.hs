@@ -43,16 +43,18 @@ createUser' p u = do
           Right token -> do
             hashed <- makePassword (encodeUtf8 p) 14
             let dbUser = User
-                  { _userUsername      = u ^. D.username
-                  , _userName          = u ^. D.name
-                  , _userEmail         = u ^. D.email
-                  , _userPasswordHash  = hashed
-                  , _userCellphone     = Nothing
-                  , _userAvatar        = Nothing
-                  , _userStripeToken   = Just token
-                  -- , _userFacebookToken = Nothing
+                  { _userUsername           = u ^. D.username
+                  , _userName               = u ^. D.name
+                  , _userEmail              = u ^. D.email
+                  , _userPasswordHash       = hashed
+                  , _userCellphone          = Nothing
+                  , _userAvatar             = Nothing
+                  , _userStripeToken        = Just token
+                  , _userFacebookToken      = Nothing
+                  , _userFacebookId         = Nothing
+                  , _userFacebookExpiration = Nothing
                   }
-            execute conn "insert into users (username, name, email, password_hash, cellphone, avatar, stripe_token) values (?, ?, ?, ?, ?, ?, ?)" dbUser
+            execute conn "insert into users (username, name, email, password_hash, cellphone, avatar, stripe_token, facebook_token, facebook_id, facebook_expiration) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)" dbUser
             return $ Right (D.session sessionToken, dbUser ^. fullUser)
       Just (Only (1 :: Int)) -> return $ Left D.UsernameExists
 

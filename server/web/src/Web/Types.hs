@@ -16,7 +16,7 @@ data Patch a = NoChange | Update a
 
 type Reminder = ()
 
-deriveJSON jsonSettings ''NewUser
-deriveJSON jsonSettings ''CurrentUser
-deriveJSON jsonSettings ''FullUser
-deriveJSON jsonSettings ''SignInCredentials
+jsonize ''NewUser
+jsonize ''CurrentUser
+jsonize ''FullUser
+jsonize ''SignIn
