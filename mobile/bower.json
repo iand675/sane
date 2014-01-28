@@ -20,6 +20,9 @@
     "angular": "~1.2.7",
     "angular-ui-router": "0.2.8-bowratic-tedium",
     "angular-animate": "~1.2.9",
-    "fastclick": "~0.6.11"
+    "fastclick": "~0.6.11",
+    "lodash": "~2.4.1",
+    "angular-mocks": "~1.2.10",
+    "lawnchair": "http://brian.io/lawnchair/downloads/lawnchair-0.6.1.js"
   }
 }

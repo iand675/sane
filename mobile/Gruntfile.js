@@ -36,7 +36,8 @@ module.exports = function(grunt) {
 					"www/templates/welcome.html": "www/templates/welcome.jade",
 					"www/templates/login.html": "www/templates/login.jade",
 					"www/templates/signup.html": "www/templates/signup.jade",
-					"www/templates/home.html": "www/templates/home.jade"
+					"www/templates/home.html": "www/templates/home.jade",
+					"www/templates/noconnection.html": "www/templates/noconnection.jade"
 				}
 			}
 		},
@@ -47,8 +48,18 @@ module.exports = function(grunt) {
 					ignores: ['www/js/lib/**/*.js']
 				},
 				files: {
-					src: ['www/js/*.js']
+					src: ['www/js/**/*.js']
 				}
+			}
+		},
+		karma: {
+			dev: {
+				configFile: 'karma.config.js',
+				singleRun: true
+			},
+			watch: {
+				configFile: 'karma.config.js',
+				autoWatch: true
 			}
 		},
 		shell: {
@@ -81,12 +92,16 @@ module.exports = function(grunt) {
 			}	
 		},
 		watch: {
+			karma: {
+				files: ['www/test/**/*.js', 'www/js/**/*.js'],
+				tasks: ['karma:dev']
+			},
 			jade: {
 				files: ['www/index.jade', 'www/templates/*.jade'],
 				tasks: ['jade:dev']
 			},
 			jshint: {
-				files: ['www/js/*.js'],
+				files: ['www/js/**/*.js'],
 				tasks: ['jshint:dev']
 			},
 			stylus: {
@@ -97,6 +112,7 @@ module.exports = function(grunt) {
 	});
 
 	grunt.loadNpmTasks('grunt-shell');
+	grunt.loadNpmTasks('grunt-karma');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-jade');
@@ -105,7 +121,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	grunt.registerTask('init', ['shell:init']);
-	grunt.registerTask('dev', ['jade:dev', 'less:dev', 'watch'])
+	grunt.registerTask('dev', ['jade:dev', 'less:dev', 'jshint:dev', 'watch'])
 ;	grunt.registerTask('transfer-resources', ['clean:splashscreen', 'copy:splashscreen', 'clean:icon', 'copy:icon']);
 	grunt.registerTask('emulate', ['shell:build-ios', 'transfer-resources', 'shell:install-ios']);
 }
