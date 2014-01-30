@@ -3,6 +3,7 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 html,
 body {
@@ -14,11 +15,11 @@ body {
   height: 100%;
   width: 100%;
   background-color: white;
-  -webkit-animation: ng-enter 0.25s alternate forwards;
-  -moz-animation: ng-enter 0.25s alternate forwards;
-  -o-animation: ng-enter 0.25s alternate forwards;
-  animation: ng-enter 0.25s alternate forwards;
   z-index: 100;
+  -webkit-transition: -webkit-transform 0.25s ease;
+  -moz-transition: -moz-transform 0.25s ease;
+  -o-transition: -o-transform 0.25s ease;
+  transition: -webkit-transform 0.25s ease,-moz-transform 0.25s ease,-o-transform 0.25s ease,transform 0.25s ease;
 }
 .ui-container {
   position: absolute;
@@ -320,9 +321,14 @@ body {
   color: #393c3d;
 }
 [ui-view].ng-enter {
-  z-index: 50;
+  right: 100%;
+  -webkit-transform: translate3d(-320px, 0, 0);
+  -moz-transform: translate3d(-320px, 0, 0);
+  -o-transform: translate3d(-320px, 0, 0);
+  -ms-transform: translate3d(-320px, 0, 0);
+  transform: translate3d(-320px, 0, 0);
 }
-[ui-view].ng-leave {
+[ui-view].ng-leave-active {
   -webkit-animation: ng-leave 0.5s alternate forwards;
   -moz-animation: ng-leave 0.5s alternate forwards;
   -o-animation: ng-leave 0.5s alternate forwards;
@@ -337,11 +343,13 @@ lesshat-selector {
 }
 lesshat-selector {
   -lh-property: 0; } 
-@-webkit-keyframes ng-enter{ 0%{ opacity: 0; } 66%{ opacity: 0; } 100%{ opacity: 1; }}
-@-moz-keyframes ng-enter{ 0%{ opacity: 0; } 66%{ opacity: 0; } 100%{ opacity: 1; }}
-@-o-keyframes ng-enter{ 0%{ opacity: 0; } 66%{ opacity: 0; } 100%{ opacity: 1; }}
-@keyframes ng-enter{ 0%{ opacity: 0; } 66%{ opacity: 0; } 100%{ opacity: 1; };
+@-webkit-keyframes ng-enter{ 0%{ opacity: 0; } 100%{ opacity: 1; }}
+@-moz-keyframes ng-enter{ 0%{ opacity: 0; } 100%{ opacity: 1; }}
+@-o-keyframes ng-enter{ 0%{ opacity: 0; } 100%{ opacity: 1; }}
+@keyframes ng-enter{ 0%{ opacity: 0; } 100%{ opacity: 1; };
 }
+/* Here be dragons. */
+/* And styles in need of refactor. */
 .entypo {
   font-family: 'entypo';
 }

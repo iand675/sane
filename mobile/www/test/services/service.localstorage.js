@@ -17,8 +17,8 @@ describe('service.localstorage', function() {
 	it('should save and retrieve a null value.', function () {
 		var test;
 
-		localStorageService.set('test', null);
-		test = localStorageService.get('test');
+		localStorageService.setItem('test', null);
+		test = localStorageService.getItem('test');
 
 		expect(test).toEqual(null);
 	});
@@ -26,8 +26,8 @@ describe('service.localstorage', function() {
 	it('should save and retrieve an integer.', function () {
 		var test;
 
-		localStorageService.set('test', 1);
-		test = localStorageService.get('test');
+		localStorageService.setItem('test', 1);
+		test = localStorageService.getItem('test');
 
 		expect(test).toEqual(1);
 	});
@@ -35,8 +35,8 @@ describe('service.localstorage', function() {
 	it('should save and retrieve a string.', function () {
 		var test;
 
-		localStorageService.set('test', 'foo');
-		test = localStorageService.get('test');
+		localStorageService.setItem('test', 'foo');
+		test = localStorageService.getItem('test');
 
 		expect(test).toEqual('foo');
 	});
@@ -44,8 +44,8 @@ describe('service.localstorage', function() {
 	it('should save and retrieve an array.', function () {
 		var test;
 
-		localStorageService.set('test', ['foo', 'bar']);
-		test = localStorageService.get('test');
+		localStorageService.setItem('test', ['foo', 'bar']);
+		test = localStorageService.getItem('test');
 
 		expect(test).toEqual(['foo', 'bar']);
 	});
@@ -53,8 +53,8 @@ describe('service.localstorage', function() {
 	it('should save and retrieve an object.', function () {
 		var test;
 
-		localStorageService.set('test', {'foo': 'bar'});
-		test = localStorageService.get('test');
+		localStorageService.setItem('test', {'foo': 'bar'});
+		test = localStorageService.getItem('test');
 
 		expect(test).toEqual({'foo': 'bar'});
 	});
@@ -62,13 +62,13 @@ describe('service.localstorage', function() {
 	it('should overwrite objects previously saved to a key.', function () {
 		var test;
 
-		localStorageService.set('test', {'foo': 'bar'});
-		test = localStorageService.get('test');
+		localStorageService.setItem('test', {'foo': 'bar'});
+		test = localStorageService.getItem('test');
 
 		expect(test).toEqual({'foo': 'bar'});
 
-		localStorageService.set('test', {'bar': 'lambda'});
-		test = localStorageService.get('test');
+		localStorageService.setItem('test', {'bar': 'lambda'});
+		test = localStorageService.getItem('test');
 
 		expect(test).toEqual({'bar': 'lambda'});
 	});
@@ -76,13 +76,13 @@ describe('service.localstorage', function() {
 	it('should remove items saved to particular key.', function () {
 		var test;
 
-		localStorageService.set('test', {'foo': 'bar'});
-		test = localStorageService.get('test');
+		localStorageService.setItem('test', {'foo': 'bar'});
+		test = localStorageService.getItem('test');
 
 		expect(test).toEqual({'foo': 'bar'});
 
 		localStorageService.remove('test');
-		test = localStorageService.get('test');
+		test = localStorageService.getItem('test');
 
 		expect(test).toEqual(undefined);
 	});

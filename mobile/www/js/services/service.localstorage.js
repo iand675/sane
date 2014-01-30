@@ -1,11 +1,11 @@
 sane.factory('localStorageService', [function () {
 	var store = new Lawnchair({name: 'localStorageService', adaptor:'dom'}, function () {});
 
-	function set(key, object) {
+	function setItem(key, object) {
 		store.save({key: key, value: object});
 	}
 
-	function get(key) {
+	function getItem(key) {
 		var record;
 
 		store.get(key, function(item) {
@@ -21,8 +21,8 @@ sane.factory('localStorageService', [function () {
 	}
 
 	return {
-		get: get,
-		set: set,
+		getItem: getItem,
+		setItem: setItem,
 		remove: remove
 	};
 }]);

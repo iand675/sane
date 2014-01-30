@@ -22,6 +22,7 @@ module.exports = function(config) {
         'www/js/lib/angular-animate/angular-animate.min.js',
         'www/js/app.js',
         'www/js/services/**/*.js',
+        'www/js/controllers/**/*.js',
         'www/test/**/*.js'
     ],
 

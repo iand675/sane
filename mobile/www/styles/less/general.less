@@ -4,6 +4,7 @@
 * {
 	z-index: 10;
 	.lh-box-sizing(border-box);
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
 }
 
 html, body {
@@ -16,8 +17,8 @@ html, body {
 	height: 100%;
 	width: 100%;
 	background-color: white;
-	.lh-animation(ng-enter .25s alternate forwards);
 	z-index: 100;
+	.lh-transition(transform .25s ease);
 }
 
 .ui-container {
@@ -362,22 +363,26 @@ html, body {
 }
 
 [ui-view].ng-enter {
-	z-index: 50;
+	right: 100%;
+	.lh-transform(translate3d(-320px, 0, 0));
 }
 
 [ui-view].ng-enter-active {
 }
 
 [ui-view].ng-leave {
-	.lh-animation(ng-leave .5s alternate forwards);
 }
 
 [ui-view].ng-leave-active {
+	.lh-animation(ng-leave .5s alternate forwards);
 }
 
 .lh-keyframes(~'ng-leave, 0%{ opacity: 1; } 50%{ opacity: 0; } 100%{ opacity: 0; } ');
 
-.lh-keyframes(~'ng-enter, 0%{ opacity: 0; } 66%{ opacity: 0; } 100%{ opacity: 1; }');
+.lh-keyframes(~'ng-enter, 0%{ opacity: 0; } 100%{ opacity: 1; }');
+
+/* Here be dragons. */
+/* And styles in need of refactor. */
 
 .entypo {
 	font-family: 'entypo';
