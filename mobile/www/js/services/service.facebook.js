@@ -42,9 +42,7 @@ sane.factory('facebookService', ['$q', function ($q) {
 		});
 
 		checkFb = setTimeout(function () {
-			console.log("DSFDSFDS")
 			if(window.FB) {
-				console.log("HERE")
 				deferred.resolve();
 				window.clearTimeout(checkFb);
 			}

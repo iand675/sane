@@ -33,7 +33,7 @@ describe('service.connection', function() {
 	it('.checkConnectionToServer() should call success if response is received.', function () {
 		var confirmPromiseResolved;
 
-		$httpBackend.expectGET('https://saneapp.com/ping').respond(204, 'OK');
+		$httpBackend.expectGET('https://saneapp.com/ping').respond(204);
 
 		connectionService.checkConnectionToServer().then(function () {
 			confirmPromiseResolved = true;
@@ -50,7 +50,24 @@ describe('service.connection', function() {
 	it('.checkConnectionToServer() should call error if the server returns a 503.', function () {
 		var confirmPromiseResolved;
 
-		$httpBackend.expectGET('https://saneapp.com/ping').respond(503, 'OK');
+		$httpBackend.expectGET('https://saneapp.com/ping').respond(503);
+
+		connectionService.checkConnectionToServer().then(function () {
+			confirmPromiseResolved = true;
+		}, function () {
+			confirmPromiseResolved = false;
+		});
+
+		$httpBackend.flush();
+		$rootScope.$apply();
+
+		expect(confirmPromiseResolved).toBe(false);
+	});
+
+	it('.checkConnectionToServer() should call error if the server times out.', function () {
+		var confirmPromiseResolved;
+
+		$httpBackend.expectGET('https://saneapp.com/ping').respond(0);
 
 		connectionService.checkConnectionToServer().then(function () {
 			confirmPromiseResolved = true;

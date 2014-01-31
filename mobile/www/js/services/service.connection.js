@@ -8,7 +8,7 @@ sane.factory('connectionService', ['$http', '$q', function ($http, $q) {
 				deferred.resolve();
 			})
 			.error(function (data, status, headers, config) {
-				if (status == 503 || status == 0)
+				if (status === 503 || status === 0)
 					deferred.reject();
 				else
 					deferred.resolve();
