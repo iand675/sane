@@ -1,26 +1,29 @@
-sane.factory('facebookService', ['$q', function ($q) {
+sane.factory('facebookService', [function () {
+	var isFacebookInitialized = !!window.FB && !!window.getLoginStatus;
 	
-	function updateLocalAuthStatus(authResponse) {
-		var user;
-
-		if (localStorage.saneUser) {
-			user = JSON.parse(localStorage.saneUser);
-			user.fb = JSON.stringify(response.authResponse);
-			localStorage.saneUser = JSON.stringify(user);
-		}
-	}
-
-	function getAuthStatus() {
+	function isUserAuthenticated() {
 		var deferred = $q.defer();
 
-		FB.getLoginStatus(function (response) {
-			deferred.resolve(response);
+		checkInitialization().then(function () {
+			FB.getLoginStatus(function (response) {
+				switch(response.status) {
+					case 'connected':
+						deferred.resolve();
+						break;
+					case 'not authorized':
+						deferred.reject();
+						break;
+					default:
+						deferred.reject();
+						break;
+				}				
+			});
 		});
 
 		return deferred.promise;
 	}
 
-	function init() {
+	function initialize() {
 		var deferred = $q.defer();
 
 		window.fbAsyncInit = function() {
@@ -33,43 +36,14 @@ sane.factory('facebookService', ['$q', function ($q) {
 			useCachedDialogs: false
 		});
 
+		if (isFacebookInitialized)
+			deferred.resolve();
+
 		return deferred.promise;
 	}
 
-	function checkAuthStatus(cb) {
-		var authStatus, initStatus;
-
-		if (FB && FB.getLoginStatus) {	
-			authStatus = getAuthStatus();
-			authStatus.then(function (response) {
-				resolveAuthStatus(response);
-			});
-		}
-		else {
-			initStatus = init();
-
-			initStatus.then(function () {
-				authStatus = getAuthStatus();
-
-				authStatus.then(function (response) {
-					resolveAuthStatus(response);
-				});
-			});
-		}
-
-		function resolveAuthStatus(response) {
-			if (response.status === 'connected') {
-				updateLocalAuthStatus(response.authResponse);
-				cb.success();
-			}
-			else {
-				cb.failure();
-			}
-		}
-	}
-
 	return {
-		init: init,
-		checkAuthStatus: checkAuthStatus
+		isUserAuthenticated: isUserAuthenticated,
+		initialize: initialize
 	};
 }]);

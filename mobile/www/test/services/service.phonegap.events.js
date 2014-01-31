@@ -1,6 +1,6 @@
 describe('service.phonegap.events', function() {
 	var phonegapEventsService,
-	rootScope;
+		rootScope;
 
 	beforeEach(function () {
 
@@ -12,14 +12,8 @@ describe('service.phonegap.events', function() {
 		});
 	});
 
-	it('should not be undefined.', function () {
+	it('should be defined.', function () {
 		expect(phonegapEventsService).toBeDefined();
-	});
-
-	it('should return a promise when onDeviceReady is called().', function () {
-		var returnedPromise = phonegapEventsService.onDeviceReady();
-
-		expect(returnedPromise.then).toBeDefined();
 	});
 
 	it('should resolve the promise after the document emits "deviceready".', function () {

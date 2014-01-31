@@ -1,14 +1,16 @@
-sane.factory('connectionService', [function () {
+sane.factory('connectionService', ['$http', '$q', function ($http, $q) {
 
-	function checkConnectonToServer() {
+	function checkConnectionToServer() {
 		var deferred = $q.defer();
 
-		$http({method: 'GET', url: 'https://saneapp.com'})
+		$http({method: 'GET', url: 'https://saneapp.com', timeout: 4000})
 			.success(function (response) {
 				deferred.resolve();
 			})
 			.error(function (response) {
-				if (response.status == 503 || !response.status)
+				response = response || {};
+
+				if (!response.status || response.status == 503)
 					deferred.reject();
 				else
 					deferred.resolve();

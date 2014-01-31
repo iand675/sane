@@ -1,30 +1,38 @@
 sane.controller('preflightController', [
 	'$scope',
-	'$state',
 	'phonegapEventsService',
 	'userStorageService',
-	'preflightControllerService',
-function ($scope, $state, phonegapEventsService, userStorageService, preflightControllerService) {
+	'authenticationService',
+	'connectionService',
+	'stateService',
+function ($scope, phonegapEventsService, userStorageService, authenticationService, connectionService, stateService) {
 	
 	$scope.onUserObjectFound = function () {
-		preflightControllerService.checkAuthenticationForLogin();
+		authenticationService.authenticate.then(function () {
+			stateService.setStateHome();
+		}, function () {
+			stateService.setStateNoConnection();
+		});
 	};
 
 	$scope.onUserObjectNotFound = function () {
-		preflightControllerService.checkConnectionForLogin();
+		connectionService.checkConnectionToServer().then(function () {
+			stateService.setStateWelcome();
+		}, function () {
+			stateService.setStateNoConnection();
+		});
 	};
 
 	$scope.onDeviceReady = function () {
-		// userStorageService.checkUserObject().then(function () {
-		// 	$scope.onUserObjectFound();
-		// }, function () {
-		//	$scope.onUserObjectNotFound();
-		// });
+		userStorageService.checkUserObject().then(function () {
+			$scope.onUserObjectFound();
+		}, function () {
+			$scope.onUserObjectNotFound();
+		});
 	};
 
 	phonegapEventsService.onDeviceReady().then(function () {
 		$scope.onDeviceReady();
-		$state.go('welcome');
 	});
 
 }]);

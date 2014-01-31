@@ -42,6 +42,9 @@ module.exports = function(grunt) {
 			}
 		},
 		jshint: {
+			options: {
+				expr: true
+			},
 			dev: {
 				jshintrc: true,
 				options: {

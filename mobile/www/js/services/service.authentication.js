@@ -1,35 +1,42 @@
-sane.factory('authenticationService', ['facebookService', function (fb) {
+sane.factory('authenticationService', [
+	'$q', 
+	'facebookService', 
+	'userStorageService', 
+	'stateService',
+function ($q, facebookService, userStorageService, stateService) {
 
-	function checkEmailAuth(user, cb) {
+	function checkUserCookie() {
 
-	}
-
-	function checkFacebookAuth(user, cb) {
-		fb.checkAuthStatus({
-			success: cb.success(),
-			failure: cb.failure(),
-			noConnection: cb.noConnection()
-		});
-	}
-
-	function checkAuthType(user, cb) {
-		switch(user.authType) {
-			case 'facebook': 
-				checkFacebookAuth(user, cb);
-				break;
-			case 'email':
-				checkEmailAuth(user, cb);
-				break;
-			default:
-				cb.failure();
-		}
 	}
 
 	function authenticate(user, cb) {
-		if (!user.authType)
-			cb.failure();
-		else
-			checkAuthType(user, cb);
+		var deferred = $q;
+
+		userStorageService.checkUserObject().then(function (userObject) {
+			var authType = userObject.authType;
+
+			if (authType === 'facebook') {
+				facebookService.isUserAuthenticated().then(function () { 
+					deferred.resolve(); 
+				}, function() { 
+					deferred.reject(); 
+				});
+			}
+			else if (authType === 'email') {
+				checkUserCookie().then(function () { 
+					deferred.resolve(); 
+				}, function() { 
+					deferred.reject(); 
+				});
+			}
+			else {
+				deferred.reject();
+			}
+		}, function () {
+			deferred.reject();
+		});
+
+		return deferred.promise;
 	} 
 
 	return {
