@@ -1,10 +1,9 @@
-sane.factory('facebookService', [function () {
-	var isFacebookInitialized = !!window.FB && !!window.getLoginStatus;
+sane.factory('facebookService', ['$q', function ($q) {
 	
 	function isUserAuthenticated() {
 		var deferred = $q.defer();
 
-		checkInitialization().then(function () {
+		initialize().then(function () {
 			FB.getLoginStatus(function (response) {
 				switch(response.status) {
 					case 'connected':
@@ -23,12 +22,18 @@ sane.factory('facebookService', [function () {
 		return deferred.promise;
 	}
 
-	function initialize() {
-		var deferred = $q.defer();
+	function login() {
+		console.log("A");
+		initialize().then(function () {
+			console.log("B");
+			FB.login(function(response) {
+			}, {scope: 'email'});
+		});
+	}
 
-		window.fbAsyncInit = function() {
-			deferred.resolve();
-		};
+	function initialize() {
+		var deferred = $q.defer(),
+			checkFb;
 
 		FB.init({
 			appId: '770257949654604',
@@ -36,13 +41,20 @@ sane.factory('facebookService', [function () {
 			useCachedDialogs: false
 		});
 
-		if (isFacebookInitialized)
-			deferred.resolve();
+		checkFb = setTimeout(function () {
+			console.log("DSFDSFDS")
+			if(window.FB) {
+				console.log("HERE")
+				deferred.resolve();
+				window.clearTimeout(checkFb);
+			}
+		}, 250);
 
 		return deferred.promise;
 	}
 
 	return {
+		login: login,
 		isUserAuthenticated: isUserAuthenticated,
 		initialize: initialize
 	};

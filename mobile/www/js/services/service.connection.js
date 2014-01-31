@@ -3,14 +3,12 @@ sane.factory('connectionService', ['$http', '$q', function ($http, $q) {
 	function checkConnectionToServer() {
 		var deferred = $q.defer();
 
-		$http({method: 'GET', url: 'https://saneapp.com', timeout: 4000})
-			.success(function (response) {
+		$http({method: 'GET', url: 'https://saneapp.com/ping', timeout: 4000})
+			.success(function (data, status, headers, config) {
 				deferred.resolve();
 			})
-			.error(function (response) {
-				response = response || {};
-
-				if (!response.status || response.status == 503)
+			.error(function (data, status, headers, config) {
+				if (status == 503 || status == 0)
 					deferred.reject();
 				else
 					deferred.resolve();
@@ -19,12 +17,8 @@ sane.factory('connectionService', ['$http', '$q', function ($http, $q) {
 		return deferred.promise;
 	}
 
-	function getConnectionType() {
-	}
-
 	return {
-		checkConnectionToServer: checkConnectionToServer,
-		getConnectionType: getConnectionType
+		checkConnectionToServer: checkConnectionToServer
 	};
 
 }]);

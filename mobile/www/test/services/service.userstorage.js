@@ -1,7 +1,7 @@
 describe('service.userstorage', function() {
 	var userStorageService,
 		localStorageService,
-		rootScope;
+		$rootScope;
 
 	beforeEach(function () {
 

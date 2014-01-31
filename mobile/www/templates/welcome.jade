@@ -6,7 +6,7 @@
 		.welcome-signup 
 			| Don't have an account? 
 			a(class="ui-fake-link", href="#/signup") Signup.
-		.welcome-login-facebook.button.icon-button.facebook(ui-sref="signup")
+		.welcome-login-facebook.button.icon-button.facebook(ng-click="fbLogin()")
 			.icon.entypo-social &#62221;
 			.text Login with Facebook
 		.welcome-login-email.button.icon-button.clear(ui-sref="login")

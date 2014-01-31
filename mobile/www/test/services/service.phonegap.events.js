@@ -18,14 +18,11 @@ describe('service.phonegap.events', function() {
 
 	it('should resolve the promise after the document emits "deviceready".', function () {
 		var deviceReady = document.createEvent('CustomEvent'),
-			returnedPromise,
 			confirmPromiseResolved;
 
 		deviceReady.initCustomEvent('deviceready', true, true);
 
-		returnedPromise = phonegapEventsService.onDeviceReady();
-
-		returnedPromise.then(function () {
+		phonegapEventsService.onDeviceReady().then(function () {
 			confirmPromiseResolved = true;
 		});
 
