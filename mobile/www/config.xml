@@ -41,5 +41,5 @@
     <gap:splash gap:platform="ios" height="748" src="res/screen/ios/Default-Landscape~ipad.png" width="1024" />
     <gap:splash gap:platform="ios" height="2008" src="res/screen/ios/Default-Portrait@2x~ipad.png" width="1536" />
     <gap:splash gap:platform="ios" height="1004" src="res/screen/ios/Default-Portrait~ipad.png" width="768" />
-    <access origin="*" />
+    <access origin="http://162.242.229.57:3000" />
 </widget>

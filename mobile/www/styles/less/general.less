@@ -366,22 +366,21 @@ html, body {
 	font-size: 15px;
 }
 
-[ui-view].ng-enter, [ui-view].ng-leave {
-}
-
-[ui-view].ng-enter {
+[ui-view].ng-enter.hardAnimation {
 	right: 100%;
-	.lh-transform(translate3d(-320px, 0, 0));
+	.lh-transform(translateX(-320px));
 }
 
-[ui-view].ng-enter-active {
+[ui-view].ng-enter.softAnimation {
+	.lh-animation(ng-enter .75s alternate forwards);
 }
 
-[ui-view].ng-leave {
+[ui-view].ng-leave-active.hardAnimation {
+	.lh-transform(translateX(366px));
 }
 
-[ui-view].ng-leave-active {
-	.lh-animation(ng-leave .5s alternate forwards);
+[ui-view].ng-leave.softAnimation {
+	.lh-animation(ng-leave .25s alternate forwards);
 }
 
 .lh-keyframes(~'ng-leave, 0%{ opacity: 1; } 50%{ opacity: 0; } 100%{ opacity: 0; } ');

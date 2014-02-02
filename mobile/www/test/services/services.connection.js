@@ -19,10 +19,6 @@ describe('service.connection', function() {
 		});
 	});
 
-	it('should be defined.', function () {
-		expect(connectionService).toBeDefined();
-	});
-
 	it('.checkConnectionToServer() should ping the Sane server.', function () {
 		$httpBackend.expectGET(configService.server.pingUri);
 

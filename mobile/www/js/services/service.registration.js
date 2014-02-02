@@ -9,6 +9,7 @@ function ($q, $http, facebookService, userStorageService, configService) {
 		var deferred = $q.defer();
 
 		user.type = 'standard';
+		user.username = user.username.toLowerCase();
 
 		$http({
 			method: 'POST', 

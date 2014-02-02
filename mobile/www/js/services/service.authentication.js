@@ -18,6 +18,7 @@ function ($q, $http, facebookService, userStorageService, configService) {
 		var deferred = $q.defer();
 
 		credentials.type = 'standard';
+		credentials.username = user.username.toLowerCase();
 
 		$http({
 				method: 'POST', 
@@ -36,7 +37,26 @@ function ($q, $http, facebookService, userStorageService, configService) {
 	}
 
 	function authenticateFacebookStrategy() {
-		return facebookService.login();
+		var deferred = $q.defer();
+
+		facebookService.login().then(function (authResponse) {
+			authResponse.type = "facebook";
+
+			$http({
+					method: 'POST', 
+					url: configService.server.signinUri,
+					data: authResponse,
+					timeout: 4000
+				}).success(function (userObject, status, headers, config) {
+					deferred.resolve();
+				}).error(function (data, status, headers, config) {
+					deferred.resolve();
+				});
+		}, function () {
+			deferred.reject();
+		});
+
+		return deferred.promise;
 	}
 
 	function authenticateNoStrategy() {

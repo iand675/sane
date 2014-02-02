@@ -1,4 +1,8 @@
-sane.factory('connectionService', ['$http', '$q', 'configService', function ($http, $q, configService) {
+sane.factory('connectionService', [
+	'$http', 
+	'$q', 
+	'configService', 
+function ($http, $q, configService) {
 
 	function checkConnectionToServer() {
 		var deferred = $q.defer();

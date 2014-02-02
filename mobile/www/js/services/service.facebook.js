@@ -20,8 +20,8 @@ sane.factory('facebookService', ['$q', 'userStorageService', function ($q, userS
 		var deferred = $q.defer();
 		FB.login(function (response) {
 			if (response.authResponse) {
-				userStorageService.createFacebookUserObject(response);
-				deferred.resolve();
+				userStorageService.createFacebookUserObject(response.authResponse);
+				deferred.resolve(response.authResponse);
 			}
 			else {
 				deferred.reject();
