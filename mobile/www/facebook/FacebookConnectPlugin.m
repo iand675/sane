@@ -95,7 +95,7 @@
                                            [@"error"]
                                            [@"error_subcode"] integerValue];
             if (underlyingSubCode == 458) {
-                alertMessage = @"The app was removed. Please log in again.";
+                alertMessage = @"The Sane Facebook application was removed. Please log in again.";
             } else {
                 alertMessage = @"Your current session is no longer valid. Please log in again.";
             }
