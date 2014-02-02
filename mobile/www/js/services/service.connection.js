@@ -1,13 +1,15 @@
-sane.factory('connectionService', ['$http', '$q', function ($http, $q) {
+sane.factory('connectionService', ['$http', '$q', 'configService', function ($http, $q, configService) {
 
 	function checkConnectionToServer() {
 		var deferred = $q.defer();
 
-		$http({method: 'GET', url: 'https://saneapp.com/ping', timeout: 4000})
-			.success(function (data, status, headers, config) {
+		$http({
+				method: 'GET', 
+				url: configService.server.pingUri, 
+				timeout: 4000
+			}).success(function (data, status, headers, config) {
 				deferred.resolve();
-			})
-			.error(function (data, status, headers, config) {
+			}).error(function (data, status, headers, config) {
 				if (status === 503 || status === 0)
 					deferred.reject();
 				else

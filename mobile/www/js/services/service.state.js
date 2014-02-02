@@ -1,5 +1,4 @@
 sane.factory('stateService', ['$state', function ($state) {
-
 	return {
 		setStateHome: function () {
 			$state.go('home');
@@ -11,5 +10,4 @@ sane.factory('stateService', ['$state', function ($state) {
 			$state.go('welcome');
 		},
 	};
-
 }]);

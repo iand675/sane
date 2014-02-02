@@ -5,17 +5,35 @@
 			.button.back(ui-sref="welcome")
 			.text Sign Up
 			.menu
-		.ui-input.name
-			input.input(placeholder="What's your name?", ng-model="name" type="text")
-		.ui-input.email
-			input.input(placeholder="What's your email?", ng-model="email" type="text")
-		.ui-input.username
-			input.input(placeholder="Choose a username", ng-model="username" type="text")
-		.ui-input.password
-			input.input(placeholder="Choose a password", ng-model="password" type="password")
-		.ui-input.password
-			input.input(placeholder="Repeat your password", type="password")
-		.ui-button.medium.full(ng-click="createUser()") Signup
+		form(name="signupForm", novalidate)
+			.ui-input.name
+				input.input(placeholder="Name", name="name", ng-model="user.name", type="text", ng-maxlength="50", required)
+			.ui-input.email
+				input.input(placeholder="Email", name="email", ng-model="user.email", type="email", required)
+			.ui-input.username
+				input.input(placeholder="Username", name="username", ng-model="user.username", type="text", ng-maxlength="25" required)
+			.ui-input.password
+				input.input(placeholder="Password", name="password", ng-model="user.password", type="password", required)
+			.ui-input.password
+				input.input(placeholder="Repeat Password", name="validatePassword", ng-model="validatePassword", type="password", required)
+			.ui-button.medium.full(ng-click="showValidation = true; createUser();") Signup
+			.validation(ng-show="showValidation")
+				.ui-validation(ng-show="signupForm.name.$pristine") Sorry, we need your lovely name!
+				.ui-validation(ng-show="signupForm.name.$error.maxlength") 
+					| That name's a bit too long. 
+					br
+					| Anything under 50 characters is great!
+				.ui-validation(ng-show="signupForm.email.$pristine") Uh oh - we need your email!
+				.ui-validation(ng-show="signupForm.email.$invalid && signupForm.email.$dirty") Please enter a valid email.
+				.ui-validation(ng-show="signupForm.username.$pristine") We'll need a username for you!
+				.ui-validation(ng-show="signupForm.username.$error.maxlength") 
+					| That username is a bit too long.
+					br
+					| Anything under 25 characters is great!
+				.ui-validation(ng-show="signupForm.password.$pristine") Looks like we need a password!
+				.ui-validation(ng-show="signupForm.validatePassword.$pristine && signupForm.password.$dirty") Please enter your password again.
+				.ui-validation(ng-show="signupForm.password.$modelValue !== signupForm.validatePassword.$modelValue && signupForm.password.$dirty && signupForm.validatePassword.$dirty") Uh oh - your password don't match!
+				.ui-validation(ng-show="serverError") Mayday! There was an error.
 		.welcome-signup 
 			| Already have an account? 
 			a(class="ui-fake-link", ui-sref="login") Login.

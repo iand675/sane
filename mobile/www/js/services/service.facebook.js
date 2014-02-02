@@ -1,54 +1,42 @@
-sane.factory('facebookService', ['$q', function ($q) {
+sane.factory('facebookService', ['$q', 'userStorageService', function ($q, userStorageService) {
 	
 	function isUserAuthenticated() {
 		var deferred = $q.defer();
 
-		initialize().then(function () {
-			FB.getLoginStatus(function (response) {
-				switch(response.status) {
-					case 'connected':
-						deferred.resolve();
-						break;
-					case 'not authorized':
-						deferred.reject();
-						break;
-					default:
-						deferred.reject();
-						break;
-				}				
-			});
+		FB.getLoginStatus(function (response) {
+			if (response.status === 'connected') {
+				userStorageService.createFacebookUserObject(response);
+				deferred.resolve();
+			}				
+			else {
+				deferred.reject();
+			}
 		});
 
 		return deferred.promise;
 	}
 
 	function login() {
-		console.log("A");
-		initialize().then(function () {
-			console.log("B");
-			FB.login(function(response) {
-			}, {scope: 'email'});
-		});
+		var deferred = $q.defer();
+		FB.login(function (response) {
+			if (response.authResponse) {
+				userStorageService.createFacebookUserObject(response);
+				deferred.resolve();
+			}
+			else {
+				deferred.reject();
+			}
+		}, {scope: 'email'});
+
+		return deferred.promise;
 	}
 
 	function initialize() {
-		var deferred = $q.defer(),
-			checkFb;
-
 		FB.init({
 			appId: '770257949654604',
 			nativeInterface: CDV.FB,
 			useCachedDialogs: false
 		});
-
-		checkFb = setTimeout(function () {
-			if(window.FB) {
-				deferred.resolve();
-				window.clearTimeout(checkFb);
-			}
-		}, 250);
-
-		return deferred.promise;
 	}
 
 	return {

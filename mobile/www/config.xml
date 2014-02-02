@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.phonegap.sane" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.ryanmiller.sane" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Sane</name>
     <description>
-        Sane is 
+        The simple, beautiful way to share and remember tasks.
     </description>
     <author email="hi@saneapp.com" href="http://saneapp.com">
         Sane Team

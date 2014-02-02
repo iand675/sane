@@ -320,6 +320,12 @@ body {
   text-decoration: underline;
   color: #393c3d;
 }
+.ui-validation-message {
+  margin-bottom: 2px;
+  text-align: center;
+  font-family: 'robotothin';
+  font-size: 15px;
+}
 [ui-view].ng-enter {
   right: 100%;
   -webkit-transform: translate3d(-320px, 0, 0);

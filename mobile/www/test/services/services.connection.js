@@ -1,21 +1,21 @@
 describe('service.connection', function() {
 	var $httpBackend,
-		$timeout,
 		$q,
 		$rootScope,
+		configService,
 		connectionService;
 
 	beforeEach(function () {
 
 		module('sane');
 
-		inject(function($injector, _$rootScope_, _$httpBackend_, _$timeout_, _$q_) {
-			$rootScope = _$rootScope_;
-			$httpBackend = _$httpBackend_;
-			$timeout = _$timeout_;
-			$q = _$q_;
+		inject(function($injector) {
+			$rootScope = $injector.get('$rootScope');
+			$httpBackend = $injector.get('$httpBackend');
+			$q = $injector.get('$q');
 
 			connectionService = $injector.get('connectionService');
+			configService = $injector.get('configService');
 		});
 	});
 
@@ -24,7 +24,7 @@ describe('service.connection', function() {
 	});
 
 	it('.checkConnectionToServer() should ping the Sane server.', function () {
-		$httpBackend.expectGET('https://saneapp.com/ping');
+		$httpBackend.expectGET(configService.server.pingUri);
 
 		connectionService.checkConnectionToServer();
 
@@ -33,7 +33,7 @@ describe('service.connection', function() {
 	it('.checkConnectionToServer() should call success if response is received.', function () {
 		var confirmPromiseResolved;
 
-		$httpBackend.expectGET('https://saneapp.com/ping').respond(204);
+		$httpBackend.expectGET(configService.server.pingUri).respond(204);
 
 		connectionService.checkConnectionToServer().then(function () {
 			confirmPromiseResolved = true;
@@ -50,24 +50,7 @@ describe('service.connection', function() {
 	it('.checkConnectionToServer() should call error if the server returns a 503.', function () {
 		var confirmPromiseResolved;
 
-		$httpBackend.expectGET('https://saneapp.com/ping').respond(503);
-
-		connectionService.checkConnectionToServer().then(function () {
-			confirmPromiseResolved = true;
-		}, function () {
-			confirmPromiseResolved = false;
-		});
-
-		$httpBackend.flush();
-		$rootScope.$apply();
-
-		expect(confirmPromiseResolved).toBe(false);
-	});
-
-	it('.checkConnectionToServer() should call error if the server times out.', function () {
-		var confirmPromiseResolved;
-
-		$httpBackend.expectGET('https://saneapp.com/ping').respond(0);
+		$httpBackend.expectGET(configService.server.pingUri).respond(503);
 
 		connectionService.checkConnectionToServer().then(function () {
 			confirmPromiseResolved = true;

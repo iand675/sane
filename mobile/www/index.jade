@@ -22,8 +22,10 @@ html(ng-app="sane")
 		script(type='text/javascript', src='js/lib/angular-animate/angular-animate.min.js')
 		script(type='text/javascript', src='js/app.js')
 
+		script(type='text/javascript', src='js/services/service.config.js')
 		script(type='text/javascript', src='js/services/service.lodash.js')
 		script(type='text/javascript', src='js/services/service.authentication.js')
+		script(type='text/javascript', src='js/services/service.registration.js')
 		script(type='text/javascript', src='js/services/service.facebook.js')
 		script(type='text/javascript', src='js/services/service.localstorage.js')
 		script(type='text/javascript', src='js/services/service.userstorage.js')
@@ -34,6 +36,7 @@ html(ng-app="sane")
 		script(type='text/javascript', src='js/controllers/controller.preflight.js')
 		script(type='text/javascript', src='js/controllers/controller.welcome.js')
 		script(type='text/javascript', src='js/controllers/controller.signup.js')
+		script(type='text/javascript', src='js/controllers/controller.login.js')
 		script.
 			document.addEventListener('deviceready', function() {
 				FastClick.attach(document.body);

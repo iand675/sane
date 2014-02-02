@@ -10,7 +10,8 @@ var sane = angular.module('sane', [
 		})
 		.state('login', {
 			url: '/login',
-			templateUrl: 'templates/login.html'
+			templateUrl: 'templates/login.html',
+			controller: 'loginController'
 		})
 		.state('signup', {
 			url: '/signup',
