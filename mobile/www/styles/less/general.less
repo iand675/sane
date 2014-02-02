@@ -98,9 +98,21 @@ html, body {
 		font-family: 'robotothin';
 		font-size: 45px;
 	}
+}
 
-	.menu {
+.ui-menu {
+	position: absolute;
+	right: -10px;
+	font-family: 'entypo';
 
+	.icon {
+		.lh-transform(rotate(90deg));
+		
+		&:before {
+			content: '\23F6';
+			color: @main;
+			font-size: 50px;
+		};
 	}
 }
 

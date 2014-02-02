@@ -93,6 +93,23 @@ body {
   font-family: 'robotothin';
   font-size: 45px;
 }
+.ui-menu {
+  position: absolute;
+  right: -10px;
+  font-family: 'entypo';
+}
+.ui-menu .icon {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+.ui-menu .icon:before {
+  content: '\23F6';
+  color: #2ecc71;
+  font-size: 50px;
+}
 .ui-category {
   position: relative;
   display: block;
