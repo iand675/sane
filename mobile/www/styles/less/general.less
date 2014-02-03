@@ -41,7 +41,7 @@ html, body {
 	background-color: white;
 }
 
-.ui-transparency {
+.ui-transparency, .ui-modal-transparency {
 	position: absolute;
 	height: 100%;
 	width: 100%;
@@ -50,6 +50,23 @@ html, body {
 	z-index: 5;
 	background-color: white;
 	opacity: 0.8;
+}
+
+.ui-modal-transparency {
+	height: 200%;
+	width: 350px;
+	top: -15px;
+	left: -15px;
+	z-index: 50;
+
+	&.ng-hide-add, &.ng-hide-remove {
+		.lh-transition(opacity .25s ease);
+		display: block!important;
+	}
+
+	&.ng-hide-add.ng-hide-add-active, &.ng-hide {
+		opacity: 0;
+	}
 }
 
 .ui-main {
@@ -100,23 +117,7 @@ html, body {
 	}
 }
 
-.ui-menu {
-	position: absolute;
-	right: -10px;
-	font-family: 'entypo';
-
-	.icon {
-		.lh-transform(rotate(90deg));
-		
-		&:before {
-			content: '\23F6';
-			color: @main;
-			font-size: 50px;
-		};
-	}
-}
-
-.ui-category {
+.ui-category, .ui-menu .item {
 	position: relative;
 	display: block;
 	width: 45px;
@@ -171,6 +172,62 @@ html, body {
 	};
 }
 
+.ui-menu {
+	position: fixed;
+	right: -5px;
+	z-index: 60;
+	min-height: 200px;
+	min-width: 50px;
+	font-family: 'entypo';
+
+	.icon {
+		margin-top: 10px;
+		.lh-transform(rotate(90deg));
+
+		&:before {
+			content: '\23F6';
+			color: @main;
+			font-size: 50px;
+		};
+
+		&.ng-hide-add, &.ng-hide-remove {
+			.lh-transition(transform .25s ease);
+			display: block!important;
+		}
+
+		&.ng-hide-add.ng-hide-add-active, &.ng-hide {
+			.lh-transform(rotate(90deg), translateY(-50px));
+		}
+	}
+
+	.items {
+		position: absolute;
+		top: 0;
+		left: 60px;
+
+		.item {
+			margin-bottom: 7.5px;
+
+			&.logout:after {
+				content:'\E741';
+				position: relative;
+				left: 12px;
+				color: @main;
+				font-size: 45px;
+			};
+		}
+
+		&.ng-hide-add, &.ng-hide-remove {
+			.lh-transition(transform .25s ease);
+			display: block!important;
+		}
+
+		&.ng-hide-remove.ng-hide-remove-active, &:not(.ng-hide) {
+			.lh-transform(translateX(-70px));
+		}
+	}
+}
+
 .ui-task + .ui-category {
 	margin-top: 5px;
 }
@@ -184,7 +241,7 @@ html, body {
 	.text {
 		position: relative;
 		display: inline-block;
-		width: 230px; /* PLACEHOLDER */
+		width: 215px;
 		top: 4px;
 		left: 20px;
 		font-family: 'robotothin';

@@ -29,9 +29,14 @@ function ($q, localStorageService) {
 		localStorageService.setItem('saneUser', standardUserObject);
 	}
 
+	function deleteUserObject() {
+		localStorageService.remove('saneUser');
+	}
+
 	return {
 		checkUserObject: checkUserObject,
 		createFacebookUserObject: createFacebookUserObject,
-		createStandardUserObject: createStandardUserObject
+		createStandardUserObject: createStandardUserObject,
+		deleteUserObject: deleteUserObject
 	};
 }]);

@@ -31,6 +31,16 @@ sane.factory('facebookService', ['$q', 'userStorageService', function ($q, userS
 		return deferred.promise;
 	}
 
+	function logout() {
+		var deferred = $q.defer();
+
+		FB.logout(function () {});
+
+		deferred.resolve();
+
+		return deferred.promise;
+	}
+
 	function initialize() {
 		FB.init({
 			appId: '770257949654604',
@@ -41,6 +51,7 @@ sane.factory('facebookService', ['$q', 'userStorageService', function ($q, userS
 
 	return {
 		login: login,
+		logout: logout,
 		isUserAuthenticated: isUserAuthenticated,
 		initialize: initialize
 	};

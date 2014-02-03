@@ -23,6 +23,7 @@
     "fastclick": "~0.6.11",
     "lodash": "~2.4.1",
     "angular-mocks": "~1.2.10",
-    "lawnchair": "http://brian.io/lawnchair/downloads/lawnchair-0.6.1.js"
+    "lawnchair": "http://brian.io/lawnchair/downloads/lawnchair-0.6.1.js",
+    "angular-touch": "~1.2.10"
   }
 }

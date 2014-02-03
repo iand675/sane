@@ -6,6 +6,18 @@ sane.factory('authenticationService', [
 	'configService',
 function ($q, $http, facebookService, userStorageService, configService) {
 
+	function logout() {
+		var deferred = $q.defer();
+
+		userStorageService.deleteUserObject();
+
+		facebookService.logout().then(function () {
+			deferred.resolve();
+		});
+
+		return deferred.promise;
+	}
+
 	function checkUserCookie() {
 		var deferred = $q.defer();
 
@@ -18,7 +30,9 @@ function ($q, $http, facebookService, userStorageService, configService) {
 		var deferred = $q.defer();
 
 		credentials.type = 'standard';
-		credentials.username = user.username.toLowerCase();
+		
+		// ISSUE #1: Accept username regardless of case at signin.
+		// credentials.username = credentials.username.toLowerCase();
 
 		$http({
 				method: 'POST', 
@@ -96,6 +110,7 @@ function ($q, $http, facebookService, userStorageService, configService) {
 	return {
 		authenticateNoStrategy: authenticateNoStrategy,
 		authenticateFacebookStrategy: authenticateFacebookStrategy,
-		authenticateEmailStrategy: authenticateEmailStrategy
+		authenticateEmailStrategy: authenticateEmailStrategy,
+		logout: logout
 	};
 }]);

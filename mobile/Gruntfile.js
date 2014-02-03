@@ -37,7 +37,8 @@ module.exports = function(grunt) {
 					"www/templates/login.html": "www/templates/login.jade",
 					"www/templates/signup.html": "www/templates/signup.jade",
 					"www/templates/home.html": "www/templates/home.jade",
-					"www/templates/noconnection.html": "www/templates/noconnection.jade"
+					"www/templates/noconnection.html": "www/templates/noconnection.jade",
+					"www/templates/directives/ui-menu.html": "www/templates/directives/ui-menu.jade"
 				}
 			}
 		},
@@ -100,7 +101,7 @@ module.exports = function(grunt) {
 				tasks: ['karma:dev']
 			},
 			jade: {
-				files: ['www/index.jade', 'www/templates/*.jade'],
+				files: ['www/index.jade', 'www/templates/**/*.jade'],
 				tasks: ['jade:dev']
 			},
 			jshint: {
