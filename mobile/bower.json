@@ -24,6 +24,7 @@
     "lodash": "~2.4.1",
     "angular-mocks": "~1.2.10",
     "lawnchair": "http://brian.io/lawnchair/downloads/lawnchair-0.6.1.js",
-    "angular-touch": "~1.2.10"
+    "angular-touch": "~1.2.10",
+    "jquery": "~2.1.0"
   }
 }

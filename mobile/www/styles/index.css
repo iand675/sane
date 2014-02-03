@@ -405,6 +405,7 @@ body {
 .ui-button.medium {
   font-size: 16px;
   padding: 12px;
+  font-family: 'robotolight';
 }
 .ui-button.full {
   margin: 15px 55px;

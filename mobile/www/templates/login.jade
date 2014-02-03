@@ -7,9 +7,9 @@
 			.menu
 		form(name="loginForm", novalidate)
 			.ui-input.username
-				input.input(placeholder="Username", name="username", ng-model="user.username", type="text", required)
+				input.input(placeholder="Username", name="username", ng-model="user.username", type="text", autocapitalize="none", required)
 			.ui-input.password
-				input.input(placeholder="Password", name="password", ng-model="user.password", type="password", required)
+				input.input(placeholder="Password", name="password", ng-model="user.password", type="password", autocapitalize="none", required)
 		.ui-button.medium.full(ng-click="showValidation = true; login();") Login
 		.ui-validation(ng-show="showValidation")
 				.ui-validation-message(ng-show="loginForm.username.$pristine") Sorry, we need your username!
