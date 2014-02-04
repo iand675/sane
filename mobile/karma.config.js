@@ -15,6 +15,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
         'www/js/lib/lodash/dist/lodash.min.js',
+        'www/js/lib/fastclick/lib/fastclick.js',
         'www/js/lib/lawnchair/index.js',
         'www/js/lib/angular/angular.js',
         'www/js/lib/angular-mocks/angular-mocks.js',

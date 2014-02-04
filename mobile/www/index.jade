@@ -11,7 +11,7 @@ html(ng-app="sane")
 	body(ng-controller="preflightController")
 		div#fb-root
 		div(ng-controller="viewController")
-			div(ui-view ng-class="animation")
+			div.ui-view(ui-view ng-class="animation")
 		script(type='text/javascript', src='cordova.js')
 		script(type='text/javascript', src='js/lib/lodash/dist/lodash.min.js')
 		script(type='text/javascript', src='js/lib/lawnchair/index.js')
@@ -44,7 +44,3 @@ html(ng-app="sane")
 		script(type='text/javascript', src='js/controllers/controller.login.js')
 
 		script(type='text/javascript', src='js/directives/directive.ui-menu.js')
-		script.
-			document.addEventListener('deviceready', function() {
-				FastClick.attach(document.body);
-			}, false);

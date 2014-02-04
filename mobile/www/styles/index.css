@@ -10,16 +10,16 @@ body {
   margin: 0;
   padding: 0px;
 }
-[ui-view] {
+.ui-view {
   position: absolute;
   height: 100%;
   width: 100%;
   background-color: white;
   z-index: 100;
-  -webkit-transition: -webkit-transform 0.25s ease;
-  -moz-transition: -moz-transform 0.25s ease;
-  -o-transition: -o-transform 0.25s ease;
-  transition: -webkit-transform 0.25s ease,-moz-transform 0.25s ease,-o-transform 0.25s ease,transform 0.25s ease;
+  -webkit-transition: -webkit-transform 0.225s ease;
+  -moz-transition: -moz-transform 0.225s ease;
+  -o-transition: -o-transform 0.225s ease;
+  transition: -webkit-transform 0.225s ease,-moz-transform 0.225s ease,-o-transform 0.225s ease,transform 0.225s ease;
 }
 .ui-container {
   position: absolute;
@@ -53,7 +53,7 @@ body {
   opacity: 0.8;
 }
 .ui-modal-transparency {
-  height: 200%;
+  height: 125%;
   width: 350px;
   top: -15px;
   left: -15px;
@@ -169,15 +169,16 @@ body {
   font-size: 45px;
 }
 .ui-menu {
-  position: fixed;
-  right: -5px;
+  position: absolute;
+  right: 15px;
   z-index: 60;
-  min-height: 200px;
-  min-width: 50px;
   font-family: 'entypo';
 }
 .ui-menu .icon {
-  margin-top: 10px;
+  position: absolute;
+  top: -10px;
+  right: -5px;
+  width: 0;
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
   -o-transform: rotate(90deg);
@@ -189,7 +190,7 @@ body {
   color: #2ecc71;
   font-size: 50px;
 }
-.ui-menu .icon.ng-hide-add,
+.ui-menu .icon.ng-hide-add.ng-hide-add-active,
 .ui-menu .icon.ng-hide-remove {
   -webkit-transition: -webkit-transform 0.25s ease;
   -moz-transition: -moz-transform 0.25s ease;
@@ -197,7 +198,6 @@ body {
   transition: -webkit-transform 0.25s ease,-moz-transform 0.25s ease,-o-transform 0.25s ease,transform 0.25s ease;
   display: block!important;
 }
-.ui-menu .icon.ng-hide-add.ng-hide-add-active,
 .ui-menu .icon.ng-hide {
   -webkit-transform: rotate(90deg) translateY(-50px);
   -moz-transform: rotate(90deg) translateY(-50px);
@@ -207,8 +207,7 @@ body {
 }
 .ui-menu .items {
   position: absolute;
-  top: 0;
-  left: 60px;
+  right: -75px;
 }
 .ui-menu .items .item {
   margin-bottom: 7.5px;
@@ -228,13 +227,12 @@ body {
   transition: -webkit-transform 0.25s ease,-moz-transform 0.25s ease,-o-transform 0.25s ease,transform 0.25s ease;
   display: block!important;
 }
-.ui-menu .items.ng-hide-remove.ng-hide-remove-active,
 .ui-menu .items:not(.ng-hide) {
-  -webkit-transform: translateX(-70px);
-  -moz-transform: translateX(-70px);
-  -o-transform: translateX(-70px);
-  -ms-transform: translateX(-70px);
-  transform: translateX(-70px);
+  -webkit-transform: translateX(-60px);
+  -moz-transform: translateX(-60px);
+  -o-transform: translateX(-60px);
+  -ms-transform: translateX(-60px);
+  transform: translateX(-60px);
 }
 .ui-task + .ui-category {
   margin-top: 5px;
@@ -332,7 +330,7 @@ body {
   background-color: #ffffff;
   font-family: 'entypo';
 }
-.ui-input .input {
+.ui-input > .input {
   position: absolute;
   width: 225px;
   top: 12px;
@@ -343,7 +341,7 @@ body {
   font-family: 'robotothin';
   font-size: 16px;
 }
-.ui-input .input:focus {
+.ui-input > .input:focus {
   outline: 0;
 }
 .ui-input.active {

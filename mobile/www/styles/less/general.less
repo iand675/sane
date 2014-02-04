@@ -12,13 +12,13 @@ html, body {
 	padding: 0px;
 }
 
-[ui-view] {
+.ui-view {
 	position: absolute;
 	height: 100%;
 	width: 100%;
 	background-color: white;
 	z-index: 100;
-	.lh-transition(transform .25s ease);
+	.lh-transition(transform .225s ease);
 }
 
 .ui-container {
@@ -53,7 +53,7 @@ html, body {
 }
 
 .ui-modal-transparency {
-	height: 200%;
+	height: 125%;
 	width: 350px;
 	top: -15px;
 	left: -15px;
@@ -173,15 +173,16 @@ html, body {
 }
 
 .ui-menu {
-	position: fixed;
-	right: -5px;
+	position: absolute;
+	right: 15px;
 	z-index: 60;
-	min-height: 200px;
-	min-width: 50px;
 	font-family: 'entypo';
 
 	.icon {
-		margin-top: 10px;
+		position: absolute;
+		top: -10px;
+		right: -5px;
+		width: 0;
 		.lh-transform(rotate(90deg));
 
 		&:before {
@@ -190,20 +191,19 @@ html, body {
 			font-size: 50px;
 		};
 
-		&.ng-hide-add, &.ng-hide-remove {
+		&.ng-hide-add.ng-hide-add-active, &.ng-hide-remove {
 			.lh-transition(transform .25s ease);
 			display: block!important;
 		}
 
-		&.ng-hide-add.ng-hide-add-active, &.ng-hide {
+		&.ng-hide {
 			.lh-transform(rotate(90deg), translateY(-50px));
 		}
 	}
 
 	.items {
 		position: absolute;
-		top: 0;
-		left: 60px;
+		right: -75px;
 
 		.item {
 			margin-bottom: 7.5px;
@@ -214,7 +214,7 @@ html, body {
 				left: 12px;
 				color: @main;
 				font-size: 45px;
-			};
+			};		
 		}
 
 		&.ng-hide-add, &.ng-hide-remove {
@@ -222,8 +222,8 @@ html, body {
 			display: block!important;
 		}
 
-		&.ng-hide-remove.ng-hide-remove-active, &:not(.ng-hide) {
-			.lh-transform(translateX(-70px));
+		&:not(.ng-hide) {
+			.lh-transform(translateX(-60px));
 		}
 	}
 }
@@ -335,7 +335,7 @@ html, body {
 	background-color: @white;
 	font-family: 'entypo';
 
-	.input {
+	& > .input {
 		position: absolute;
 		width: 225px;
 		top: 12px;

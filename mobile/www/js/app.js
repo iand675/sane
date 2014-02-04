@@ -48,4 +48,6 @@ var sane = angular.module('sane', [
 			url: '/noconnection',
 			templateUrl: 'templates/noconnection.html'
 		});
+}).run(function() {
+	FastClick.attach(document.body);
 });

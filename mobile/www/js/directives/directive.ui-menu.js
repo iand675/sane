@@ -1,5 +1,5 @@
 sane.directive('uiMenu', ['authenticationService', 'stateService', function (authenticationService, stateService) {
-	return {
+	var directiveDefinitionObject = {
 		restrict: 'E',
 		scope: true,
 		templateUrl: 'templates/directives/ui-menu.html',
@@ -29,4 +29,6 @@ sane.directive('uiMenu', ['authenticationService', 'stateService', function (aut
 			};
 		}
 	};
+
+	return directiveDefinitionObject;
 }]);
