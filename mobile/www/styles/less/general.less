@@ -2,14 +2,21 @@
 @import 'lib/colors';
 
 * {
-	z-index: 10;
 	.lh-box-sizing(border-box);
-	-webkit-tap-highlight-color:rgba(0,0,0,0);
+	z-index: 10;
 }
 
 html, body {
 	margin: 0;
 	padding: 0px;
+}
+
+.ux-noselect {
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+}
+
+.ux-accelerate {
+	-webkit-transform: translateZ(0);
 }
 
 .ui-view {
@@ -28,17 +35,8 @@ html, body {
 	z-index: 1;
 	padding: 35px 15px 15px 15px;
 	-webkit-background-position: center center;
-	background-position: center center;
 	background-repeat: no-repeat;
 	.lh-background-size(cover);
-}
-
-.ui-status-bar {
-	position: fixed;
-	top: 0;
-	height: 20px;
-	width: 100%;
-	background-color: white;
 }
 
 .ui-transparency, .ui-modal-transparency {
@@ -77,8 +75,9 @@ html, body {
 
 .ui-nav {
 	position: relative;
-	left: -24px;
+	left: -25px;
 	margin-bottom: 15px;
+	.lh-user-select(none);
 
 	.button {
 		height: 90px;
@@ -87,14 +86,11 @@ html, body {
 		background-color: @main;
 		font-family: 'entypo';
 
-		&:before, &:after {
-			position: absolute;
-		}
-
 		&.back:before{
 			content:'\E765';
+			position: absolute;
 			top: 10px;
-			left: 30px;
+			left: 31px;
 			color: white;
 			font-size: 75px;
 		};
@@ -126,6 +122,10 @@ html, body {
 	border-radius: 50%;
 	background-color: @main;
 	font-family: 'entypo';
+	.lh-user-select(none);
+	-webkit-transform: translateZ(0);
+	-webkit-perspective: 1000;
+	-webkit-backface-visibility: hidden;
 
 	.text {
 		position: absolute;
@@ -134,6 +134,28 @@ html, body {
 		left: 55px;
 		font-family: 'robotothin';
 		font-size: 25px;
+		.lh-transform(translate3d(0, 0, 0));
+	}
+
+	.pulse {
+		position: absolute;
+		top: -5px;
+		left: -5px;
+		height: 55px;
+		width: 55px;
+		z-index: 5;
+		background: url('../img/PulseCircle.svg') no-repeat center center;
+		background-size: 55px 55px;
+		opacity: .5;
+		visibility: hidden;
+		.lh-transition(opacity .3 ease-in-out, transform .15 ease-in);
+		.lh-transform(translate3d(0, 0, 0));
+	}
+
+	&:active > .pulse {
+		opacity: 0;
+		visibility: visible;
+		.lh-transform(scale(1.2));
 	}
 
 	&:before {
@@ -180,10 +202,14 @@ html, body {
 
 	.icon {
 		position: absolute;
-		top: -10px;
-		right: -5px;
-		width: 0;
+		top: 14px;
+		right: -30px;
+		width: 30px;
+		height: 30px;
+		overflow: hidden;
 		.lh-transform(rotate(90deg));
+		-webkit-perspective: 1000;
+		-webkit-backface-visibility: hidden;
 
 		&:before {
 			content: '\23F6';
@@ -207,6 +233,18 @@ html, body {
 
 		.item {
 			margin-bottom: 7.5px;
+
+			&.settings {
+
+				&:after {
+					content:'\2699';
+					position: relative;
+					top: -3px;
+					left: 10px;
+					color: @main;
+					font-size: 50px;
+				}
+			};	
 
 			&.logout:after {
 				content:'\E741';
@@ -237,6 +275,7 @@ html, body {
 	display: inline-block;
 	z-index: 3;
 	margin: 0 0 10px 10px;
+	.lh-user-select(none);
 
 	.text {
 		position: relative;
@@ -355,21 +394,10 @@ html, body {
 		background-color: @main;
 	}
 
-	&:before {
-		content: '';
-		position: absolute;
-		height: 43px;
-		width: 43px;
-		margin: 1px 0 0 1px;
-		background-color: @white;
-		border-radius: 50%;
-	}
-
 	&.name:after {
 		content:'\E722';
 		position: relative;
-		left: 9px;
-		top: -1px;
+		left: 7.5px;
 		color: @main;
 		font-size: 45px;
 	};
@@ -377,8 +405,7 @@ html, body {
 	&.email:after {
 		content:'\2709';
 		position: relative;
-		left: 9px;
-		top: -1px;
+		left: 7.5px;
 		color: @main;
 		font-size: 45px;
 	};
@@ -386,8 +413,7 @@ html, body {
 	&.username:after {
 		content:'\1F464';
 		position: relative;
-		left: 9px;
-		top: -1px;
+		left: 7.5px;
 		color: @main;
 		font-size: 45px;
 	};
@@ -395,8 +421,7 @@ html, body {
 	&.password:after {
 		content:'\1F511';
 		position: relative;
-		left: 9px;
-		top: -1px;
+		left: 7.5px;
 		color: @main;
 		font-size: 45px;
 	};
@@ -416,7 +441,7 @@ html, body {
 	}
 
 	&.full {
-		margin: 15px 55px;
+		margin: 10px 55px;
 	}
 
 	&.standard {
@@ -429,8 +454,13 @@ html, body {
 	color: @text-light;
 }
 
+.ui-validation {
+	height: 35px;
+	overflow: hidden;
+}
+
 .ui-validation-message {
-	margin-bottom: 2px;
+	margin-bottom: 50px;
 	text-align: center;
 	font-family: 'robotothin';
 	font-size: 15px;

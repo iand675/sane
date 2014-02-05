@@ -1,4 +1,4 @@
-sane.directive('uiMenu', ['authenticationService', 'stateService', function (authenticationService, stateService) {
+sane.directive('uiMenu', ['$timeout', 'authenticationService', 'stateService', function ($timeout, authenticationService, stateService) {
 	var directiveDefinitionObject = {
 		restrict: 'E',
 		scope: true,
@@ -23,8 +23,11 @@ sane.directive('uiMenu', ['authenticationService', 'stateService', function (aut
 			scope.logout = function () {
 				authenticationService.logout().then(function () {
 					document.removeEventListener('touchmove', preventRubberBandScroll);
-					scope.iconClicked = false;
-					stateService.setStateWelcome();
+
+					$timeout(function () {
+						scope.iconClicked = false;
+						stateService.setStateWelcome();
+					}, 250);
 				});
 			};
 		}
