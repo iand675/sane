@@ -2,7 +2,7 @@
 .ui-container
 	.ui-main
 		.ui-nav
-			.button.back(ui-sref="welcome")
+			.button.back(ng-click="state.goBack();")
 			.text Login
 			.menu
 		form(name="loginForm", novalidate)
@@ -17,4 +17,4 @@
 				.ui-validation-message(ng-show="serverError") Mayday! There was an error.
 		.welcome-signup 
 			| Don't have an account? 
-			a(class="ui-fake-link", ui-sref="signup") Sign up.
+			a(class="ui-fake-link", ng-click="state.goTo('signup')") Sign up.

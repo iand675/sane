@@ -5,10 +5,10 @@
 			.subheader Reminders for humans.
 		.welcome-signup 
 			| Don't have an account? 
-			a(class="ui-fake-link", ui-sref="signup") Sign up.
+			a(class="ui-fake-link", ng-click="state.goTo('signup').from('welcome');") Sign up.
 		.welcome-login-facebook.button.icon-button.facebook(ng-click="fbLogin()")
 			.icon.entypo-social &#62221;
 			.text Login with Facebook
-		.welcome-login-email.button.icon-button.clear(ui-sref="login")
+		.welcome-login-email.button.icon-button.clear(ng-click="state.goTo('login').from('welcome');")
 			.icon.entypo &#9993;
 			.text Login with Email

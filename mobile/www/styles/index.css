@@ -121,10 +121,6 @@ body {
   border-radius: 50%;
   background-color: #2ecc71;
   font-family: 'entypo';
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
   -webkit-transform: translateZ(0);
   -webkit-perspective: 1000;
   -webkit-backface-visibility: hidden;
@@ -169,11 +165,11 @@ body {
 .ui-menu .item:active > .pulse {
   opacity: 0;
   visibility: visible;
-  -webkit-transform: scale(1.2);
-  -moz-transform: scale(1.2);
-  -o-transform: scale(1.2);
-  -ms-transform: scale(1.2);
-  transform: scale(1.2);
+  -webkit-transform: scale(1.25);
+  -moz-transform: scale(1.25);
+  -o-transform: scale(1.25);
+  -ms-transform: scale(1.25);
+  transform: scale(1.25);
 }
 .ui-category:before,
 .ui-menu .item:before {
@@ -467,7 +463,7 @@ body {
   font-family: 'robotothin';
   font-size: 15px;
 }
-[ui-view].ng-enter.hardAnimation {
+.animationScope.backwards > [ui-view].ng-enter {
   right: 100%;
   -webkit-transform: translateX(-320px);
   -moz-transform: translateX(-320px);
@@ -475,20 +471,36 @@ body {
   -ms-transform: translateX(-320px);
   transform: translateX(-320px);
 }
-[ui-view].ng-enter.softAnimation {
-  -webkit-animation: ng-enter 0.75s alternate forwards;
-  -moz-animation: ng-enter 0.75s alternate forwards;
-  -o-animation: ng-enter 0.75s alternate forwards;
-  animation: ng-enter 0.75s alternate forwards;
-}
-[ui-view].ng-leave-active.hardAnimation {
+.animationScope.backwards > [ui-view].ng-leave-active {
   -webkit-transform: translateX(366px);
   -moz-transform: translateX(366px);
   -o-transform: translateX(366px);
   -ms-transform: translateX(366px);
   transform: translateX(366px);
 }
-[ui-view].ng-leave.softAnimation {
+.animationScope.forwards > [ui-view].ng-enter {
+  visibility: hidden;
+  right: 100%;
+  -webkit-transform: translateX(320px);
+  -moz-transform: translateX(320px);
+  -o-transform: translateX(320px);
+  -ms-transform: translateX(320px);
+  transform: translateX(320px);
+}
+.animationScope.forwards > [ui-view].ng-leave-active {
+  -webkit-transform: translateX(-320px);
+  -moz-transform: translateX(-320px);
+  -o-transform: translateX(-320px);
+  -ms-transform: translateX(-320px);
+  transform: translateX(-320px);
+}
+.animationScope.soft > [ui-view].ng-enter {
+  -webkit-animation: ng-enter 0.75s alternate forwards;
+  -moz-animation: ng-enter 0.75s alternate forwards;
+  -o-animation: ng-enter 0.75s alternate forwards;
+  animation: ng-enter 0.75s alternate forwards;
+}
+.animationScope.soft > [ui-view].ng-leave {
   -webkit-animation: ng-leave 0.25s alternate forwards;
   -moz-animation: ng-leave 0.25s alternate forwards;
   -o-animation: ng-leave 0.25s alternate forwards;

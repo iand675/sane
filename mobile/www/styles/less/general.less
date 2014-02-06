@@ -122,7 +122,6 @@ html, body {
 	border-radius: 50%;
 	background-color: @main;
 	font-family: 'entypo';
-	.lh-user-select(none);
 	-webkit-transform: translateZ(0);
 	-webkit-perspective: 1000;
 	-webkit-backface-visibility: hidden;
@@ -155,7 +154,7 @@ html, body {
 	&:active > .pulse {
 		opacity: 0;
 		visibility: visible;
-		.lh-transform(scale(1.2));
+		.lh-transform(scale(1.25));
 	}
 
 	&:before {
@@ -466,20 +465,30 @@ html, body {
 	font-size: 15px;
 }
 
-[ui-view].ng-enter.hardAnimation {
+.animationScope.backwards > [ui-view].ng-enter {
 	right: 100%;
 	.lh-transform(translateX(-320px));
 }
 
-[ui-view].ng-enter.softAnimation {
-	.lh-animation(ng-enter .75s alternate forwards);
-}
-
-[ui-view].ng-leave-active.hardAnimation {
+.animationScope.backwards > [ui-view].ng-leave-active {
 	.lh-transform(translateX(366px));
 }
 
-[ui-view].ng-leave.softAnimation {
+.animationScope.forwards > [ui-view].ng-enter {
+	visibility: hidden;
+	right: 100%;
+	.lh-transform(translateX(320px));
+}
+
+.animationScope.forwards > [ui-view].ng-leave-active {
+	.lh-transform(translateX(-320px));
+}
+
+.animationScope.soft > [ui-view].ng-enter {
+	.lh-animation(ng-enter .75s alternate forwards);
+}
+
+.animationScope.soft > [ui-view].ng-leave {
 	.lh-animation(ng-leave .25s alternate forwards);
 }
 
