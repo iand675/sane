@@ -26,7 +26,7 @@ sane.directive('uiMenu', ['$timeout', 'authenticationService', 'stateService', f
 
 					$timeout(function () {
 						scope.iconClicked = false;
-						stateService.setStateWelcome();
+						stateService.goTo('welcome');
 					}, 250);
 				});
 			};

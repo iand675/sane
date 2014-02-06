@@ -9,7 +9,7 @@ function ($scope, registrationService, stateService) {
 			return false;
 
 		registrationService.createStandardUser($scope.user).then(function () {
-			stateService.setStateHome();
+			stateService.goTo('home');
 		}, function () {
 			$scope.serverError = true;
 		});

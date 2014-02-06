@@ -8,7 +8,7 @@ function ($scope, authenticationService, stateService) {
 			return false;
 
 		authenticationService.authenticateEmailStrategy($scope.user).then(function () {
-			stateService.setStateHome();
+			stateService.goTo('home');
 		}, function () {
 			$scope.serverError = true;
 		});
