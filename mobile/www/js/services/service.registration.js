@@ -1,4 +1,4 @@
-sane.factory('registrationService', [
+sane.services.factory('registrationService', [
 	'$q', 
 	'$http',
 	'facebookService', 

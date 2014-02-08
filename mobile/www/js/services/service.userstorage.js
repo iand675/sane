@@ -1,4 +1,4 @@
-sane.factory('userStorageService', [
+sane.services.factory('userStorageService', [
 	'$q', 
 	'localStorageService', 
 function ($q, localStorageService) {
@@ -11,19 +11,21 @@ function ($q, localStorageService) {
 		return deferred.promise;
 	}
 
-	function createFacebookUserObject(facebookResponse) {
+	function createFacebookUserObject(authResponse, userObject) {
 		facebookUserObject = {
 			authType: 'facebook',
-			facebook: facebookResponse
+			credentials: authResponse,
+			data: userObject
 		};
 
 		localStorageService.setItem('saneUser', facebookUserObject);
 	}
 
-	function createStandardUserObject(standardResponse) {
+	function createStandardUserObject(credentials, userObject) {
 		standardUserObject = {
 			authType: 'email',
-			standard: standardResponse
+			credentials: credentials,
+			data: userObject
 		};
 
 		localStorageService.setItem('saneUser', standardUserObject);

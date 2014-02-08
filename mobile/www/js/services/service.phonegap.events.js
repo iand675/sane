@@ -1,4 +1,4 @@
-sane.factory('phonegapEventsService', ['$q', function ($q) {
+sane.services.factory('phonegapEventsService', ['$q', function ($q) {
 	
 	document.addEventListener('pause', function () {
 			console.log("Paused!");

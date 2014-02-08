@@ -1,4 +1,4 @@
-sane.controller('forgotPasswordController', [
+sane.controllers.controller('forgotPasswordController', [
 	'$scope',
 	'authenticationService',
 function ($scope, authenticationService) {

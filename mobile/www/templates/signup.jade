@@ -8,13 +8,11 @@
 				input.input(placeholder="Name", name="name", ng-model="user.name", type="text", ng-maxlength="50", required)
 			.ui-input.email
 				input.input(placeholder="Email", name="email", ng-model="user.email", type="email", autocapitalize="none", required)
-			.ui-input.username
-				input.input(placeholder="Username", name="username", ng-model="user.username", type="text", ng-maxlength="25", autocapitalize="none", required)
 			.ui-input.password
 				input.input(placeholder="Password", name="password", ng-model="user.password", type="password", required)
 			.ui-input.password
 				input.input(placeholder="Repeat Password", name="validatePassword", ng-model="validatePassword", type="password", required)
-			.ui-button.btn-primary.standard.mtm.mbm(ng-click="showValidation = true; createUser();") Signup
+			.ui-button.btn-primary.standard.mtm.mbm(ng-click="showValidation = true; createUser();") Sign Up
 			.ui-validation(ng-show="showValidation")
 				.ui-message.validation(ng-show="signupForm.name.$error.required") Sorry, we need your lovely name!
 				.ui-message.validation(ng-show="signupForm.name.$error.maxlength") 

@@ -21,7 +21,11 @@ module.exports = function(config) {
         'www/js/lib/angular-mocks/angular-mocks.js',
         'www/js/lib/angular-ui-router/release/angular-ui-router.min.js',
         'www/js/lib/angular-animate/angular-animate.min.js',
-        'www/js/app.js',
+        'www/js/sane.js',
+        'www/js/modules/sane.services.js',
+        'www/js/modules/sane.controllers.js',
+        'www/js/modules/sane.directives.js',
+        'www/js/modules/sane.routing.js',
         'www/js/services/**/*.js',
         'www/js/controllers/**/*.js',
         'www/test/**/*.js'

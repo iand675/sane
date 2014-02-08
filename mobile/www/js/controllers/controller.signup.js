@@ -1,4 +1,4 @@
-sane.controller('signupController', [
+sane.controllers.controller('signupController', [
 	'$scope', 
 	'registrationService', 
 	'stateService', 

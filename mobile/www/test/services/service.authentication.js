@@ -49,7 +49,7 @@ describe('service.authentication', function() {
 		});
 	});
 
-	it('.authenticateNoStrategy should reject if no user object is found and the user is not authenticated via Facebook.', function () {
+	it('.authenticateNoStrategy should reject if no user object is found.', function () {
 		var authenticationServicePromise,
 			authenticationServicePromiseResolved;
 
@@ -58,35 +58,11 @@ describe('service.authentication', function() {
 		}, function () {
 			authenticationServicePromiseResolved = false;
 		});
-		spyOn(facebookServiceMock, 'isUserAuthenticated').andCallThrough();
 
 		userStorageServiceMockPromise.checkUserObject.reject();
 		$rootScope.$apply();
-		facebookServiceMockPromise.isUserAuthenticated.reject();
-		$rootScope.$apply();
 
-		expect(facebookServiceMock.isUserAuthenticated).toHaveBeenCalled();
 		expect(authenticationServicePromiseResolved).toBe(false);
-	});
-
-	it('.authenticateNoStrategy should resolve if no user object is found and the user is authenticated via Facebook.', function () {
-		var authenticationServicePromise,
-			authenticationServicePromiseResolved;
-
-		authenticationServicePromise = authenticationService.authenticateNoStrategy().then(function () {
-			authenticationServicePromiseResolved = true;
-		}, function () {
-			authenticationServicePromiseResolved = false;
-		});
-		spyOn(facebookServiceMock, 'isUserAuthenticated').andCallThrough();
-
-		userStorageServiceMockPromise.checkUserObject.reject();
-		$rootScope.$apply();
-		facebookServiceMockPromise.isUserAuthenticated.resolve();
-		$rootScope.$apply();
-
-		expect(facebookServiceMock.isUserAuthenticated).toHaveBeenCalled();
-		expect(authenticationServicePromiseResolved).toBe(true);
 	});
 
 	it('.authenticateNoStrategy should reject if a user object is found and lacks an authType.', function () {

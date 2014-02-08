@@ -2,10 +2,9 @@ describe('service.phonegap.events', function() {
 	var phonegapEventsService,
 		rootScope;
 
+	beforeEach(module('sane.services'));
+
 	beforeEach(function () {
-
-		module('sane');
-
 		inject(function($injector, _$rootScope_) {
 			$rootScope = _$rootScope_;
 			phonegapEventsService = $injector.get('phonegapEventsService');

@@ -1,4 +1,4 @@
-sane.factory('facebookService', ['$q', 'userStorageService', function ($q, userStorageService) {
+sane.services.factory('facebookService', ['$q', 'userStorageService', function ($q, userStorageService) {
 	
 	function isUserAuthenticated() {
 		var deferred = $q.defer();

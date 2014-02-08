@@ -1,4 +1,4 @@
-sane.controller('viewController', [
+sane.controllers.controller('viewController', [
 	'$scope',
 	'stateService',
 	'animationService',

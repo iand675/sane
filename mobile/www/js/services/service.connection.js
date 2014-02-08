@@ -1,4 +1,4 @@
-sane.factory('connectionService', [
+sane.services.factory('connectionService', [
 	'$http', 
 	'$q', 
 	'configService', 

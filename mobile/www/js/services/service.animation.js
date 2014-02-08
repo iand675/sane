@@ -1,4 +1,4 @@
-sane.factory('animationService', ['stateService', 'configService', function (stateService, configService) {
+sane.services.factory('animationService', ['stateService', 'configService', function (stateService, configService) {
 	var enterAnimation,
 		leaveAnimation;
 

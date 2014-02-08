@@ -1,4 +1,4 @@
-sane.factory('configService', [function () {	
+sane.services.factory('configService', [function () {	
 	var baseUri = 'http://162.242.229.57:3000',
 		server = {
 			baseUri: baseUri,

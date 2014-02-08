@@ -1,4 +1,4 @@
-sane.factory('localStorageService', [function () {
+sane.services.factory('localStorageService', [function () {
 	var store = new Lawnchair({name: 'localStorageService', adaptor:'dom'}, function () {});
 
 	function setItem(key, object) {

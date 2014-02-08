@@ -1,19 +1,37 @@
 describe('service.userstorage', function() {
 	var userStorageService,
 		localStorageService,
+		localStorageMock,
+		localStorageServiceMock,
 		$rootScope;
+
+	beforeEach(module('sane'));
 
 	beforeEach(function () {
 
-		module('sane');
+		localStorageMock = {};
+
+		localStorageServiceMock = {
+			getItem: function (key) {
+				return localStorageMock[key];
+			},
+			setItem: function (key, object) {
+				localStorageMock[key] = object;
+			},
+			remove: function (key) {
+				delete localStorageMock[key];
+			}
+		}
+
+		module(function ($provide) {
+			$provide.value('localStorageService', localStorageServiceMock);
+		});
 
 		inject(function($injector, _$rootScope_) {
 			$rootScope = _$rootScope_;
 			userStorageService = $injector.get('userStorageService');
 			localStorageService = $injector.get('localStorageService');
 		});
-
-		localStorageService.remove('saneUser');
 	});
 
 	it('should be defined.', function () {
@@ -29,6 +47,8 @@ describe('service.userstorage', function() {
 		userStorageService.checkUserObject().then(function (userObject) {
 			saneUser = userObject;
 			confirmUserObjectFound = true;
+		}, function () {
+			confirmUserObjectFound = false;
 		});
 
 		$rootScope.$apply();
@@ -37,7 +57,7 @@ describe('service.userstorage', function() {
 		expect(saneUser).toEqual({name: 'Test Sane User'});
 	});
 
-	it('.checkUserObject() should return a user object if the key "saneUser" is found in localStorage.', function () {
+	it('.checkUserObject() should reject if an object with the key "saneUser" is not found in localStorage.', function () {
 		var confirmUserObjectFound;
 
 		userStorageService.checkUserObject().then(function () {
@@ -52,19 +72,23 @@ describe('service.userstorage', function() {
 	});
 
 	it('.createFacebookUserObject() should save a Facebook user object to localStorage.', function () {
-		var facebookResponse = {
+		var authResponse = {
 				accessToken: "foo",
 				expiration: "2014-01-27T00:56:08.928Z",
 				userId: 10,
 				type: "facebook"
 			},
+			data = {
+				name: "foo"
+			},
 			expectedFacebookUserObject = {
 				authType: 'facebook',
-				facebook: facebookResponse
+				credentials: authResponse,
+				data: data
 			},
 			saneUser;
 
-		userStorageService.createFacebookUserObject(facebookResponse);
+		userStorageService.createFacebookUserObject(authResponse, data);
 
 		userStorageService.checkUserObject().then(function (userObject) {
 			saneUser = userObject;
@@ -78,16 +102,21 @@ describe('service.userstorage', function() {
 	it('.createStandardUserObject() should save a standard user object to localStorage.', function () {
 		var standardResponse = {
 				email:    "Ian Duncan",
-				username: "ian",
+				username: "iandemo",
 				name:     "ian@iankduncan.com"
+			},
+			credentials = {
+				email: 'ian@iankduncan.com',
+				password: 'blah'
 			},
 			expectedStandardUserObject = {
 				authType: 'email',
-				standard: standardResponse
+				credentials: credentials,
+				data: standardResponse
 			},
 			saneUser;
 
-		userStorageService.createStandardUserObject(standardResponse);
+		userStorageService.createStandardUserObject(credentials, standardResponse);
 
 		userStorageService.checkUserObject().then(function (userObject) {
 			saneUser = userObject;

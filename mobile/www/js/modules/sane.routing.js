@@ -1,4 +1,4 @@
-var sane = angular.module('sane', [
+sane.routing = angular.module('sane.routing', [
 	'ui.router',
 	'ngAnimate'
 ]).config(function($stateProvider, $urlRouterProvider) {
@@ -59,27 +59,4 @@ var sane = angular.module('sane', [
 			url: '/noconnection',
 			templateUrl: 'templates/noconnection.html'
 		});
-}).run(['phonegapEventsService', 'userStorageService', 'facebookService', 'authenticationService', 'connectionService', 'stateService', function(phonegapEventsService, userStorageService, facebookService, authenticationService, connectionService, stateService) {
-	FastClick.attach(document.body);
-
-	function initializeForUnknownUser() {
-		connectionService.checkConnectionToServer().then(function () {
-			stateService.goTo('welcome');
-		}, function () {
-			stateService.goTo('noconnection');
-		});
-	}
-
-	function onDeviceReady() {
-		authenticationService.authenticateNoStrategy().then(function () {
-			stateService.goTo('home');
-		}, function () {
-			initializeForUnknownUser();
-		});
-	}
-
-	phonegapEventsService.onDeviceReady().then(function () {
-		facebookService.initialize();
-		onDeviceReady();
-	});
-}]);
+});

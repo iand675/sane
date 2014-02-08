@@ -1,4 +1,4 @@
-sane.controller('loginController', [
+sane.controllers.controller('loginController', [
 	'$scope', 
 	'authenticationService',
 function ($scope, authenticationService) {

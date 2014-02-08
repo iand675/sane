@@ -1,4 +1,4 @@
-sane.factory('authenticationService', [
+sane.services.factory('authenticationService', [
 	'$q', 
 	'$http', 
 	'facebookService', 
@@ -40,8 +40,7 @@ function ($q, $http, facebookService, userStorageService, configService) {
 				data: credentials,
 				timeout: 4000
 			}).success(function (userObject, status, headers, config) {
-				userObject.password = credentials.password;
-				userStorageService.createStandardUserObject(userObject);
+				userStorageService.createStandardUserObject(credentials, userObject);
 				deferred.resolve();
 			}).error(function (data, status, headers, config) {
 				deferred.reject();
@@ -97,11 +96,7 @@ function ($q, $http, facebookService, userStorageService, configService) {
 				deferred.reject();
 			}
 		}, function () {
-			facebookService.isUserAuthenticated().then(function () { 
-				deferred.resolve(); 
-			}, function() { 
-				deferred.reject(); 
-			});
+			deferred.reject(); 
 		});
 
 		return deferred.promise;
