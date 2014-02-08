@@ -35,6 +35,7 @@ module.exports = function(grunt) {
 					"www/index.html": "www/index.jade",
 					"www/templates/welcome.html": "www/templates/welcome.jade",
 					"www/templates/login.html": "www/templates/login.jade",
+					"www/templates/forgotpassword.html": "www/templates/forgotpassword.jade",
 					"www/templates/signup.html": "www/templates/signup.jade",
 					"www/templates/home.html": "www/templates/home.jade",
 					"www/templates/noconnection.html": "www/templates/noconnection.jade",

@@ -523,6 +523,15 @@ body {
   font-size: 18px;
   padding: 16px;
 }
+.ui-message {
+  width: 100%;
+  height: 50px;
+  padding: 20px;
+  color: #111111;
+  text-align: center;
+  font-family: 'robotolight';
+  font-size: 14px;
+}
 .ui-message.validation {
   margin-bottom: 50px;
   text-align: center;
@@ -531,19 +540,13 @@ body {
 }
 .ui-message.bottom {
   position: absolute;
-  width: 100%;
-  height: 50px;
-  padding: 20px;
   bottom: -10px;
-  color: #111111;
-  text-align: center;
-  font-family: 'robotolight';
-  font-size: 14px;
 }
 .ui-message.bottom b {
-  font-weight: bold;
+  font-family: 'robotoregular';
+  font-weight: normal;
 }
-.ui-message.bottom:active {
+.ui-message:active {
   color: #919191;
 }
 .ui-validation {

@@ -539,6 +539,13 @@ html, body {
 // Styleguide 5.2
 
 .ui-message {
+	width: 100%;
+	height: 50px;
+	padding: 20px;
+	color: @text-dark;
+	text-align: center;
+	font-family: 'robotolight';
+	font-size: @font-size-message;
 
 	&.validation {
 		margin-bottom: 50px;
@@ -549,23 +556,17 @@ html, body {
 
 	&.bottom {
 		position: absolute;
-		width: 100%;
-		height: 50px;
-		padding: 20px;
 		bottom: -10px;
-		color: @text-dark;
-		text-align: center;
-		font-family: 'robotolight';
-		font-size: @font-size-message;
 
 		b {
-			font-weight: bold;
+			font-family: 'robotoregular';
+			font-weight: normal;
 		}
-
-		&:active {
-			color: lighten(@text-dark, 50%);
-		};
 	}
+
+	&:active {
+		color: lighten(@text-dark, 50%);
+	};
 }
 
 // Validation: Container for validation message.

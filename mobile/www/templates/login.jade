@@ -3,13 +3,13 @@
 		.ui-navigation
 			.button.back(ng-click="state.goBack();")
 			.text Login
-			.menu
 		form(name="loginForm", novalidate)
 			.ui-input.username
 				input.input(placeholder="Username", name="username", ng-model="user.username", type="text", autocapitalize="none", required)
 			.ui-input.password
 				input.input(placeholder="Password", name="password", ng-model="user.password", type="password", autocapitalize="none", required)
-		.ui-button.btn-primary.standard.mtm.mbm(ng-click="showValidation = true; login();") Login
+		.ui-button.btn-primary.standard.mtm(ng-click="showValidation = true; login();") Login
+		.ui-message(ng-click=("state.goTo('forgotpassword').from('login');")) I forgot my password.
 		.ui-validation(ng-show="showValidation")
 				.ui-message.validation(ng-show="loginForm.username.$pristine") Sorry, we need your username!
 				.ui-message.validation(ng-show="loginForm.password.$pristine") Sorry, we need your password!

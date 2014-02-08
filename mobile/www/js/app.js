@@ -29,6 +29,17 @@ var sane = angular.module('sane', [
 				document.removeEventListener('touchmove', preventRubberBandScroll);	
 			}
 		})
+		.state('forgotpassword', {
+			url: '/forgotpassword',
+			templateUrl: 'templates/forgotpassword.html',
+			controller: 'forgotPasswordController',
+			onEnter: function () {
+				document.addEventListener('touchmove', preventRubberBandScroll);
+			},
+			onExit: function () {
+				document.removeEventListener('touchmove', preventRubberBandScroll);	
+			}
+		})
 		.state('signup', {
 			url: '/signup',
 			templateUrl: 'templates/signup.html',
@@ -44,7 +55,7 @@ var sane = angular.module('sane', [
 			url: '/home',
 			templateUrl: 'templates/home.html'
 		})
-		.state('noConnection', {
+		.state('noconnection', {
 			url: '/noconnection',
 			templateUrl: 'templates/noconnection.html'
 		});
