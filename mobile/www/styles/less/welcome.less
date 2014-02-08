@@ -3,9 +3,8 @@
 
 .welcome-header {
 	position: absolute;
-	top: 33%;
+	top: 25%;
 	width: 100%;
-	margin-top: -35px;
 	text-align: center;
 	font-family: 'robotothin';
 	font-size: 45px;
@@ -16,22 +15,40 @@
 	}
 }
 
-.welcome-signup {
-	position: absolute;
+.welcome-facebook-button {
+	position:absolute;
 	width: 100%;
-	bottom: 0px;
-	color: @text-dark;
+	bottom: 100px;
 	text-align: center;
-	font-family: 'robotolight';
-	font-size: 14px;
+	
+	.text {
+		padding-left: 30px; 
+	}
+
+	.icon {
+		position: absolute;
+		font-family: 'entypo_social';
+		font-size: 55px;
+		height: 0;
+		margin-top: -36px;
+	}
 }
 
-.welcome-login-email {
-	position: absolute;
-	bottom: 30px;
-}
+.welcome-email-button {
+	position:absolute;
+	width: 100%;
+	bottom: 40px;
+	text-align: left;
 
-.welcome-login-facebook {
-	position: absolute;
-	bottom: 95px;
+	.text {
+		padding-left: 60px; 
+	}
+
+	.icon {
+		position: absolute;
+		font-family: 'entypo';
+		font-size: 55px;
+		height: 0;
+		margin-top: -36px;
+	}
 }

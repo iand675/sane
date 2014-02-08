@@ -15,18 +15,19 @@ sane.directive('uiMenu', ['$timeout', 'authenticationService', 'stateService', f
 				scope.iconClicked = true;
 			};
 
-			scope.hideMenu = function () {
+			scope.hideMenuIcon = function () {
 				document.removeEventListener('touchmove', preventRubberBandScroll);
 				scope.iconClicked = false;
 			};
 
 			scope.logout = function () {
 				authenticationService.logout().then(function () {
+					scope.hideMenu = true;
 					document.removeEventListener('touchmove', preventRubberBandScroll);
 
 					$timeout(function () {
 						scope.iconClicked = false;
-						stateService.goTo('welcome');
+						scope.state.goTo('welcome');
 					}, 250);
 				});
 			};

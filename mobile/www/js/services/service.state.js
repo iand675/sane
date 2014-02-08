@@ -1,6 +1,14 @@
 sane.factory('stateService', ['$state', function ($state) {
 	var stateHistory = [];
 
+	function getCurrentState() {
+		return $state.current.name;
+	}
+
+	function getPreviousState() {
+		return stateHistory.slice(0, 1);
+	}
+
 	function goBack() {
 		var previousState = stateHistory.shift();
 
@@ -20,6 +28,8 @@ sane.factory('stateService', ['$state', function ($state) {
 	}
 
 	return {
+		getCurrentState: getCurrentState,
+		getPreviousState: getPreviousState,
 		goTo: goTo,
 		goBack: goBack
 	};

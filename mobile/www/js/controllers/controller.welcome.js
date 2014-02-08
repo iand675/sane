@@ -7,7 +7,7 @@ function ($scope, authenticationService, stateService) {
 
 	$scope.fbLogin = function () {
 		authenticationService.authenticateFacebookStrategy().then(function () {
-			stateService.goTo('home');
+			$scope.state.goTo('home');
 		});
 	};
 }]);

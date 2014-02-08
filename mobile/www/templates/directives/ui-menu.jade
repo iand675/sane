@@ -1,5 +1,5 @@
-.ui-modal-transparency(ng-click="hideMenu()" ng-show="iconClicked")
-.ui-menu
+.ui-transparency(ng-click="hideMenuIcon()" ng-show="iconClicked")
+.ui-menu(ng-hide="hideMenu")
 	.icon(ng-click="clicked()" ng-hide="iconClicked")
 	.items(ng-show="iconClicked")
 		.item.settings

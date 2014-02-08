@@ -1,14 +1,13 @@
-.ui-container(ng-style="{{backgroundImageUrl}}")
-	.ui-transparency
+.ui-container(ng-style="{{backgroundImageUrl}}").faded
 	.ui-main
 		.welcome-header Sane
 			.subheader Reminders for humans.
-		.welcome-signup 
-			| Don't have an account? 
-			a(class="ui-fake-link", ng-click="state.goTo('signup').from('welcome');") Sign up.
-		.welcome-login-facebook.button.icon-button.facebook(ng-click="fbLogin()")
-			.icon.entypo-social &#62221;
+		.ui-button.btn-social.facebook.large.icon.welcome-facebook-button(ng-click="fbLogin();") 
 			.text Login with Facebook
-		.welcome-login-email.button.icon-button.clear(ng-click="state.goTo('login').from('welcome');")
-			.icon.entypo &#9993;
+			.icon &#62221;
+		.ui-button.btn-translucent.large.icon.welcome-email-button(ng-click="state.goTo('login').from('welcome')")
 			.text Login with Email
+			.icon &#9993;
+		.ui-message.bottom(ng-click="state.goTo('signup').from('welcome')")
+			| Don't have an account? 
+			b Sign up.

@@ -1,5 +1,7 @@
 @import 'lib/lesshat-prefixed';
+
 @import 'lib/colors';
+@import 'lib/fonts';
 
 * {
 	.lh-box-sizing(border-box);
@@ -11,51 +13,87 @@ html, body {
 	padding: 0px;
 }
 
-.ux-noselect {
-	-webkit-tap-highlight-color:rgba(0,0,0,0);
-}
+// Styleguide
+//	1. Container Elements
+//		1.1 UIRouterView
+//		1.2 Container
+//		1.3 Main
+//	2. Utility Elements
+//		2.1 Transparency
+//	3. Navigation Components
+//		3.1 Navigation
+//	4. Organization Components
+//		4.1 Category
+//		4.2 Task
+//	5. UI Components
+//		5.1 Button
+//		5.2 Message
+//		5.3 Validation
+//	6. Animations
+//		6.1 View Transitions
 
-.ux-accelerate {
-	-webkit-transform: translateZ(0);
-}
+// UIRouterView: Angular UIRouter view styling. All views are contained within an instance of this class.
+//
+// Styleguide 1.1
 
 .ui-view {
 	position: absolute;
-	height: 100%;
-	width: 100%;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
 	background-color: white;
 	z-index: 100;
 	.lh-transition(transform .225s ease);
 }
 
+// Container: Top-level container element within each view. Sized to fit parent UIRouter view.
+//
+// Styleguide 1.2
+
 .ui-container {
-	position: absolute;
 	height: 100%;
 	width: 100%;
-	z-index: 1;
 	padding: 35px 15px 15px 15px;
 	-webkit-background-position: center center;
 	background-repeat: no-repeat;
 	.lh-background-size(cover);
+
+	&.faded:before {
+		content: '';
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		bottom: 0px;
+		left: 0px;
+		background-color: white;
+		opacity: 0.8;
+	}
 }
 
-.ui-transparency, .ui-modal-transparency {
-	position: absolute;
+// Main: All UI components are contained within the ui-main class.
+//
+// Styleguide 1.3
+
+.ui-main {
+	position: relative;
 	height: 100%;
 	width: 100%;
-	top: 0;
-	left: 0;
-	z-index: 5;
-	background-color: white;
-	opacity: 0.8;
 }
 
-.ui-modal-transparency {
-	height: 125%;
-	width: 350px;
+// Transparency: Transparent overlay for main element.
+//
+// Styleguide 2.1
+
+.ui-transparency {
+	position: absolute;
 	top: -15px;
+	right: -15px;
+	bottom: -15px;
 	left: -15px;
-	z-index: 50;
+	z-index: 100;
+	background-color: white;
+	opacity: 0.8;
 
 	&.ng-hide-add, &.ng-hide-remove {
 		.lh-transition(opacity .25s ease);
@@ -67,17 +105,14 @@ html, body {
 	}
 }
 
-.ui-main {
-	position: relative;
-	height: 100%;
-	width: 100%;
-}
+// Navigation: Top level navigation for nestable views.
+//
+// Styleguide 3.1
 
-.ui-nav {
+.ui-navigation {
 	position: relative;
 	left: -25px;
 	margin-bottom: 15px;
-	.lh-user-select(none);
 
 	.button {
 		height: 90px;
@@ -85,6 +120,10 @@ html, body {
 		border-radius: 50%;
 		background-color: @main;
 		font-family: 'entypo';
+
+		&:active {
+			background-color: darken(@main, 5%);
+		};
 
 		&.back:before{
 			content:'\E765';
@@ -94,26 +133,94 @@ html, body {
 			color: white;
 			font-size: 75px;
 		};
-
-		&.home:before{
-			content:'\2302';
-			top: 7px;
-			left: 25px;
-			color: white;
-			font-size: 75px;
-		};
 	}
 
 	.text {
 		position: absolute;
-		top: 23px;
+		top: 25px;
 		left: 105px;
 		font-family: 'robotothin';
 		font-size: 45px;
 	}
 }
 
-.ui-category, .ui-menu .item {
+// Menu: Side menu for quick access to various application views.
+//
+// Styleguide 3.2
+
+.ui-menu {
+	position: absolute;
+	right: 15px;
+	z-index: 101;
+	font-family: 'entypo';
+
+	.icon {
+		position: absolute;
+		top: 15px;
+		right: -30px;
+		width: 30px;
+		height: 30px;
+		overflow: hidden;
+		.lh-transform(rotate(90deg));
+
+		&:before {
+			content: '\23F6';
+			color: @main;
+			font-size: 50px;
+		};
+
+		&.ng-hide-add.ng-hide-add-active, &.ng-hide-remove {
+			.lh-transition(transform .25s ease);
+			display: block!important;
+		}
+
+		&.ng-hide {
+			.lh-transform(rotate(90deg), translateY(-50px));
+		}
+	}
+
+	.items {
+		position: absolute;
+		right: -75px;
+
+		.item {
+			.ui-category;
+			margin-bottom: 7.5px;
+
+			&.settings:after {
+				content:'\2699';
+				position: relative;
+				top: -3px;
+				left: 10px;
+				color: @main;
+				font-size: 50px;
+			};	
+
+			&.logout:after {
+				content:'\E741';
+				position: relative;
+				left: 12px;
+				color: @main;
+				font-size: 45px;
+			};		
+		}
+
+		&.ng-hide-add, &.ng-hide-remove {
+			.lh-transition(transform .25s ease);
+			display: block!important;
+		}
+
+		&:not(.ng-hide) {
+			.lh-transform(translateX(-60px));
+		}
+	}
+}
+
+// Category: Used primarily in the home view, sub-headers for groups of tasks.
+//
+// Styleguide 4.1
+
+.ui-category {
 	position: relative;
 	display: block;
 	width: 45px;
@@ -123,8 +230,6 @@ html, body {
 	background-color: @main;
 	font-family: 'entypo';
 	-webkit-transform: translateZ(0);
-	-webkit-perspective: 1000;
-	-webkit-backface-visibility: hidden;
 
 	.text {
 		position: absolute;
@@ -133,7 +238,7 @@ html, body {
 		left: 55px;
 		font-family: 'robotothin';
 		font-size: 25px;
-		.lh-transform(translate3d(0, 0, 0));
+		-webkit-transform: translateZ(0);
 	}
 
 	.pulse {
@@ -148,7 +253,6 @@ html, body {
 		opacity: .5;
 		visibility: hidden;
 		.lh-transition(opacity .3 ease-in-out, transform .15 ease-in);
-		.lh-transform(translate3d(0, 0, 0));
 	}
 
 	&:active > .pulse {
@@ -193,87 +297,19 @@ html, body {
 	};
 }
 
-.ui-menu {
-	position: absolute;
-	right: 15px;
-	z-index: 60;
-	font-family: 'entypo';
-
-	.icon {
-		position: absolute;
-		top: 14px;
-		right: -30px;
-		width: 30px;
-		height: 30px;
-		overflow: hidden;
-		.lh-transform(rotate(90deg));
-		-webkit-perspective: 1000;
-		-webkit-backface-visibility: hidden;
-
-		&:before {
-			content: '\23F6';
-			color: @main;
-			font-size: 50px;
-		};
-
-		&.ng-hide-add.ng-hide-add-active, &.ng-hide-remove {
-			.lh-transition(transform .25s ease);
-			display: block!important;
-		}
-
-		&.ng-hide {
-			.lh-transform(rotate(90deg), translateY(-50px));
-		}
-	}
-
-	.items {
-		position: absolute;
-		right: -75px;
-
-		.item {
-			margin-bottom: 7.5px;
-
-			&.settings {
-
-				&:after {
-					content:'\2699';
-					position: relative;
-					top: -3px;
-					left: 10px;
-					color: @main;
-					font-size: 50px;
-				}
-			};	
-
-			&.logout:after {
-				content:'\E741';
-				position: relative;
-				left: 12px;
-				color: @main;
-				font-size: 45px;
-			};		
-		}
-
-		&.ng-hide-add, &.ng-hide-remove {
-			.lh-transition(transform .25s ease);
-			display: block!important;
-		}
-
-		&:not(.ng-hide) {
-			.lh-transform(translateX(-60px));
-		}
-	}
-}
-
 .ui-task + .ui-category {
 	margin-top: 5px;
 }
 
+// Task: Used to display a single task as a list item, generally under a category.
+//
+// Styleguide 4.2
+
 .ui-task {
 	position: relative;
 	display: inline-block;
-	z-index: 3;
-	margin: 0 0 10px 10px;
+	margin-bottom: 10px;
+	margin-left: 10px;
 	.lh-user-select(none);
 
 	.text {
@@ -298,7 +334,8 @@ html, body {
 			position: absolute;
 			height: 23px;
 			width: 23px;
-			margin: 1px 0 0 1px;
+			margin-top: 1px;
+			margin-left: 1px;
 			background-color: @white;
 			border-radius: 50%;
 			overflow: hidden;
@@ -364,19 +401,20 @@ html, body {
 	}
 }
 
+// Input. Accept user input.
+//
+// Styleguide 4.2
+
 .ui-input {
 	position: relative;
 	display: block;
-	width: 45px;
-	height: 45px;
-	border-radius: 50%;
 	background-color: @white;
 	font-family: 'entypo';
 
 	& > .input {
 		position: absolute;
 		width: 225px;
-		top: 12px;
+		top: 12.5px;
 		left: 55px;
 		border: 0;
 		margin: 0;
@@ -426,124 +464,150 @@ html, body {
 	};
 }
 
+// Button. A button for users to press.
+//
+// Styleguide 5.1
+
 .ui-button {
-	.lh-border-radius(5px);
 	background-color: @main;
 	text-align: center;
-	font-family: 'robotothin';
-	color: white;
+	font-family: 'robotolight';
+	color: @white;
+	.lh-border-radius(5px);
 
-	&.medium {
-		font-size: 16px;
-		padding: 12px;
-		font-family: 'robotolight';
+	&.btn-primary {
+		background-color: @main;
+
+		&:active {
+			background-color: darken(@main, 5%);;
+		}
 	}
 
-	&.full {
-		margin: 10px 55px;
+	&.btn-translucent {
+		background-color: @white;
+		color: @text-dark;
+		opacity: 0.75;
+
+		&:active {
+			background-color: darken(@white, 5%);;
+		}
+	}
+
+	&.btn-disabled {
+		background-color: @gray;
+
+		&:active {
+			background-color: darken(@gray, 5%);;
+		}
+	}
+
+	&.btn-warning {
+		background-color: @red;
+
+		&:active {
+			background-color: darken(@red, 5%);;
+		}
+	}
+
+	&.btn-social {
+		&.facebook{
+			background-color: @facebook;
+
+			&:active {
+				background-color: darken(@facebook, 5%);;
+			}
+
+		}
 	}
 
 	&.standard {
+		font-size: @font-size-button-standard;
+		margin-left: 55px;
+		margin-right: 55px;
+		padding: 12px;
+	}
 
+	&.large {
+		font-family: 'robotothin';
+		font-size: @font-size-button-large;
+		padding: 16px;
 	}
 }
 
-.ui-fake-link {
-	text-decoration: underline;
-	color: @text-light;
+// Message: Displays a particular message to users.
+//
+// Styleguide 5.2
+
+.ui-message {
+
+	&.validation {
+		margin-bottom: 50px;
+		text-align: center;
+		font-family: 'robotothin';
+		font-size: 15px;
+	}
+
+	&.bottom {
+		position: absolute;
+		width: 100%;
+		height: 50px;
+		padding: 20px;
+		bottom: -10px;
+		color: @text-dark;
+		text-align: center;
+		font-family: 'robotolight';
+		font-size: @font-size-message;
+
+		b {
+			font-weight: bold;
+		}
+
+		&:active {
+			color: lighten(@text-dark, 50%);
+		};
+	}
 }
+
+// Validation: Container for validation message.
+//
+// Styleguide 5.3
 
 .ui-validation {
 	height: 35px;
 	overflow: hidden;
 }
 
-.ui-validation-message {
-	margin-bottom: 50px;
-	text-align: center;
-	font-family: 'robotothin';
-	font-size: 15px;
-}
+// View Transitions: Animations for views entering and leaving the viewport.
+//
+// Styleguide 6.1
 
-.animationScope.backwards > [ui-view].ng-enter {
+.animationScope.backwards-enter > [ui-view].ng-enter {
 	right: 100%;
 	.lh-transform(translateX(-320px));
 }
 
-.animationScope.backwards > [ui-view].ng-leave-active {
+.animationScope.backwards-leave > [ui-view].ng-leave-active {
 	.lh-transform(translateX(366px));
 }
 
-.animationScope.forwards > [ui-view].ng-enter {
+.animationScope.forwards-enter > [ui-view].ng-enter {
 	visibility: hidden;
 	right: 100%;
 	.lh-transform(translateX(320px));
 }
 
-.animationScope.forwards > [ui-view].ng-leave-active {
+.animationScope.forwards-leave > [ui-view].ng-leave-active {
 	.lh-transform(translateX(-320px));
 }
 
-.animationScope.soft > [ui-view].ng-enter {
+.animationScope.soft-enter > [ui-view].ng-enter {
 	.lh-animation(ng-enter .75s alternate forwards);
 }
 
-.animationScope.soft > [ui-view].ng-leave {
+.animationScope.soft-leave > [ui-view].ng-leave {
 	.lh-animation(ng-leave .25s alternate forwards);
 }
 
 .lh-keyframes(~'ng-leave, 0%{ opacity: 1; } 50%{ opacity: 0; } 100%{ opacity: 0; } ');
 
 .lh-keyframes(~'ng-enter, 0%{ opacity: 0; } 100%{ opacity: 1; }');
-
-/* Here be dragons. */
-/* And styles in need of refactor. */
-
-.entypo {
-	font-family: 'entypo';
-}
-
-.entypo-social {
-	font-family: 'entypo_social';
-}
-
-.button {
-	.lh-border-radius(5px);
-
-	.text {
-		position: absolute;
-		font-family: 'robotothin';
-	}
-
-	// Button Styles
-
-	&.icon-button {
-		height: 55px;
-		width: 100%;
-
-		.text {
-			top: 18px;
-			left: 85px;
-			font-size: 18px;
-		}
-
-		.icon {
-			margin: -5px 0 0 12px;
-			font-size: 65px;
-		}
-
-	}
-
-	// Button Colors
-
-	&.clear {
-		background-color: @white;
-		opacity: 0.75;
-		color: @text-dark;
-	}
-
-	&.facebook {
-		background-color: @facebook;
-		color: @white;
-	}
-}

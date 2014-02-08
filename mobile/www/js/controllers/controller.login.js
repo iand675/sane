@@ -1,14 +1,13 @@
 sane.controller('loginController', [
 	'$scope', 
-	'authenticationService', 
-	'stateService', 
-function ($scope, authenticationService, stateService) {
+	'authenticationService',
+function ($scope, authenticationService) {
 	$scope.login = function () {
 		if ($scope.loginForm.$invalid)
 			return false;
 
 		authenticationService.authenticateEmailStrategy($scope.user).then(function () {
-			stateService.goTo('home');
+			$scope.state.goTo('home');
 		}, function () {
 			$scope.serverError = true;
 		});

@@ -11,7 +11,7 @@ html(ng-app="sane")
 	body
 		div#fb-root
 		div(ng-controller="viewController")
-			div.animationScope(ng-class="{'backwards': animation.backwards, 'forwards': animation.forwards, 'soft': animation.soft}")
+			div.animationScope(ng-class="animation")
 				div.ui-view(ui-view)
 		script(type='text/javascript', src='cordova.js')
 		script(type='text/javascript', src='js/lib/lodash/dist/lodash.min.js')
@@ -37,6 +37,7 @@ html(ng-app="sane")
 		script(type='text/javascript', src='js/services/service.connection.js')
 		script(type='text/javascript', src='js/services/service.state.js')
 		script(type='text/javascript', src='js/services/service.phonegap.events.js')
+		script(type='text/javascript', src='js/services/service.animation.js')
 
 		script(type='text/javascript', src='js/controllers/controller.view.js')
 		script(type='text/javascript', src='js/controllers/controller.welcome.js')
