@@ -28,6 +28,10 @@ describe('service.authentication', function() {
 			login: function () {
 				facebookServiceMockPromise.login = $q.defer();
 				return facebookServiceMockPromise.login.promise;
+			},
+			logout: function () {
+				facebookServiceMockPromise.logout = $q.defer();
+				return facebookServiceMockPromise.logout.promise;				
 			}
 		}
 
@@ -40,6 +44,9 @@ describe('service.authentication', function() {
 
 			},
 			createStandardUserObject: function () {
+
+			},
+			deleteUserObject: function () {
 
 			}
 		}
@@ -178,6 +185,75 @@ describe('service.authentication', function() {
 
 		facebookServiceMockPromise.login.resolve({});
 		$httpBackend.flush();
+		$rootScope.$apply();
+
+		expect(authenticationServicePromiseResolved).toBe(true);
+	});
+
+	it('.authenticateFacebookStrategy should reject if a user is not authenticated via Facebook.', function () {
+		var authenticationServicePromise,
+			authenticationServicePromiseResolved;
+
+		authenticationServicePromise = authenticationService.authenticateFacebookStrategy().then(function () {
+			authenticationServicePromiseResolved = true;
+		}, function () {
+			authenticationServicePromiseResolved = false;
+		});
+
+		facebookServiceMockPromise.login.reject();
+		$rootScope.$apply();
+
+		expect(authenticationServicePromiseResolved).toBe(false);
+	});
+
+	it('.authenticateEmailStrategy should resolve if the provided credentials are valid.', function () {
+		var authenticationServicePromise,
+			authenticationServicePromiseResolved;
+
+		authenticationServicePromise = authenticationService.authenticateEmailStrategy({}).then(function () {
+			authenticationServicePromiseResolved = true;
+		}, function () {
+			authenticationServicePromiseResolved = false;
+		});
+
+		$httpBackend.expectPOST(config.server.signinUri).respond(204);
+
+		$httpBackend.flush();
+		$rootScope.$apply();
+
+		expect(authenticationServicePromiseResolved).toBe(true);
+	});
+
+	it('.authenticateEmailStrategy should reject if the provided credentials are invalid.', function () {
+		var authenticationServicePromise,
+			authenticationServicePromiseResolved;
+
+		authenticationServicePromise = authenticationService.authenticateEmailStrategy({}).then(function () {
+			authenticationServicePromiseResolved = true;
+		}, function () {
+			authenticationServicePromiseResolved = false;
+		});
+
+		$httpBackend.expectPOST(config.server.signinUri).respond(400);
+
+		$httpBackend.flush();
+		$rootScope.$apply();
+
+		expect(authenticationServicePromiseResolved).toBe(false);
+	});
+
+	it('.logout should logout from Facebook and clear the user object.', function () {
+		var authenticationServicePromise,
+			authenticationServicePromiseResolved;
+
+		authenticationServicePromise = authenticationService.logout().then(function () {
+			authenticationServicePromiseResolved = true;
+		}, function () {
+			authenticationServicePromiseResolved = false;
+		});
+		spyOn(userStorageServiceMock, 'deleteUserObject').andCallThrough();
+		
+		facebookServiceMockPromise.logout.resolve();
 		$rootScope.$apply();
 
 		expect(authenticationServicePromiseResolved).toBe(true);
