@@ -5,9 +5,9 @@
 			.text Login
 		form(name="loginForm", novalidate)
 			.ui-input.email
-				input.input(placeholder="Email", name="email", ng-model="user.email", type="text", autocapitalize="none", required)
+				input.text-input(placeholder="Email", name="email", ng-model="user.email", type="text", autocapitalize="none", required)
 			.ui-input.password
-				input.input(placeholder="Password", name="password", ng-model="user.password", type="password", autocapitalize="none", required)
+				input.text-input(placeholder="Password", name="password", ng-model="user.password", type="password", autocapitalize="none", required)
 		.ui-button.btn-primary.standard.mtm(ng-click="showValidation = true; login();") Login
 		.ui-message(ng-click=("state.goTo('forgotpassword').from('login');")) I forgot my password.
 		.ui-validation(ng-show="showValidation")

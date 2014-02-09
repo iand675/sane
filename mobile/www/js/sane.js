@@ -4,7 +4,8 @@ var sane = angular.module('sane', [
 	'sane.services',
 	'sane.controllers',
 	'sane.directives',
-	'sane.routing'
+	'sane.routing',
+	'sane.config'
 ]).run(['phonegapEventsService', 'userStorageService', 'facebookService', 'authenticationService', 'connectionService', 'stateService', function(phonegapEventsService, userStorageService, facebookService, authenticationService, connectionService, stateService) {
 	FastClick.attach(document.body);
 

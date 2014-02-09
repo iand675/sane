@@ -51,6 +51,11 @@ sane.routing = angular.module('sane.routing', [
 				document.removeEventListener('touchmove', preventRubberBandScroll);	
 			}
 		})
+		.state('settings', {
+			url: '/settings',
+			templateUrl: 'templates/settings.html',
+			controller: 'settingsController'
+		})
 		.state('home', {
 			url: '/home',
 			templateUrl: 'templates/home.html'

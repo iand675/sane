@@ -3,7 +3,7 @@ sane.services.factory('registrationService', [
 	'$http',
 	'facebookService', 
 	'userStorageService',
-	'configService',
+	'config',
 function ($q, $http, facebookService, userStorageService, configService) {
 	function createStandardUser(user) {
 		var deferred = $q.defer();
@@ -13,7 +13,7 @@ function ($q, $http, facebookService, userStorageService, configService) {
 
 		$http({
 			method: 'POST', 
-			url: configService.server.usersUri,
+			url: config.server.usersUri,
 			data: user,
 			timeout: 4000
 		}).success(function (userObject, status, headers, config) {

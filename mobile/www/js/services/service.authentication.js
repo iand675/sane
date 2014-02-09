@@ -3,8 +3,8 @@ sane.services.factory('authenticationService', [
 	'$http', 
 	'facebookService', 
 	'userStorageService',
-	'configService',
-function ($q, $http, facebookService, userStorageService, configService) {
+	'config',
+function ($q, $http, facebookService, userStorageService, config) {
 
 	function logout() {
 		var deferred = $q.defer();
@@ -36,7 +36,7 @@ function ($q, $http, facebookService, userStorageService, configService) {
 
 		$http({
 				method: 'POST', 
-				url: configService.server.signinUri,
+				url: config.server.signinUri,
 				data: credentials,
 				timeout: 4000
 			}).success(function (userObject, status, headers, config) {
@@ -56,15 +56,22 @@ function ($q, $http, facebookService, userStorageService, configService) {
 			authResponse.type = "facebook";
 
 			$http({
-					method: 'POST', 
-					url: configService.server.signinUri,
-					data: authResponse,
-					timeout: 4000
-				}).success(function (userObject, status, headers, config) {
-					deferred.resolve();
-				}).error(function (data, status, headers, config) {
-					deferred.resolve();
+				method: 'POST', 
+				url: config.server.signinUri,
+				data: authResponse,
+				timeout: 4000
+			}).success(function (userObject, status, headers, config) {
+				facebookService.getUserDetails().then(function (userObject) {
+					userStorageService.createFacebookUserObject(authResponse, userObject);
 				});
+				deferred.resolve();
+			}).error(function (data, status, headers, config) {
+				facebookService.getUserDetails().then(function (userObject) {
+					userStorageService.createFacebookUserObject(authResponse, userObject);
+				});
+				deferred.resolve();
+			});
+
 		}, function () {
 			deferred.reject();
 		});

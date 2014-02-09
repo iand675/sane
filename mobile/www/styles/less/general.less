@@ -411,7 +411,11 @@ html, body {
 	background-color: @white;
 	font-family: 'entypo';
 
-	& > .input {
+	&.image {
+		height: 87px;
+	}
+
+	& > .text-input {
 		position: absolute;
 		width: 225px;
 		top: 12.5px;
@@ -427,12 +431,38 @@ html, body {
 		};
 	}
 
+	& > .image-input {
+		position: absolute;
+		width: 75px;
+		height: 75px;
+		top: 12.5px;
+		left: 55px;
+		border: 0;
+		border-radius: 50%;
+		margin: 0;
+		padding: 0;
+		font-family: 'robotothin';
+		font-size: 16px;
+
+		&:focus {
+			outline: 0;
+		};	
+	}
+
 	&.active {
 		background-color: @main;
 	}
 
 	&.name:after {
 		content:'\E722';
+		position: relative;
+		left: 7.5px;
+		color: @main;
+		font-size: 45px;
+	};
+
+	&.image:after {
+		content:'\1F4F7';
 		position: relative;
 		left: 7.5px;
 		color: @main;

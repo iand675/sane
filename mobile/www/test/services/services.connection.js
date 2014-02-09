@@ -2,7 +2,7 @@ describe('service.connection', function() {
 	var $httpBackend,
 		$q,
 		$rootScope,
-		configService,
+		config,
 		connectionService;
 
 	beforeEach(function () {
@@ -15,12 +15,12 @@ describe('service.connection', function() {
 			$q = $injector.get('$q');
 
 			connectionService = $injector.get('connectionService');
-			configService = $injector.get('configService');
+			config = $injector.get('config');
 		});
 	});
 
 	it('.checkConnectionToServer() should ping the Sane server.', function () {
-		$httpBackend.expectGET(configService.server.pingUri);
+		$httpBackend.expectGET(config.server.pingUri);
 
 		connectionService.checkConnectionToServer();
 
@@ -29,7 +29,7 @@ describe('service.connection', function() {
 	it('.checkConnectionToServer() should call success if response is received.', function () {
 		var confirmPromiseResolved;
 
-		$httpBackend.expectGET(configService.server.pingUri).respond(204);
+		$httpBackend.expectGET(config.server.pingUri).respond(204);
 
 		connectionService.checkConnectionToServer().then(function () {
 			confirmPromiseResolved = true;
@@ -46,7 +46,7 @@ describe('service.connection', function() {
 	it('.checkConnectionToServer() should call error if the server returns a 503.', function () {
 		var confirmPromiseResolved;
 
-		$httpBackend.expectGET(configService.server.pingUri).respond(503);
+		$httpBackend.expectGET(config.server.pingUri).respond(503);
 
 		connectionService.checkConnectionToServer().then(function () {
 			confirmPromiseResolved = true;

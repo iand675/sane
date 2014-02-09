@@ -2,7 +2,7 @@ describe('service.authentication', function() {
 	var $httpBackend,
 		$q,
 		$rootScope,
-		configService,
+		config,
 		facebookServiceMock,
 		facebookServiceMockPromise,
 		userStorageServiceMock,
@@ -17,6 +17,10 @@ describe('service.authentication', function() {
 		userStorageServiceMockPromise = {};
 
 		facebookServiceMock = {
+			getUserDetails: function () {
+				facebookServiceMockPromise.getUserDetails = $q.defer();
+				return facebookServiceMockPromise.getUserDetails.promise;
+			},
 			isUserAuthenticated: function () {
 				facebookServiceMockPromise.isUserAuthenticated = $q.defer();
 				return facebookServiceMockPromise.isUserAuthenticated.promise;
@@ -31,6 +35,12 @@ describe('service.authentication', function() {
 			checkUserObject: function () {
 				userStorageServiceMockPromise.checkUserObject = $q.defer();
 				return userStorageServiceMockPromise.checkUserObject.promise;
+			},
+			createFacebookUserObject: function () {
+
+			},
+			createStandardUserObject: function () {
+
 			}
 		}
 
@@ -45,7 +55,7 @@ describe('service.authentication', function() {
 			$q = $injector.get('$q');
 
 			authenticationService = $injector.get('authenticationService');
-			configService = $injector.get('configService');
+			config = $injector.get('config');
 		});
 	});
 
@@ -164,7 +174,7 @@ describe('service.authentication', function() {
 			authenticationServicePromiseResolved = false;
 		});
 
-		$httpBackend.expectPOST(configService.server.signinUri).respond(204);
+		$httpBackend.expectPOST(config.server.signinUri).respond(204);
 
 		facebookServiceMockPromise.login.resolve({});
 		$httpBackend.flush();

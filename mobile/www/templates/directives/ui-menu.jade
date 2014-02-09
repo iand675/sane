@@ -2,7 +2,7 @@
 .ui-menu(ng-hide="hideMenu")
 	.icon(ng-click="clicked()" ng-hide="iconClicked")
 	.items(ng-show="iconClicked")
-		.item.settings
+		.item.settings(ng-click="state.goTo('settings').from('home');")
 			.pulse
 		.item.logout(ng-click="logout()")
 			.pulse

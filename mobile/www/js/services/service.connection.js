@@ -1,15 +1,15 @@
 sane.services.factory('connectionService', [
 	'$http', 
-	'$q', 
-	'configService', 
-function ($http, $q, configService) {
+	'$q',
+	'config',
+function ($http, $q, config) {
 
 	function checkConnectionToServer() {
 		var deferred = $q.defer();
 
 		$http({
 				method: 'GET', 
-				url: configService.server.pingUri, 
+				url: config.server.pingUri, 
 				timeout: 4000
 			}).success(function (data, status, headers, config) {
 				deferred.resolve();

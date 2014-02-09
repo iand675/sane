@@ -423,7 +423,10 @@ body {
   background-color: #ffffff;
   font-family: 'entypo';
 }
-.ui-input > .input {
+.ui-input.image {
+  height: 87px;
+}
+.ui-input > .text-input {
   position: absolute;
   width: 225px;
   top: 12.5px;
@@ -434,7 +437,23 @@ body {
   font-family: 'robotothin';
   font-size: 16px;
 }
-.ui-input > .input:focus {
+.ui-input > .text-input:focus {
+  outline: 0;
+}
+.ui-input > .image-input {
+  position: absolute;
+  width: 75px;
+  height: 75px;
+  top: 12.5px;
+  left: 55px;
+  border: 0;
+  border-radius: 50%;
+  margin: 0;
+  padding: 0;
+  font-family: 'robotothin';
+  font-size: 16px;
+}
+.ui-input > .image-input:focus {
   outline: 0;
 }
 .ui-input.active {
@@ -442,6 +461,13 @@ body {
 }
 .ui-input.name:after {
   content: '\E722';
+  position: relative;
+  left: 7.5px;
+  color: #2ecc71;
+  font-size: 45px;
+}
+.ui-input.image:after {
+  content: '\1F4F7';
   position: relative;
   left: 7.5px;
   color: #2ecc71;

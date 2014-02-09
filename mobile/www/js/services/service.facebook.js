@@ -16,11 +16,30 @@ sane.services.factory('facebookService', ['$q', 'userStorageService', function (
 		return deferred.promise;
 	}
 
+	function getUserDetails() {
+		var deferred = $q.defer();
+
+		FB.api('/me', 
+		{
+			fields: "picture.type(large), email, name, username"
+		}, 
+		function (userObject) {
+			if (!userObject || userObject.error) {
+				deferred.resolve(userObject.error);
+			}
+			else {
+				userObject.image = userObject.picture.data.url;
+				deferred.resolve(userObject);
+			}
+		});
+
+		return deferred.promise;
+	}
+
 	function login() {
 		var deferred = $q.defer();
 		FB.login(function (response) {
 			if (response.authResponse) {
-				userStorageService.createFacebookUserObject(response.authResponse);
 				deferred.resolve(response.authResponse);
 			}
 			else {
@@ -53,6 +72,7 @@ sane.services.factory('facebookService', ['$q', 'userStorageService', function (
 		login: login,
 		logout: logout,
 		isUserAuthenticated: isUserAuthenticated,
+		getUserDetails: getUserDetails,
 		initialize: initialize
 	};
 }]);
