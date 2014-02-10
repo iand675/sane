@@ -9,9 +9,10 @@ import Data.Monoid
 import Data.Proxy
 import Data.Text (Text)
 import Data.Text.Encoding (encodeUtf8)
-import Data.Text.IO (putStrLn)
+import Data.Text.IO (putStr, putStrLn)
 import Network.AMQP
 import Prelude (($), (>=), Ord, Eq, Enum)
+import System.Console.ANSI
 import System.IO (IO)
 
 import qualified Sane.Messaging.Routes as M
@@ -29,18 +30,23 @@ log p t = liftF $ Log p t ()
 
 stdoutLogger :: Priority -> Priority -> Text -> IO ()
 stdoutLogger pMin p m = if p >= pMin
-  then putStrLn ("[" <> formattedPriority <> "] - " <> m)
+  then do
+    putStr "["
+    setSGR [SetColor Foreground Vivid priorityColor]
+    putStr formattedPriority
+    setSGR [Reset]
+    putStrLn ("] - " <> m)
   else return ()
   where
-    formattedPriority = case p of
-      Debug     -> "DEBUG"
-      Info      -> "INFO"
-      Notice    -> "NOTICE"
-      Warning   -> "WARNING"
-      Error     -> "ERROR"
-      Critical  -> "CRITICAL"
-      Alert     -> "ALERT"
-      Emergency -> "EMERGENCY"
+    (priorityColor, formattedPriority) = case p of
+      Debug     -> (Cyan, "DEBUG")
+      Info      -> (Cyan, "INFO")
+      Notice    -> (Blue, "NOTICE")
+      Warning   -> (Yellow, "WARNING")
+      Error     -> (Red, "ERROR")
+      Critical  -> (Red, "CRITICAL")
+      Alert     -> (Red, "ALERT")
+      Emergency -> (Red, "EMERGENCY")
 
 rabbitLogger :: Channel -> Priority -> Text -> IO ()
 rabbitLogger c p msg = case M.topic M.LogExchange qTopic of
