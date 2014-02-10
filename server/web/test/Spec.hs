@@ -3,4 +3,11 @@ import Test.Hspec
 import Data.Accounts
 
 main :: IO ()
-main = hspec createUserSpec
+main = do
+  s <- createUserSpec
+  u <- getUserSpec
+  si <- signInSpec
+  hspec $ do
+    s
+    u
+    si
