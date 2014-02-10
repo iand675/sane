@@ -1,0 +1,23 @@
+- name: notify flowdock that deployment is starting
+  flowdock: type=inbox
+            token=74acf1309243594ea69a236e36946c26
+            from_address=admin@saneapp.com
+            source='Sane App Deployer'
+            msg='Deploying server to {{inventory_hostname}}'
+            subject='Starting Sane deployment'
+- name: copy upstart file to server
+  sudo: true
+  copy: src=sane-server.upstart dest=/etc/init/sane.conf force=yes
+- name: copy api server executable to server
+  sudo: true
+  copy: src=../server/executable/dist/build/sane/sane dest=/var/www/sane force=yes
+- name: (re)start sane server
+  sudo: true
+  service: name=sane state=restarted
+- name: notify flowdock that deployment is starting
+  flowdock: type=inbox
+            token=74acf1309243594ea69a236e36946c26
+            from_address=admin@saneapp.com
+            source='Sane App Deployer'
+            msg='Finished deploying server to {{inventory_hostname}}'
+            subject='Finished Sane deployment'

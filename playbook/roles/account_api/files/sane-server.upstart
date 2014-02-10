@@ -1,0 +1,11 @@
+# sane - Sane App Server
+#
+description     "Sane App server"
+
+env USER=www-data
+start on runlevel [56]
+stop on runlevel [!56]
+
+respawn
+
+exec start-stop-daemon --start --make-pidfile --pidfile /var/run/sane.pid --chuid $USER --exec /var/www/sane >> /var/log/sane.log 2>&1
