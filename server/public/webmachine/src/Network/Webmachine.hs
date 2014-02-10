@@ -53,7 +53,7 @@ data Resource c s auth body responseBody = Resource
   , _rSupportedInputContentTypes :: H.HashMap ByteString (Request -> Webmachine c s (Maybe body))
   , _rSupportedOutputContentTypes :: H.HashMap ByteString (responseBody -> Body)
   , _rAuthorization :: Webmachine c s (Haltable (Either AuthHeader Bool))
-  , _rHandler :: body -> Webmachine c s responseBody
+  , _rHandler :: Maybe body -> Webmachine c s responseBody
   }
 
 makeFields ''WebmachineContext
@@ -80,7 +80,7 @@ encodeOutput res resp = do
     Nothing -> return $ maybe (LazyByteString "no supported accept type") ($ resp) $ res ^? supportedOutputContentTypes . folded
     Just f -> return $ f resp
 
-basic :: (body -> Webmachine c s responseBody) -> Resource c s auth body responseBody
+basic :: (Maybe body -> Webmachine c s responseBody) -> Resource c s auth body responseBody
 basic handler = Resource
   { _rServiceAvailable = return $ Continue True
   , _rUriTooLong = return $ Continue False
@@ -97,12 +97,21 @@ supportJSON r = r
 
 runResource :: Resource c s auth body responseBody -> Webmachine c s Body
 runResource r = do
-  mIn <- decodeInput r
-  case mIn of
-    Nothing -> return $ LazyByteString "bad request"
-    Just _in -> do
-      result <- r ^. handler $ _in
-      _out <- encodeOutput r result
+  req <- use request
+  let noContentType = (L.lookup hContentType $ req ^.requestHeaders) == Nothing
+  mResult <- if (req ^. method) == methodGet || noContentType
+    then fmap Just (r ^. handler $ Nothing)
+    else do
+      mIn <- decodeInput r
+      case mIn of
+        Nothing -> return Nothing
+        Just _in -> fmap Just (r ^. handler $ mIn)
+  case mResult of
+    Nothing -> do
+      Network.Webmachine.statusCode .= badRequest400
+      return $ LazyByteString "400 Bad Request"
+    Just res -> do
+      _out <- encodeOutput r res
       return _out
 
 runWebmachine :: c -> s -> Request -> Webmachine c s a -> IO a
@@ -116,3 +125,9 @@ makeResponse (LazyByteString bs) = do
 
 setCookie :: SetCookie -> Webmachine c s ()
 setCookie s = Network.Webmachine.responseHeaders %= (("Set-Cookie", toByteString $ renderSetCookie s) :)
+
+getHeader :: HeaderName -> Webmachine c s (Maybe ByteString)
+getHeader n = do
+  hs <- use $ request . requestHeaders
+  return $ L.lookup n hs
+
