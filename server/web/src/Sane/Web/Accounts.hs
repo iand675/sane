@@ -1,8 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Sane.Web.Accounts where
 import Control.Monad.Reader
-import Data.Aeson
+import Data.Aeson hiding ((.=), Result)
 import Data.Text.Encoding (encodeUtf8)
+import Network.HTTP.Types hiding (statusCode)
 import Network.Webmachine
 import Web.Cookie
 
@@ -10,32 +11,36 @@ import Sane.Common
 import qualified Sane.Data.Accounts as A
 import qualified Sane.Data.Services as A
 import Sane.Models
-import Sane.Routes (SaneAction(..))
-import Sane.Web.Types
 
 setSessionCookie :: Username -> Session -> Webmachine c s ()
-setSessionCookie username session = setCookie $ def { setCookieName = "SANE", setCookieValue = encodeUtf8 username <> ":" <> session ^. token}
+setSessionCookie u s = setCookie $ def { setCookieName = "SANE", setCookieValue = encodeUtf8 u <> ":" <> s ^. token}
 
-api :: (ToJSON responseBody, FromJSON body) => (body -> Webmachine c s responseBody) -> Resource c s a body responseBody
+api :: (ToJSON responseBody, FromJSON body) => (Maybe body -> Webmachine c s responseBody) -> Resource c s a body responseBody
 api = supportJSON . basic
 
 runAccounts :: A.AccountService a -> Webmachine AppConfig s a
 runAccounts x = do
-  pool <- view (settings . accountConnectionPool)
-  (G gen) <- view (settings . randomGenerator)
-  liftIO $ A.runAccountService pool gen x
+  s <- view settings
+  deps <- s ^! A.accountServiceDependencies
+  liftIO $ A.runAccountService deps x
 
-createUser :: Resource AppConfig s a NewUser CurrentUser
-createUser = api $ \newUser -> do
-  result <- runAccounts $ A.createUser newUser
-  case result of
-    -- Left _ -> freak out
-    Right (session, user) -> do
-      setSessionCookie (newUser ^. username) session
-      return $ CurrentUser
-        { _cuUsername = newUser ^. username
-        , _cuEmail = newUser ^. email
-        , _cuName = newUser ^. name
+createUser :: Resource AppConfig s a NewUser (Result CurrentUser)
+createUser = api $ \(Just newUser) -> do
+  r <- runAccounts $ A.createUser newUser
+  case r of
+    Left err -> case err of
+      UsernameExists -> do
+        statusCode .= conflict409
+        return $ errorResult "username already in use" ()
+      StripeError -> do
+        statusCode .= internalServerError500
+        return $ errorResult "error with stripe" ()
+    Right (s, user) -> do
+      setSessionCookie (newUser ^. username) s
+      return $ result $ CurrentUser
+        { _cuUsername = user ^. username
+        , _cuEmail = user ^. email
+        , _cuName = user ^. name
         , _cuAvatar = Nothing
         , _cuCellphone = Nothing
         }
@@ -48,12 +53,14 @@ getCurrentUser = basic $ \_ -> do
 -}
 
 signIn :: Resource AppConfig s a SignIn (Maybe CurrentUser)
-signIn = api $ \credentials -> do
+signIn = api $ \(Just credentials) -> do
   mSession <- runAccounts $ A.signIn credentials
   case mSession of
-    -- Nothing -> return badRequest
-    Just (session, user) -> do
-      setSessionCookie (user ^. username) session
+    Nothing -> do
+      statusCode .= conflict409
+      return Nothing
+    Just (s, user) -> do
+      setSessionCookie (user ^. username) s
       return $ Just $ CurrentUser
         { _cuUsername = user ^. username
         , _cuEmail = user ^. email

@@ -30,7 +30,7 @@ cabal-version:       >=1.10
 
 library
   ghc-options:
-      -Wall
+      -Wall -Werror
   default-extensions:  NoImplicitPrelude
   hs-source-dirs:
       src
@@ -38,34 +38,39 @@ library
       Database.PostgreSQL.Simple.Utility,
       Sane.Common,
       Sane.Data.Accounts,
-      Sane.Data.Lists,
       Sane.Data.Services,
       Sane.Data.Tasks,
       Sane.Data.Types,
+      Sane.Messaging.Routes,
+      Sane.Messaging.Queue
       Sane.Web.Accounts,
-      -- Sane.Web.Lists,
+      Sane.Web.Lists,
+      Sane.Web.Miscellaneous,
       Sane.Web.Types,
       System.Logger
   build-depends:
       base    == 4.*,
       aeson,
-      amqp,
+      amqp >= 0.7 && < 0.8,
       blaze-builder,
+      boomerang >= 1.4 && < 1.5,
       bytestring >= 0.10 && < 0.11,
       fb,
       feature-flags,
       free,
       hashable,
       http-types,
-      lens >= 3.10.1,
+      lens >= 4.0,
       metrics,
       mtl,
       mwc-random,
       network,
       pipes,
+      pipes-amqp,
       pipes-concurrency,
       pipes-postgresql-simple,
       postgresql-simple,
+      tagged >= 0.7,
       pwstore-fast,
       resource-pool,
       sane-models,
@@ -78,7 +83,10 @@ library
       uuid,
       void,
       webmachine,
-      cookie
+      cookie,
+      containers,
+      data-default,
+      http-conduit >= 2 && < 2.1
   default-language:
       Haskell2010
 
@@ -94,7 +102,16 @@ test-suite spec
       Spec.hs
   build-depends:
       base    == 4.*
+    , bytestring
+    , base64-bytestring
+    , mtl
     , sane
+    , sane-models
+    , text
+    , resource-pool
+    , postgresql-simple
+    , mwc-random
+    , lens
     , hspec   >= 1.3
   default-language:
       Haskell2010

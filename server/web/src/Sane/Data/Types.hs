@@ -5,8 +5,8 @@
 {-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE FunctionalDependencies #-}
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE FlexibleContexts #-}
 module Sane.Data.Types where
-import Control.Lens.Iso
 import Control.Lens.TH
 import Data.ByteString (ByteString)
 import Data.Hashable
@@ -19,33 +19,23 @@ import Database.PostgreSQL.Simple.ToField
 import Database.PostgreSQL.Simple.FromField hiding (name)
 import Database.PostgreSQL.Simple.ToRow
 import Database.PostgreSQL.Simple.FromRow
-import Facebook (AccessToken(..), UserAccessToken)
+import Facebook (AccessToken(..))
 import qualified Facebook as F
 import Prelude (Enum(..))
 
-import Sane.Common
+import Sane.Common hiding (Action)
 import qualified Sane.Models as Domain
 
 type family Id a
-type instance Id List = UUID
 
 data List = List
-  { listTitle :: Text
-  } deriving (Eq, Show)
+  { _listTitle :: Text
+  , _listIcon  :: Text
+  }
 
-instance Domain.FromData Domain.List List where
-  dbItem = iso toData fromData
-    where
-      toData l = List
-        { listTitle = Domain._listTitle l
-        }
-      fromData l = Domain.List
-        { Domain._listTitle = listTitle l
-        , Domain._listMembers = []
-        }
+makeFields ''List
 
-type instance Id Task = UUID
-
+type instance Id List = Int
 data Task = Task
   { taskTitle       :: Text
   , taskDeadline    :: Maybe UTCTime
@@ -53,6 +43,7 @@ data Task = Task
   , taskAssignedTo  :: Maybe (Id User)
   } deriving (Eq, Show)
 
+type instance Id Task = UUID
 type instance Id User = Int
 
 data MembershipKind
@@ -70,10 +61,10 @@ membershipKinds :: H.HashMap MembershipKind ByteString
 membershipKinds = H.fromList [(Owner, "owner"), (Member, "member")]
 
 instance FromField MembershipKind where
-  fromField field bs = do
-    name <- fromField field bs
+  fromField f bs = do
+    name <- fromField f bs
     case rawMembershipKinds ^. at name of
-      Nothing -> returnError ConversionFailed field "Invalid MembershipKind value"
+      Nothing -> returnError ConversionFailed f "Invalid MembershipKind value"
       Just k -> return k
 
 data User = User
@@ -113,13 +104,13 @@ fullUser = to $ \u -> Domain.FullUser
   , Domain._fuFacebookAuth = UserAccessToken <$> (F.Id <$> u ^. facebookId) <*> (u ^. facebookToken) <*> (u ^. facebookExpiration)
   }
 
-instance FromRow List where
-  fromRow = List <$> field
-
 instance FromRow Task where
   fromRow = Task <$> field <*> field <*> field <*> field
 
+fields :: Each s t (Getting a s1 a) a => s -> s1 -> t
 fields fs u = over each (u ^.) fs
+
+f :: (Functor f, Contravariant f, Conjoined p, ToField s) => (p s (f s) -> c) -> p Action (f Action) -> c
 f l = l . to toField
 
 instance ToRow User where
@@ -144,3 +135,18 @@ instance FromRow Membership where
 
 instance FromRow ListTasks where
   fromRow = ListTasks <$> field <*> field
+
+instance FromRow List where
+  fromRow = List <$> field <*> field
+
+instance ToRow List where
+  toRow = fields
+    [ f title
+    , f icon
+    ]
+
+dbList :: Getter Domain.List List
+dbList = to $ \l -> List
+  { _listTitle = l ^. Domain.title
+  , _listIcon  = l ^. Domain.icon
+  }
