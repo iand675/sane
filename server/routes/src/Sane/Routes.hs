@@ -1,6 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE TemplateHaskell #-}
 module Sane.Routes where
 import Control.Category ((.))
 import Control.Monad.Writer
@@ -19,10 +18,12 @@ type ListId = Id ()
 type TaskId = Id ()
 
 data SaneAction
-  = SignIn
+  = Ping
+  | SignIn
   | SignOut
   | CreateUser
   | ListUsers
+  | GetCurrentUser
   | GetUser { routeUsername :: Username }
   -- list actions
   | CreateList
@@ -38,6 +39,9 @@ data SaneAction
   | CreateTask { listId :: ListId }
   | UpdateTask { listId :: ListId, taskId :: TaskId }
   | DeleteTask { listId :: ListId, taskId :: TaskId }
+  -- tracking
+  | TrackEvent
+  | TrackError
   deriving (Eq, Show)
 
 makeBoomerangs ''SaneAction
@@ -47,10 +51,12 @@ register = snd . runWriter
 
 saneRoutes :: Router SaneAction
 saneRoutes = register $ do
+  route GET    $ rPing . "ping"
   route POST   $ rSignIn . "signin"
   route POST   $ rSignOut . "signout"
   route POST   $ rCreateUser . "users"
   route GET    $ rListUsers . "users"
+  route GET    $ rGetCurrentUser . "account"
   -- route GET    $ rGetUser . "users" </> anyText
   route POST   $ rCreateList . "lists"
   route GET    $ rListLists . "lists"
