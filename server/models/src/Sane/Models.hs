@@ -4,13 +4,18 @@
 {-# LANGUAGE FunctionalDependencies #-}
 {-# LANGUAGE TypeSynonymInstances #-}
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE UndecidableInstances #-}
 module Sane.Models where
-import Control.Lens
+import Control.Lens hiding ((.=))
 import Control.Lens.TH
-import Data.Aeson (ToJSON, FromJSON)
+import Data.Aeson (ToJSON, FromJSON, object, (.=), toJSON, Value(..), Object)
 import Data.ByteString (ByteString)
 import qualified Data.ByteString.Base64 as B64 (encode, decodeLenient)
+import Data.HashMap.Strict (singleton)
+import Data.Monoid ((<>))
 import Data.Time.Clock (UTCTime)
 import Data.Text (Text)
 import Facebook (UserAccessToken)
@@ -50,9 +55,9 @@ data NewUser
     , _nuPassword  :: Text
     }
   | FacebookNewUser
-    { _nuAccessToken :: Text
-    , _nuUserId      :: Text
-    , _nuExpiration  :: UTCTime
+    { _nuAccessToken    :: Text
+    , _nuUserId         :: Text
+    , _nuExpirationTime :: Integer
     }
 
 makeFields ''NewUser
@@ -67,6 +72,8 @@ data FullUser = FullUser
   , _fuFacebookAuth  :: Maybe UserAccessToken
   } deriving (Eq, Show)
 
+type instance Id FullUser = Int
+
 makeFields ''FullUser
 
 data User = User
@@ -74,6 +81,8 @@ data User = User
   , _uName     :: Text
   , _uAvatar   :: Maybe Text
   } deriving (Eq, Show)
+
+type instance Id User = Int
 
 makeFields ''User
 
@@ -109,8 +118,10 @@ makeFields ''Membership
 
 data List = List
   { _listTitle   :: Text
-  , _listMembers :: [Membership]
+  , _listIcon    :: Text
   } deriving (Eq, Show)
+
+type instance Id List = Int
 
 makeFields ''List
 
@@ -119,8 +130,8 @@ data Task = Task
   , _taskComplete    :: Bool
   , _taskDeadline    :: Maybe UTCTime
   , _taskDescription :: Maybe Text
-  , _taskAssignedTo  :: Username
-  , _taskReminders   :: [Reminder]
+  -- , _taskAssignedTo  :: Maybe Username
+  -- , _taskReminders   :: [Reminder]
   } deriving (Eq, Show)
 
 data ReminderWindow = TimesOfDay
@@ -150,3 +161,23 @@ class FromModel domain model | model -> domain where
 jsonize ''NewUser
 jsonize ''CurrentUser
 jsonize ''SignIn
+jsonize ''List
+
+data Result a
+  = Result a
+  | Error { _resultMessage :: Text, _resultData :: Value }
+
+instance ToJSON a => ToJSON (Result a) where
+  toJSON (Result x) = toJSON x
+  toJSON (Error m r) = object [ "message" .= m, "data" .= r ]
+
+instance (ToJSON a, ToJSON (Id a)) => ToJSON (Persisted a) where
+  toJSON (Persisted pid pval) = case toJSON pval of
+    (Object o) -> Object (singleton "id" (toJSON pid) <> o)
+    j -> object [ "id" .= pid, "value" .= j ]
+
+result :: a -> Result a
+result = Result
+
+errorResult :: ToJSON a => Text -> a -> Result b
+errorResult m d = Error m $ toJSON d
