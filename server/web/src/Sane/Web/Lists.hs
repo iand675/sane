@@ -38,13 +38,14 @@ createList = api $ \(Just list) -> do
           statusCode .= unauthorized401
           return $ errorResult "not authorized" ()
         Just (Persisted uid _) -> do
+          statusCode .= created201
           r <- runTasks $ S.createList uid list
           return $ result r
 
 {-getList :: Id List -> ListAction List-}
 {-getList = undefined-}
 
-listLists :: Resource AppConfig s a List (Result [Persisted List])
+listLists :: Resource AppConfig s a List (Result (Collection (Persisted List)))
 listLists = api $ \Nothing -> do
   mSession <- getSaneCookie
   case mSession of
@@ -59,7 +60,7 @@ listLists = api $ \Nothing -> do
           return $ errorResult "not authorized" ()
         Just (Persisted uid _) -> do
           r <- runTasks $ S.getLists uid
-          return $ result r
+          return $ result $ Collection r
 
 {-
 updateList :: Id List -> ListPatch -> ListAction List

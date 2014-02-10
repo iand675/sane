@@ -1,7 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Sane.Web.Accounts where
 import Control.Monad.Reader
-import Data.Aeson hiding ((.=), Result)
 import Data.Text.Encoding (encodeUtf8)
 import Network.HTTP.Types hiding (statusCode)
 import Network.Webmachine
@@ -11,12 +10,10 @@ import Sane.Common
 import qualified Sane.Data.Accounts as A
 import qualified Sane.Data.Services as A
 import Sane.Models
+import Sane.Web.Miscellaneous (api)
 
 setSessionCookie :: Username -> Session -> Webmachine c s ()
 setSessionCookie u s = setCookie $ def { setCookieName = "SANE", setCookieValue = encodeUtf8 u <> ":" <> s ^. token}
-
-api :: (ToJSON responseBody, FromJSON body) => (Maybe body -> Webmachine c s responseBody) -> Resource c s a body responseBody
-api = supportJSON . basic
 
 runAccounts :: A.AccountService a -> Webmachine AppConfig s a
 runAccounts x = do
@@ -37,6 +34,7 @@ createUser = api $ \(Just newUser) -> do
         return $ errorResult "error with stripe" ()
     Right (s, user) -> do
       setSessionCookie (newUser ^. username) s
+      statusCode .= created201
       return $ result $ CurrentUser
         { _cuUsername = user ^. username
         , _cuEmail = user ^. email

@@ -181,3 +181,7 @@ result = Result
 
 errorResult :: ToJSON a => Text -> a -> Result b
 errorResult m d = Error m $ toJSON d
+
+data Collection a = Collection { _collectionItems :: [a] }
+
+jsonize ''Collection

@@ -23,7 +23,7 @@ import           Data.Either
 import           Data.Text (Text)
 import           Network.HTTP.Types
 import           Network.Wai.Lens
-import           Prelude (($), (==), fromIntegral)
+import           Prelude (($), (==), fromIntegral, print)
 import           System.IO (IO)
 import           Web.Cookie
 
@@ -73,12 +73,20 @@ decodeInput res = do
 encodeOutput :: Resource c s a body r -> r -> Webmachine c s Body
 encodeOutput res resp = do
   req <- use request
-  let mEncoder = acceptHeader >>= supportedTypes
+  let mEncoder = acceptHeader >>= \h -> supportedTypes h >>= \e -> return (h, e)
       supportedTypes x = H.lookup x $ res ^. supportedOutputContentTypes
       acceptHeader = L.lookup hAccept $ req ^. requestHeaders
   case mEncoder of
-    Nothing -> return $ maybe (LazyByteString "no supported accept type") ($ resp) $ res ^? supportedOutputContentTypes . folded
-    Just f -> return $ f resp
+    Nothing -> do
+      let anyEncoder = itoList (res ^. supportedOutputContentTypes) ^? traverse
+      case anyEncoder of
+        Nothing -> return $ LazyByteString "no supported accept type"
+        Just (h, e) -> do
+          Network.Webmachine.responseHeaders %= ((hContentType, h) :)
+          return $ e resp
+    Just (h, e) -> do
+      Network.Webmachine.responseHeaders %= ((hContentType, h) :)
+      return $ e resp
 
 basic :: (Maybe body -> Webmachine c s responseBody) -> Resource c s auth body responseBody
 basic handler = Resource
