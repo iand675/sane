@@ -1,0 +1,31 @@
+.icon {
+  &:before {
+    font-family: 'entypo';
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-style: normal;
+    text-transform: none;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1;
+    speak: none;
+  };
+
+  &.large:before {
+    font-size: 30px;
+  }
+
+  &.medium:before {
+    font-size: 20px;
+  }
+
+  &.activity:before {
+    content: '\e66a';
+  }
+
+  &.menu:before {
+    content: '\e6de';
+    position: absolute;
+    -webkit-transform: rotate(90deg);
+  }
+}
