@@ -8,7 +8,9 @@ import Data.Maybe
 import Data.Text (Text)
 import Prelude (($))
 
-import Sane.Models
+import Sane.Models.Common (Id, Persisted)
+import Sane.Models.Accounts (User, Username, Session, FullUser, NewUser, CreateUserError, SignIn)
+import Sane.Models.Lists (List)
 
 data AccountServiceF cont
   = CreateUser NewUser (Either CreateUserError (Session, FullUser) -> cont) -- -> m (Either D.CreateUserError (D.Session, D.FullUser))
@@ -47,6 +49,8 @@ type PaymentService = Free PaymentServiceF
 data TaskServiceF cont
   = CreateList (Id User) List (Persisted List -> cont)
   | GetLists (Id User) ([Persisted List] -> cont)
+  | GetList (Id List) (Maybe (Persisted List) -> cont)
+  | UpdateList (Id List) cont
   | CreateTask cont
   | GetTasks cont
   | UpdateTask cont
@@ -59,4 +63,7 @@ createList uid l = liftF $ CreateList uid l id
 
 getLists :: Id User -> TaskService [Persisted List]
 getLists u = liftF $ GetLists u id
+
+getList :: Id List -> TaskService (Maybe (Persisted List))
+getList lid = liftF $ GetList lid id
 

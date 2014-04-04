@@ -1,0 +1,6 @@
+stripeToken: sk_test_zjTOEStpOjvuOV0m8sVPIfLh
+databases:
+  accounts:
+    user: accounts_api
+    password: test
+    database: accounts

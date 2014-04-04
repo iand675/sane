@@ -7,65 +7,29 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE FlexibleContexts #-}
 module Sane.Data.Types where
-import Control.Lens.TH
-import Data.ByteString (ByteString)
+import           Control.Lens.TH
+import           Data.ByteString (ByteString)
+import qualified Data.ByteString.Lazy as L
+import           Data.ByteString.Builder
 import Data.Hashable
 import qualified Data.HashMap.Strict as H
 import Data.Text (Text)
 import Data.Time.Clock (UTCTime)
 import Data.Typeable
-import Data.UUID (UUID)
 import Database.PostgreSQL.Simple.ToField
 import Database.PostgreSQL.Simple.FromField hiding (name)
 import Database.PostgreSQL.Simple.ToRow
 import Database.PostgreSQL.Simple.FromRow
-import Facebook (AccessToken(..))
-import qualified Facebook as F
+-- import Facebook (AccessToken(..))
+-- import qualified Facebook as F
 import Prelude (Enum(..))
 
 import Sane.Common hiding (Action)
-import qualified Sane.Models as Domain
+import qualified Sane.Models.Accounts as Domain
+import qualified Sane.Models.Common as Domain
+import qualified Sane.Models.Lists as Domain
 
-type family Id a
-
-data List = List
-  { _listTitle :: Text
-  , _listIcon  :: Text
-  }
-
-makeFields ''List
-
-type instance Id List = Int
-data Task = Task
-  { taskTitle       :: Text
-  , taskDeadline    :: Maybe UTCTime
-  , taskDescription :: Maybe Text
-  , taskAssignedTo  :: Maybe (Id User)
-  } deriving (Eq, Show)
-
-type instance Id Task = UUID
-type instance Id User = Int
-
-data MembershipKind
-  = Owner
-  | Member
-  deriving (Eq, Show, Enum, Typeable)
-
-instance Hashable MembershipKind where
-  hashWithSalt = hashUsing fromEnum
-
-rawMembershipKinds :: H.HashMap ByteString MembershipKind
-rawMembershipKinds = H.fromList [("owner", Owner), ("member", Member)]
-
-membershipKinds :: H.HashMap MembershipKind ByteString
-membershipKinds = H.fromList [(Owner, "owner"), (Member, "member")]
-
-instance FromField MembershipKind where
-  fromField f bs = do
-    name <- fromField f bs
-    case rawMembershipKinds ^. at name of
-      Nothing -> returnError ConversionFailed f "Invalid MembershipKind value"
-      Just k -> return k
+type Id a = Int
 
 data User = User
   { _userUsername           :: Text
@@ -82,6 +46,72 @@ data User = User
 
 makeFields ''User
 
+data List = List
+  { _listTitle    :: Text
+  , _listIcon     :: Maybe Text
+  , _listArchived :: Bool
+  , _listOwner    :: Id User
+  }
+
+makeFields ''List
+
+data Task = Task
+  { taskTitle       :: Text
+  , taskDeadline    :: Maybe UTCTime
+  , taskDescription :: Maybe Text
+  , taskAssignedTo  :: Maybe (Id User)
+  } deriving (Eq, Show)
+
+data MembershipKind
+  = Owner
+  | Member
+  deriving (Eq, Show, Enum, Typeable)
+
+instance Hashable MembershipKind where
+  hashWithSalt = hashUsing fromEnum
+
+rawMembershipKinds :: H.HashMap ByteString MembershipKind
+rawMembershipKinds = H.fromList [("owner", Owner), ("member", Member)]
+
+membershipKinds :: H.HashMap MembershipKind ByteString
+membershipKinds = H.fromList [(Owner, "owner"), (Member, "member")]
+
+instance FromField MembershipKind where
+  fromField fd bs = do
+    n <- fromField fd bs
+    case rawMembershipKinds ^. at n of
+      Nothing -> returnError ConversionFailed fd "Invalid MembershipKind value"
+      Just k -> return k
+
+instance FromRow User where
+  fromRow = User <$> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field
+
+instance FromRow Membership where
+  fromRow = Membership <$> field <*> field <*> field
+
+instance FromRow ListTasks where
+  fromRow = ListTasks <$> field <*> field
+
+instance FromRow List where
+  fromRow = List <$> field <*> field <*> field <*> field
+
+instance ToRow List where
+  toRow = fields
+    [ f title
+    , f icon
+    , f archived
+    , f owner
+    ]
+
+dbList :: Getter Domain.List List
+dbList = to $ List
+  <$> view Domain.title
+  <*> view Domain.icon
+  <*> view Domain.archived
+  <*> view (Domain.owner . to Domain.fromId)
+
+decimal :: Domain.Id a -> ByteString
+decimal = L.toStrict . toLazyByteString . intDec . Domain.fromId
 data Membership = Membership
   { membershipListId :: Id List
   , membershipUserId :: Id User
@@ -101,7 +131,7 @@ fullUser = to $ \u -> Domain.FullUser
   , Domain._fuCellphone = u ^. cellphone
   , Domain._fuAvatar = u ^. avatar
   , Domain._fuStripeToken = u ^. stripeToken
-  , Domain._fuFacebookAuth = UserAccessToken <$> (F.Id <$> u ^. facebookId) <*> (u ^. facebookToken) <*> (u ^. facebookExpiration)
+  , Domain._fuFacebookAuth = (u ^. facebookToken) -- UserAccessToken <$> (F.Id <$> u ^. facebookId) <*> (u ^. facebookToken) <*> (u ^. facebookExpiration)
   }
 
 instance FromRow Task where
@@ -127,26 +157,3 @@ instance ToRow User where
     , f facebookExpiration
     ]
 
-instance FromRow User where
-  fromRow = User <$> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field <*> field
-
-instance FromRow Membership where
-  fromRow = Membership <$> field <*> field <*> field
-
-instance FromRow ListTasks where
-  fromRow = ListTasks <$> field <*> field
-
-instance FromRow List where
-  fromRow = List <$> field <*> field
-
-instance ToRow List where
-  toRow = fields
-    [ f title
-    , f icon
-    ]
-
-dbList :: Getter Domain.List List
-dbList = to $ \l -> List
-  { _listTitle = l ^. Domain.title
-  , _listIcon  = l ^. Domain.icon
-  }

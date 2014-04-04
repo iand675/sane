@@ -30,7 +30,7 @@ cabal-version:       >=1.10
 
 library
   ghc-options:
-      -Wall -Werror
+      -Wall -Werror -fno-warn-orphans
   default-extensions:  NoImplicitPrelude
   hs-source-dirs:
       src
@@ -42,10 +42,10 @@ library
       Sane.Data.Services,
       Sane.Data.Tasks,
       Sane.Data.Types,
-      Sane.Messaging.Routes,
       Sane.Messaging.Queue
       Sane.Web.Accounts,
       Sane.Web.Lists,
+      Sane.Web.Tasks,
       Sane.Web.Miscellaneous,
       Sane.Web.Types,
       System.Logger
@@ -90,8 +90,11 @@ library
       data-default,
       http-conduit >= 2 && < 2.1,
       hedis,
-      protobuf >= 0.1.3,
-      cereal
+      cereal,
+      json-api,
+      sane-wire,
+      protobuf,
+      messaging
   default-language:
       Haskell2010
 

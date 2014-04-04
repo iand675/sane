@@ -11,7 +11,6 @@ import Text.Boomerang
 import Text.Boomerang.Texts
 import Text.Boomerang.TH
 import Prelude (fmap, Maybe, Either, (==), Show)
-import qualified Sane.Models as M
 
 class Exchange e t | e -> t where
   topic :: e -> t -> Maybe Text
@@ -20,9 +19,10 @@ class Exchange e t | e -> t where
 
 data AccountExchange = AccountExchange
 
+type Username = Text
 data UserMessage
-  = UserCreated (Proxy M.Username)
-  | PasswordReset (Proxy M.Username)
+  = UserCreated (Proxy Username)
+  | PasswordReset (Proxy Username)
   deriving (Show)
 
 makeBoomerangs ''UserMessage

@@ -31,7 +31,6 @@ import Data.Time.Clock
 import Data.Time.Clock.POSIX (posixSecondsToUTCTime)
 import Database.PostgreSQL.Simple
 import qualified Facebook as FB
--- import Network.AMQP (openChannel)
 import Network.HTTP.Conduit (withManager)
 import System.Random.MWC
 import Web.Stripe.Customer
@@ -39,8 +38,10 @@ import Web.Stripe.Client hiding (query)
 import Prelude (Integer, undefined, fromInteger)
 
 import Database.PostgreSQL.Simple.Utility
-import Sane.Common
-import qualified Sane.Models as D
+import Sane.Common hiding (logger)
+import qualified Sane.Common as C
+import qualified Sane.Models.Common as D
+import qualified Sane.Models.Accounts as D
 import Sane.Data.Services
 import Sane.Data.Types hiding (fields, f)
 import System.Logger
@@ -58,9 +59,8 @@ makeFields ''AccountServiceDependencies
 
 accountServiceDependencies :: MonadIO m => Action m AppConfig (AccountServiceDependencies IO)
 accountServiceDependencies = act $ \conf -> liftIO $ {- withResource (conf ^. rabbitConnectionPool) $ \conn -> -} do
-  -- chan <- openChannel conn
   return $ AccountServiceDependencies
-    { _asLogger = stdoutLogger $ conf ^. minLogLevel -- \p t -> rabbitLogger chan p t
+    { _asLogger = conf ^. C.logger
     , _asPublisher = \_ _ _ -> return ()
     , _asConnectionPool = conf ^. accountConnectionPool
     , _asTokenGenerator = liftIO $ fmap pack $ replicateM 16 $ uniform $ (\(G gen) -> gen) $ conf ^. randomGenerator
@@ -171,7 +171,7 @@ createStripeCustomer e = runStripeT (defaultConfig $ SecretKey "sk_test_zjTOEStp
   return $ unCustomerId $ custId c
 
 signIn' :: MonadIO m => D.SignIn -> AccountServiceT m (Maybe (D.Session, D.FullUser))
-signIn' (D.StandardSignIn u p) = do
+signIn' (D.SignIn u p) = do
   logM <- view logger
   token <- makeSessionToken
   withDb $ \conn -> do
@@ -189,8 +189,6 @@ signIn' (D.StandardSignIn u p) = do
             _ <- execute conn "insert into sessions (user_id, session_id, expiration) values (?, ?, ?)" (userId :: Int, Binary token, expireTime now)
             return $ Just (D.session token now, dbUser ^. fullUser)
           else logM Warning "Incorrect password" >> return Nothing
-signIn' (D.FacebookSignIn {}) = do
-  undefined
 
 getUser' :: MonadIO m => D.Username -> AccountServiceT m (Maybe D.FullUser)
 getUser' u = withDb $ \conn -> do
@@ -201,11 +199,11 @@ getUser' u = withDb $ \conn -> do
 getSession' :: MonadIO m => D.Username -> D.Session -> AccountServiceT m (Maybe (D.Persisted D.FullUser))
 getSession' u s = withDb $ \conn -> do
   let q = "select id, " <> userFields <> " from users inner join sessions s on id = s.user_id where s.session_id = ?"
-  dbUser <- one $ query conn q $ Only $ Binary $ D.fromSession s
+  dbUser <- s ^!? to (Only . Binary . D.fromSession) . act (query conn q) . folded
   case dbUser of
     Nothing -> return Nothing
     Just ((Only uid) :. u') -> if u == (u' ^. username)
-      then return $ Just $ D.Persisted uid $ u' ^. fullUser
+      then u' ^! fullUser . to (D.Persisted (D.Id uid)) . re _Just
       else return Nothing
 
 expireTime :: UTCTime -> UTCTime

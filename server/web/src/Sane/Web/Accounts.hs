@@ -2,6 +2,7 @@
 module Sane.Web.Accounts where
 import Control.Monad.Reader
 import Data.Text.Encoding (encodeUtf8)
+import Network.HTTP.JSON.API
 import Network.HTTP.Types hiding (statusCode)
 import Network.Webmachine
 import Web.Cookie
@@ -9,8 +10,20 @@ import Web.Cookie
 import Sane.Common
 import qualified Sane.Data.Accounts as A
 import qualified Sane.Data.Services as A
-import Sane.Models
+import Sane.Models.Accounts
+import Sane.Models.Common
 import Sane.Web.Miscellaneous (api)
+
+
+{-
+userDoc :: Getter User (Document User)
+userDoc = to $ \u -> doc u
+  & documentId ?~ (u ^. username . re textId)
+
+usersRoot :: Getter [User] (Root User)
+usersRoot = to $ \us ->
+  roots' "users" (over each (^. userDoc)) us
+-}
 
 setSessionCookie :: Username -> Session -> Webmachine c s ()
 setSessionCookie u s = setCookie $ def { setCookieName = "SANE", setCookieValue = encodeUtf8 u <> ":" <> s ^. token}
@@ -35,20 +48,14 @@ createUser = api $ \(Just newUser) -> do
     Right (s, user) -> do
       setSessionCookie (newUser ^. username) s
       statusCode .= created201
-      return $ result $ CurrentUser
-        { _cuUsername = user ^. username
-        , _cuEmail = user ^. email
-        , _cuName = user ^. name
-        , _cuAvatar = Nothing
-        , _cuCellphone = Nothing
-        }
-
-{-
--- getCurrentUser :: AccountResource (Maybe FullUser) Void 
-getCurrentUser = basic $ \_ -> do
-  session <- Account.getSession =<< getCookie
-  return $ session ^. user
--}
+      let u = CurrentUser
+              { _cuUsername = user ^. username
+              , _cuEmail = user ^. email
+              , _cuName = user ^. name
+              , _cuAvatar = Nothing
+              , _cuCellphone = Nothing
+              }
+      return $ result $ root "users" u
 
 signIn :: Resource AppConfig s a SignIn (Maybe CurrentUser)
 signIn = api $ \(Just credentials) -> do
@@ -68,12 +75,18 @@ signIn = api $ \(Just credentials) -> do
         }
 
 {-
--- signOut :: AccountAction ()
-signOut = basic $ \_ -> do
-  c <- getCookie c
-  getCurrentUser
-  getSession c
-  if _id currentUser == _id session
-    then Account.deleteSession c
-    else return notAuthorized
+signOut :: Resource AppConfig s a Void Void
+
+listUsers :: Resource AppConfig s a Void (Result User)
+
+getCurrentUser :: Resource AppConfig s a Void (Result CurrentUser)
+
+getUser :: Username -> Resource AppConfig s a Void (Result User)
+getUser username = jsonO $ do
+  mUser <- runAccounts $ A.getUser username
+  case mUser of
+    Nothing -> do
+      statusCode .= unauthorized401
+      return $ [] ^. usersRoot
+
 -}

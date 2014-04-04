@@ -5,7 +5,7 @@ import qualified Data.ByteString.Lazy.Char8 as C
 import           Data.Metrics.Registry
 import           Data.Pool
 import           Database.PostgreSQL.Simple (connect, close, defaultConnectInfo, connectPassword, connectUser, connectDatabase)
-import           Network.AMQP (openConnection'', closeConnection, defaultConnectionOpts, ConnectionOpts(..), plain)
+import           Network.AMQP (openConnection'', closeConnection, defaultConnectionOpts, ConnectionOpts(..), plain, openChannel)
 import           Network.HTTP.Types
 import           Network.Webmachine
 import           Network.Webmachine.Routing
@@ -31,8 +31,10 @@ main = do
   tsPool <- makeTaskServicesPool
   r <- newMetricRegistry
   rabbitPool <- createPool (openConnection'' $ defaultConnectionOpts { coAuth = [plain "rabbit_whisperer" "R4bbit!"] }) closeConnection 4 60 1
+  chan <- withResource rabbitPool openChannel
+  let rabbitLogger' p t = withResource rabbitPool $ \c -> openChannel c >>= \chan -> rabbitLogger chan p t
   gen <- createSystemRandom
-  let conf = AppConfig asPool tsPool (SecretKey "sk_test_zjTOEStpOjvuOV0m8sVPIfLh") (G gen) rabbitPool Debug r
+  let conf = AppConfig asPool tsPool (SecretKey "sk_test_zjTOEStpOjvuOV0m8sVPIfLh") (G gen) rabbitPool Debug r rabbitLogger'
   saneHeader
   Warp.run 3000 $ \request -> do
     case parseRoute saneRoutes (request ^. method) (request ^. pathInfo) of

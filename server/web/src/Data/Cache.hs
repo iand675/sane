@@ -69,7 +69,7 @@ getWithKey k = do
     Just bs -> cacheDecode bs
 
 class Cacheable a k | a -> k where
-  makeKey     :: a -> k -> ByteString
+  makeKey :: a -> k -> ByteString
   default makeKey :: (G.Generic a, CacheKey k, G.Datatype d, G.Rep a ~ t d (f :: * -> *)) => a -> k -> ByteString
   makeKey x k = L.toStrict $ toLazyByteString (stringUtf8 dtn <> char8 ':' <> encodeKey k)
     where

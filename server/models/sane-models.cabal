@@ -17,6 +17,10 @@ cabal-version:       >=1.10
 
 library
   exposed-modules:     Sane.Models,
+                       Sane.Models.Accounts,
+                       Sane.Models.Common,
+                       Sane.Models.Lists,
+                       Sane.Models.Tasks,
                        Sane.Models.JSON
   -- other-modules:       
   other-extensions:    TemplateHaskell,
@@ -33,7 +37,9 @@ library
                        base64-bytestring >= 1.0 && < 1.1,
                        lens >= 4.0 && < 4.1,
                        template-haskell >= 2.8 && < 3,
-                       fb >= 0.14 && < 0.16,
-                       unordered-containers >= 0.2.3 && < 0.3
+                       unordered-containers >= 0.2.3 && < 0.3,
+                       sane-routes,
+                       sane-wire,
+                       json-api
   hs-source-dirs:      src
   default-language:    Haskell2010

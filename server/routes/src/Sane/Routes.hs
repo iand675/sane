@@ -3,23 +3,25 @@
 module Sane.Routes where
 import Control.Category ((.))
 import Control.Monad.Writer
-import Data.Text (Text)
+import Data.Functor
+import Data.Maybe
+import Data.Text (Text, intercalate)
 import Network.HTTP.Types.Method
 import Network.Webmachine.Routing
 import Text.Boomerang
 import Text.Boomerang.TH
-import Prelude (($), snd, Eq, Show)
+import Text.Boomerang.Texts
+import Prelude (($), snd, Eq, Show, Int)
 
 newtype Id a = Id { fromId :: Text }
   deriving (Show, Eq)
 
 type Username = Text
-type ListId = Id ()
+type ListId = Int
 type TaskId = Id ()
 
 data SaneAction
-  = Ping
-  | SignIn
+  = SignIn
   | SignOut
   | CreateUser
   | ListUsers
@@ -28,18 +30,17 @@ data SaneAction
   -- list actions
   | CreateList
   | ListLists
+  | GetList    { listId :: ListId }
   | UpdateList { listId :: ListId }
   | DeleteList { listId :: ListId }
-  -- membership
-  | CreateMembership { listId :: ListId, memberUsername :: Username }
-  | UpdateMembership { listId :: ListId, memberUsername :: Username }
-  | DeleteMembership { listId :: ListId, memberUsername :: Username }
   -- tasks
-  | ListTasks  { listId :: ListId }
-  | CreateTask { listId :: ListId }
-  | UpdateTask { listId :: ListId, taskId :: TaskId }
-  | DeleteTask { listId :: ListId, taskId :: TaskId }
-  -- tracking
+  | ListTasks
+  | CreateTask
+  | GetTask    { taskId :: TaskId }
+  | UpdateTask { taskId :: TaskId }
+  | DeleteTask { taskId :: TaskId }
+  -- miscellaneous
+  | Ping
   | TrackEvent
   | TrackError
   deriving (Eq, Show)
@@ -60,5 +61,14 @@ saneRoutes = register $ do
   -- route GET    $ rGetUser . "users" </> anyText
   route POST   $ rCreateList . "lists"
   route GET    $ rListLists . "lists"
+  route GET    $ rGetList . "lists" </> int
   -- route PATCH  $ rUpdateList . "lists" </> anyText
   -- route DELETE $ rDeleteList . "lists" </> anyText
+  route GET    $ rListTasks . "tasks"
+  route POST   $ rCreateTask . "tasks"
+  route POST   $ rTrackEvent . "metrics" </> "events"
+  route POST   $ rTrackEvent . "metrics" </> "errors"
+
+saneRoute :: SaneAction -> Maybe (Method, Text)
+saneRoute = fmap concatRoute . unparseRoute saneRoutes
+  where concatRoute (m, r) = (m, intercalate "/" r)
