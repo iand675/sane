@@ -14,3 +14,4 @@ cabal.sandbox.config
 /.vagrant/
 /vagrant_ansible_inventory_default
 *.html
+*.css

@@ -3,10 +3,147 @@ html
   head
     title Sane
     meta(name='description', content='Extremely simple collaboration.')
+    meta(name="viewport" content="width=device-width, user-scalable=no")
     link(rel='stylesheet' href='styles/main.css' type='text/css')
     script(src='//localhost:35729/livereload.js')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.js')
+    script(src='//cdn.mobify.com/modules/pikabu/0.2.1/pikabu.min.js')   
+    script(src='//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.0/fastclick.js')
   body
-    header.navbar
-      span.icon.large.menu
-      .brand Activity
-    main
+    .viewport(data-pikabu-element="viewport")
+      .sidebar(data-pikabu-element="sidebar" data-pikabu-sidebar="left")
+        header.navbar
+          .title Lists
+        .container.w-header.w-footer.list
+          ul
+            li.selected Daily Chores
+            li Work
+            li Spain Trip
+            li Personal
+            li Daily Chores
+            li Work
+            li Spain Trip
+            li Personal
+            li Daily Chores
+            li Work
+            li Spain Trip
+            li Personal
+            li Daily Chores
+            li Work
+            li Spain Trip
+            li Personal
+            li Daily Chores
+            li Work
+            li Spain Trip
+            li Personal
+        footer
+          span.title Ryan
+          span.button.pull-right
+            .icon.settings
+      main(data-pikabu-element="container")
+        header.navbar
+          span.button.left.pull-left(data-pikabu-element="nav-toggle", data-role="left")
+            .icon.menu
+          span.title Daily
+          span.button.pull-right(data-pikabu-element="nav-toggle", data-role="right")
+            .icon.activity
+        .container.w-header
+          .media.task
+            .media-object.task-bullet
+            .media-body
+              .task-name Call the travel agent.
+            .media.task-descriptor
+              .media-object.descriptor-icon
+                span.icon.info
+              .media-body.descriptor-content This is an extremely important task, the gravity of which cannot be understated.
+            .media.task-descriptor
+              .media-object.descriptor-icon
+                span.icon.deadline
+              .media-body.descriptor-content March 13th
+            .media.task-descriptor
+              .media-object.descriptor-icon
+                span.icon.list
+              .media-body.descriptor-content Daily
+            .media.task-descriptor
+              .media-object.descriptor-icon
+                span.icon.chat
+              .media-body.descriptor-content 
+                span(data-pikabu-element="nav-toggle", data-role="right") 17 Comments
+            .media.task-descriptor
+              .media-object.descriptor-icon
+                span.icon.history
+              .media-body.descriptor-content 
+                span(data-pikabu-element="nav-toggle", data-role="right") 17 Events
+          .media.task
+            .media-object.task-bullet
+            .media-body
+              .task-name Call the travel agent.
+          .media.task
+            .media-object.task-bullet
+            .media-body
+              .task-name Call the travel agent.
+          .media.task
+            .media-object.task-bullet
+            .media-body
+              .task-name Call the travel agent.
+          .media.task
+            .media-object.task-bullet
+            .media-body
+              .task-name Call the travel agent.
+          .media.task
+            .media-object.task-bullet
+            .media-body
+              .task-name Call the travel agent.
+          .media.task
+            .media-object.task-bullet
+            .media-body
+              .task-name Call the travel agent.
+      .sidebar.talk(data-pikabu-element="sidebar" data-pikabu-sidebar="right")
+        header.navbar
+          .title Talk
+        .container.w-header.w-footer
+          .media.message
+            .media-object
+              img.message-avatar(src="https://scontent-a-sea.xx.fbcdn.net/hphotos-ash3/t31.0-8/1243251_1404607116433402_975821681_o.jpg")
+            .media-body
+                .message-content Hey, so I'm not really sure what I'm supposed to be doing here?
+                .message-attribution Ryan said at 8:10 AM
+          .media.message
+            .media-object
+              img.message-avatar(src="https://scontent-a-sea.xx.fbcdn.net/hphotos-ash3/t31.0-8/1243251_1404607116433402_975821681_o.jpg")
+            .media-body
+                .message-content Hey, so I'm not really sure what I'm supposed to be doing here?
+                .message-attribution Ryan said at 8:10 AM
+          .media.message
+            .media-object
+              img.message-avatar(src="https://scontent-a-sea.xx.fbcdn.net/hphotos-ash3/t31.0-8/1243251_1404607116433402_975821681_o.jpg")
+            .media-body
+                .message-content Hey, so I'm not really sure what I'm supposed to be doing here?
+                .message-attribution Ryan said at 8:10 AM
+          .media.message
+            .media-object
+              img.message-avatar(src="https://scontent-a-sea.xx.fbcdn.net/hphotos-ash3/t31.0-8/1243251_1404607116433402_975821681_o.jpg")
+            .media-body
+                .message-content Hey, so I'm not really sure what I'm supposed to be doing here?
+                .message-attribution Ryan said at 8:10 AM
+        footer.comment-box
+          span.prompt Say something
+          span.icon.medium.pencil.pull-right
+    script.
+      var pikabu = new Pikabu({
+        viewportSelector: '[data-pikabu-element="viewport"]',
+        selectors: {
+          element: '[data-pikabu-element="container"]',
+          common: '[data-pikabu-element="sidebar"]',
+          left: '[data-pikabu-sidebar="left"]',
+          right: '[data-pikabu-sidebar="right"]',
+          navToggles: '[data-pikabu-element="nav-toggle"]'
+        },
+        widths: {
+          left: '80%',
+          right: '80%'
+        }
+      });
+      window.addEventListener('load', function() {
+        FastClick.attach(document.body);
+      }, false);

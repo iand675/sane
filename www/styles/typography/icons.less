@@ -7,8 +7,8 @@
     text-transform: none;
     font-variant: normal;
     font-weight: normal;
-    line-height: 1;
     speak: none;
+    user-select: none;
   };
 
   &.large:before {
@@ -16,16 +16,46 @@
   }
 
   &.medium:before {
-    font-size: 20px;
+    font-size: 25px;
   }
 
-  &.activity:before {
-    content: '\e66a';
+  &.activity {
+    margin-top: 2px;
+
+    &:before {
+      content: '\e66a';
+    }
+  }
+
+  &.settings:before {
+    content: '\e62a';
   }
 
   &.menu:before {
-    content: '\e6de';
-    position: absolute;
-    -webkit-transform: rotate(90deg);
+    content: '\e71c';
+  }
+
+  &.deadline:before {
+    content: '\e63d';
+  }
+
+  &.list:before {
+    content: '\e693';
+  }
+
+  &.info:before {
+    content: '\e683';
+  }
+
+  &.chat:before {
+    content: '\e61f';
+  }
+
+  &.history:before {
+    content: '\e690';
+  }
+
+  &.pencil:before {
+    content: '\e606';
   }
 }

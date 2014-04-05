@@ -1,0 +1,42 @@
+.task {
+  margin-bottom: 10px;
+  .task-name {
+    font-size: 21px;
+    line-height: 1.2;   
+  }
+
+  .task-bullet {
+    padding: 3px;
+    width: 24px;
+    height: 24px;
+    border: 2px solid @border-color-primary;
+    border-radius: 50%;
+
+    &.completed:before {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background-color: @color-green;
+      border-radius: 50%;
+    }
+  }
+}
+
+.task-descriptor {
+  margin-top: 5px;
+  margin-bottom: 5px; 
+
+  .descriptor-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: center;
+  }
+
+  .descriptor-content {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+}
