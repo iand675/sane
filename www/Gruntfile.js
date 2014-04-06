@@ -9,7 +9,7 @@ module.exports = function(grunt) {
 
         },
         files: {
-          'index.html': 'index.jade'
+          'src/index.html': 'src/index.jade'
         }
       }
     },
@@ -19,7 +19,7 @@ module.exports = function(grunt) {
           sourceMap: true
         },
         files: {
-          'styles/main.css': 'styles/main.less'
+          'src/styles/main.css': 'src/styles/main.less'
         }
       }
     },
@@ -28,11 +28,11 @@ module.exports = function(grunt) {
         livereload: true
       },
       jade: {
-        files: ['*.jade', '**/*.jade'],
+        files: ['src/*.jade', 'src/**/*.jade'],
         tasks: 'jade:dev'
       },
       less: {
-        files: 'styles/**/**/*.less',
+        files: 'src/styles/**/**/*.less',
         tasks: ['less:dev']
       }
     }
